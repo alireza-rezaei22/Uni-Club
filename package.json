@@ -1,0 +1,40 @@
+{
+  "name": "bazarbin",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "dev-socket": "node server.js",
+    "build": "next build --turbopack",
+    "start": "next start",
+    "start-socket": "NODE_ENV=production node server.js",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^7.3.2",
+    "bcryptjs": "^3.0.2",
+    "jsonwebtoken": "^9.0.2",
+    "leaflet": "^1.9.4",
+    "lucide-react": "^0.542.0",
+    "mongoose": "^8.18.1",
+    "next": "15.5.2",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-hot-toast": "^2.6.0",
+    "react-leaflet": "^5.0.0",
+    "socket.io": "^4.8.3",
+    "socket.io-client": "^4.8.3",
+    "zod": "^4.1.5",
+    "zustand": "^5.0.8"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "eslint": "^9",
+    "eslint-config-next": "15.5.2",
+    "tailwindcss": "^4"
+  }
+}
