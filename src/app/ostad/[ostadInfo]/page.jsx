@@ -7,35 +7,26 @@ import { cookies } from 'next/headers'
 import { verify } from 'jsonwebtoken'
 import Image from 'next/image'
 import Comments from '@/Components/comments/comentns'
-import toast from 'react-hot-toast'
 import { BookOpenTextIcon, Clock, GraduationCapIcon, PenToolIcon, StarIcon, Timer, User2, UserSquare } from 'lucide-react'
 import Rating from '@/Components/rating/Rating'
 import ostadModel from '@/model/ostad'
+import commentModel from '@/model/comment'
 
 export default async function Ostad({ params }) {
     const { ostadInfo: ostadId } = params
 
     const ostad = await ostadModel.findById(ostadId)
-    // console.log(ostad);
+    const rawComments = await commentModel.find({ ostadId }).populate({ path: 'userId', select: 'name -_id' }).select('userId comment')
+
+    const comments = rawComments.map(c => ({
+        _id: c._id.toString(),
+        comment: c.comment.toString(),
+        userName: c.userId.name.toString(),
+    }))
+
     const degreesList = { diploma: 'دیپلم', associate: 'کاردانی', bachelor: 'کارشناسی', master: 'کارشناسی ارشد', PhD: 'دکترا' }
     const categoryList = { specialized: 'تخصصی', general: 'عمومی' }
 
-    // const ostad = {
-    //     image: '',
-    //     name: 'مرتضی بهرامی',
-    //     biography: 'استاد مرتضی بهرامی فارق التحصیل مقطع کارشناسی ارشد رشته هوش مصنوعی از دانشگاه بوعلی سینا هستند. ایشان از سال 1401 در دانشکده جباریان مشغول تدریس هستند و درس هایی نظیر ساختمان داده، هوش مصنوعی، آزمانیشگاه هوش مصنوعی را تدریس می کنند. ',
-    //     degree: 'کارشناسی ارشد',
-    //     courses: ['هوش مصنوعی', 'آزمایشگاه هوش مصنوعی', 'ساختمان داده', 'داده کاوی'],
-    //     attendanceDates: [
-    //         { day: 'یکشنبه', time: [14, 17] },
-    //         { day: 'چهارشنبه', time: [15, 20] }
-    //     ],
-    //     date: 'test',
-    //     condition: 'test',
-    //     price: 'test',
-    //     jobStartDate: '2022-02-21',
-    //     rate: 4.5
-    // }
     const { image, name, biography, degree, studyField, category, courses, rate, startYear, created_at } = ostad
     const ostadDegree = degreesList[degree]
     const ostadcategory = categoryList[category]
@@ -43,13 +34,8 @@ export default async function Ostad({ params }) {
     const token = userToken?.value
     let userInfo = null
     let isUserPOwner = false
-    // let userId = null
     if (token) {
         userInfo = verify(token, process.env.ACCESSTOKEN_SECRETKEY)
-        // isUserPOwner = userInfo.id == product.ownerId
-        // userId = userInfo._id
-        // console.log(userInfo);
-        
     }
 
     return (
@@ -62,7 +48,7 @@ export default async function Ostad({ params }) {
                     <Image
                         className='w-48 max-w-64 h-48 max-h-64 m-auto rounded-full'
                         src={image || "/images/defaultPerson.png"}
-                        alt='product image'
+                        alt='ostad picture'
                         width={300}
                         height={300}
                     />
@@ -101,7 +87,6 @@ export default async function Ostad({ params }) {
                             </h4>
                         </span>
                     </span>
-                    {/* </span> */}
                 </div>
 
                 <div className='h-fit row-start-1 row-end-4 col-start-1 col-end-4 p-2'>
@@ -131,22 +116,11 @@ export default async function Ostad({ params }) {
 
                     <div className='flex flex-col md:flex-row gap-2 mb-12 justify-between'>
                         <h2 className='text-lg md:text-xl md:font-semibold md:mb-1'>شما به استاد {name} چه امتیازی می دهید؟</h2>
-                        <Rating initalRate={rate} userId={userInfo?.id} ostadId={ostadId}  />
+                        <Rating initalRate={rate} userId={userInfo?.id} ostadId={ostadId} />
                     </div>
-                    <Comments />
+                    <Comments initComments={comments} ostadId={ostadId} />
                 </div>
-
-                {/* {product.location?.length == 2 &&
-                    <span className='col-start-4 col-end-6 bg-amber-900 w-full h-64 block'>
-                        <ShowMap
-                            location={product.location}
-                            className='rounded=md'
-                        />
-                    </span>
-                } */}
                 <Link href={`/panel/${isUserPOwner ? 'myProducts' : `chat/${ostadId}`}`} className='col-start-4 col-end-6'>
-                    {/* <Link onClick={()=> toast.error('در حال حاضر این کار قابل انجام نیست', {position:'bottom-center'})} className='col-start-4 col-end-6'> */}
-                    {/* <button className='w-full bg-green-600 text-white my-2 p-2 rounded-md cursor-pointer'>{isUserPOwner ? 'دیدن آگهی های من' : 'گفتوگو'}</button> */}
                     <button className='w-full bg-green-600 text-white my-2 p-2 rounded-md cursor-pointer'>ارتباط با استاد</button>
                 </Link>
             </div>

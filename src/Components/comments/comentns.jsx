@@ -1,55 +1,47 @@
 "use client"
 import { useEffect, useState, useContext } from "react"
 import Comment from '../comment/comment'
-// import { AuthContext } from "../../Contexts/AuthContext";
-// import AlertContext from "../../Contexts/AlertContext";
+import toast from "react-hot-toast"
 
-export default function Comments({ productId, productTitle }) {
-    // const authContext = useContext(AuthContext)
-    // const alertContext = useContext(AlertContext)
-    // const userInfo = authContext?.userInfo
-    // console.log(userInfo);
-    const [comments, setComments] = useState([
-        {
-            productId: "7",
-            userId: 1,
-            name: "alireza",
-            productTitle: "sperso maker",
-            comment: "متاسفانه کارتون پاره بود متاسفانه کارتون پاره بودمتاسفانه کارتون پاره بودمتاسفانه کارتون پاره بودمتاسفانه کارتون پاره بودمتاسفانه کارتون پاره بودمتاسفانه کارتون پاره بودمتاسفانه کارتون پاره بودمتاسفانه کارتون پاره بودمتاسفانه کارتون پاره بودمتاسفانه کارتون پاره بودمتاسفانه کارتون پاره بود",
-            id: 2
-        },
-        {
-            productId: "5",
-            userId: 2,
-            name: "09123456789",
-            productTitle: "coffee arabica",
-            comment: "کامنت تستی2",
-            id: 8
-        },
-        {
-            productId: "5",
-            userId: 2,
-            name: "amir amiri",
-            productTitle: "coffee arabica",
-            comment: "تست 3",
-            id: 9
-        }
-    ])
+export default function Comments({ initComments, ostadId }) {
+    const [comments, setComments] = useState([])
     const [userComment, setUserComment] = useState()
-    const submitComment = () => {
+
+    useEffect(() => {
+        setComments(initComments)
+        console.log('alertContext');
+    }, [])
+
+    const submitComment = async () => {
         console.log(userComment);
         const userInput = userComment
-        if (userInput){
-            const newComment = {
-                productId : "5",
-                userId : 2,
-                name : "amir amiri",
-                productTitle : "coffee arabica",
-                comment : userInput,
-                id : 9
+        if (userInput) {
+            try {
+                const res = await fetch(`/api/comments/${ostadId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(
+                        userInput
+                    )
+                })
+                const data = await res.json()
+                console.log(data.status);
+
+                if (data.status == 201) {
+                    toast.success(data.msg, { position: 'bottom-center' })
+                    setUserComment('')
+                    console.log(data);
+                    setComments(data.newComments)
+                } else {
+                    toast.error(data.error, { position: 'bottom-center' })
+                }
+            } catch {
+
             }
-            setComments(prev=> [...prev, newComment])
-            setUserComment('')
+            // setComments(prev => [...prev, newComment])
+            // setUserComment('')
         }
         //     if (authContext.isLoggedIn) {
         //         if (userComment) {
@@ -103,7 +95,7 @@ export default function Comments({ productId, productTitle }) {
             <h2 className='text-xl'>دیدگاه دانشجوایان درباره استاد</h2>
             <div className="self-start mt-8 mb-10 divide-y-[1px] w-full">
                 {(comments.length > 0) ? comments.map(comment => {
-                    return <Comment key={comment.id} {...comment} />
+                    return <Comment key={comment._id} {...comment} />
                 }) :
                     <Comment />
                 }
