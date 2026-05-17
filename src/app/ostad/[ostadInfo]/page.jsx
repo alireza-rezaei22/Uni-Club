@@ -12,11 +12,11 @@ import { BookOpenTextIcon, Clock, GraduationCapIcon, PenToolIcon, StarIcon, Time
 import Rating from '@/Components/rating/Rating'
 import ostadModel from '@/model/ostad'
 
-export default async function page({ params }) {
+export default async function Ostad({ params }) {
     const { ostadInfo: ostadId } = params
 
     const ostad = await ostadModel.findById(ostadId)
-    console.log(ostad);
+    // console.log(ostad);
     const degreesList = { diploma: 'دیپلم', associate: 'کاردانی', bachelor: 'کارشناسی', master: 'کارشناسی ارشد', PhD: 'دکترا' }
     const categoryList = { specialized: 'تخصصی', general: 'عمومی' }
 
@@ -37,18 +37,20 @@ export default async function page({ params }) {
     //     rate: 4.5
     // }
     const { image, name, biography, degree, studyField, category, courses, rate, startYear, created_at } = ostad
-    // const conditionsList = { new: 'نو', as_new: 'درحدنو', worked: 'کارکرده' }
-    // const productCondition = conditionsList[condition]
     const ostadDegree = degreesList[degree]
     const ostadcategory = categoryList[category]
     const userToken = (await cookies()).get('token')
     const token = userToken?.value
     let userInfo = null
     let isUserPOwner = false
-    // if (token) {
-    //     userInfo = verify(token, process.env.ACCESSTOKEN_SECRETKEY)
-    //     isUserPOwner = userInfo.id == product.ownerId
-    // }
+    // let userId = null
+    if (token) {
+        userInfo = verify(token, process.env.ACCESSTOKEN_SECRETKEY)
+        // isUserPOwner = userInfo.id == product.ownerId
+        // userId = userInfo._id
+        // console.log(userInfo);
+        
+    }
 
     return (
         <>
@@ -80,7 +82,6 @@ export default async function page({ params }) {
                         </span>
 
 
-                        {/* <h4 className='font-medium'>قیمت: {price ? `${price.toLocaleString()} تومان` : 'توافقی'}</h4> */}
                         <span className='w-full flex justify-between items-center gap-2'>
 
                             <span className='flex gap-2'>
@@ -117,22 +118,20 @@ export default async function page({ params }) {
                             <BookOpenTextIcon />
                             <h4 className='font-medium'>استاد {name} این درس ها را ارایه می کند:</h4>
                         </span>
-                        <p>
-                            {courses.map(date => {
-                                return (
-                                    <div className='flex gap-2'>
-                                        <h4>{date.name}</h4>
-                                        <h4>{date.day}</h4>
-                                        <h4>از ساعت {date.startTime} تا {date.endTime}</h4>
-                                    </div>
-                                )
-                            })}
-                        </p>
+                        {courses.map((date, index) => {
+                            return (
+                                <div key={index} className='flex gap-2'>
+                                    <h4>{date.name}</h4>
+                                    <h4>{date.day}</h4>
+                                    <h4>از ساعت {date.startTime} تا {date.endTime}</h4>
+                                </div>
+                            )
+                        })}
                     </div>
 
                     <div className='flex flex-col md:flex-row gap-2 mb-12 justify-between'>
                         <h2 className='text-lg md:text-xl md:font-semibold md:mb-1'>شما به استاد {name} چه امتیازی می دهید؟</h2>
-                        <Rating initalRate={rate} />
+                        <Rating initalRate={rate} userId={userInfo?.id} ostadId={ostadId}  />
                     </div>
                     <Comments />
                 </div>

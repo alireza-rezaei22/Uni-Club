@@ -18,5 +18,5 @@ const schema = mongoose.Schema({
         minLength: 4,
     }
 })
-const userModel = mongoose.models.user || mongoose.model('user', schema)
+const userModel = mongoose.models?.user || mongoose.model('user', schema)
 export default userModel
