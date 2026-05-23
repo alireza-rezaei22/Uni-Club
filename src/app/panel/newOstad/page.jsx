@@ -1,12 +1,10 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { ChevronDown, PlusSquare, XCircle } from 'lucide-react'
-import Cities from '@/Components/cities/Cities'
 import SubmitBtn from '@/Components/submitBtn/SubmitBtn'
 import { useActionState } from 'react'
 import NewOstadAction from '@/app/actions/newOstad'
 import { newOstadSchema } from '@/utils/validation'
-// import SelectMap from '@/Components/map/selectMap'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 
@@ -35,8 +33,6 @@ function NewProduct() {
     const [studyField, setStudyField] = useState('')
     const [category, setCategory] = useState('-1')
     const [courses, setCourses] = useState([])
-    // const [courses2, setCourses2] = useState(['data1', 'data2'])
-    // const [attendanceDates, setAttendanceDates] = useState([])
     const [startYear, setStartYear] = useState(null)
 
     const [courseName, setCourseName] = useState('')
@@ -71,8 +67,6 @@ function NewProduct() {
     }, [formState])
 
     const handleCourseDate = (event) => {
-        // console.log('classStartTime:', classStartTime , 'classEndTime: ', classEndTime);
-        // console.log(classStartTime > classEndTime);
         if (classStartTime < classEndTime) {
             
             setCourses(prev => [...prev, [courseName, classDay, classStartTime, classEndTime]])
@@ -84,28 +78,10 @@ function NewProduct() {
         setClassStartTime('-1')
         setClassEndTime('-1')
     }
-    // const handleCourses = (event) => {
-    //     // if (classStartTime < classEndTime) {
-
-    //     setCourses(prev => [...prev, { name: '' ,day: classDay, startTime: classStartTime, endTime: classEndTime }])
-    //     // } else {
-    //     //     toast.error('ساعت ورود باید قبل از ساعت خروج باشه ', { position: 'bottom-center' })
-    //     // }
-    //     setClassDay('-1')
-    //     setClassStartTime('-1')
-    //     setClassEndTime('-1')
-    // }
     const deleteAttendance = (itemIndex) => {
-        // console.log(index);
         let tt = courses
         setCourses(tt.filter((date, index) => index != itemIndex))
-        // console.log(tt);
-        // setAttendanceDates(jj)
     }
-    // useEffect(() => {
-    //     console.log(courseName);
-
-    // }, [courseName])
 
     return (
         <div className='flex flex-col justify-center items-center gap-5'>
@@ -208,12 +184,10 @@ function NewProduct() {
                                         <h2>{date[1]}  از ساعت {date[2]} تا ساعت {date[3]}</h2>
                                     </span>
                                     <XCircle color='white' className='cursor-pointer' onClick={() => deleteAttendance(index)} />
-                                    {/* <span className='bg-red-200 flex justify-center rounded-full p-2 w-5 h-5 cursor-pointer'>X</span> */}
                                 </div>
                             )
                         })}
                     </div>
-                    {/* <input type="hidden" name='courses2' value={courses2} /> */}
                     <input type="hidden" name='courses' value={courses} />
                     <input type="text"
                         name='className'
@@ -319,7 +293,7 @@ function NewProduct() {
                         <option value="1397">1397</option>
                         <option value="1396">1396</option>
                         <option value="1395">1395</option>
-                        <option value="befor-1395">پیش از 1395</option>
+                        <option value="پیش از 1395">پیش از 1395</option>
                     </select>
                     <div className='absolute left-4 flex items-center pointer-events-none' >
                         <ChevronDown />

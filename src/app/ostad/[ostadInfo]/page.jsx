@@ -6,7 +6,7 @@ import MarkIcon from '@/Components/markIcon/MarkIcon'
 import { cookies } from 'next/headers'
 import { verify } from 'jsonwebtoken'
 import Image from 'next/image'
-import Comments from '@/Components/comments/comentns'
+import Comments from '@/Components/comments/commentns'
 import { BookOpenTextIcon, Clock, GraduationCapIcon, PenToolIcon, StarIcon, Timer, User2, UserSquare } from 'lucide-react'
 import Rating from '@/Components/rating/Rating'
 import ostadModel from '@/model/ostad'
@@ -37,7 +37,7 @@ export default async function Ostad({ params }) {
     if (token) {
         userInfo = verify(token, process.env.ACCESSTOKEN_SECRETKEY)
     }
-
+    
     return (
         <>
             <div
@@ -60,7 +60,7 @@ export default async function Ostad({ params }) {
                         </span>
                         <span className='flex gap-2'>
                             <GraduationCapIcon />
-                            <h4 className='font-medium'>رشته تحصیلی: {studyField || 'مشخض نشده'}</h4>
+                            <h4 className='font-medium'>رشته تحصیلی: {studyField || 'مشخص نشده'}</h4>
                         </span>
                         <span className='flex gap-2'>
                             <GraduationCapIcon />
@@ -72,7 +72,7 @@ export default async function Ostad({ params }) {
 
                             <span className='flex gap-2'>
                                 <PenToolIcon />
-                                <h4 className='font-medium'>تاریخ شروع فعالیت: {startYear || 'مشخض نشده'}</h4>
+                                <h4 className='font-medium'>تاریخ شروع فعالیت: {startYear == '-1' ? 'مشخص نشده' : startYear}</h4>
                             </span>
                             <MarkIcon productId={ostadId} />
                         </span>
@@ -103,7 +103,7 @@ export default async function Ostad({ params }) {
                             <BookOpenTextIcon />
                             <h4 className='font-medium'>استاد {name} این درس ها را ارایه می کند:</h4>
                         </span>
-                        {courses.map((date, index) => {
+                        {courses.length ? courses.map((date, index) => {
                             return (
                                 <div key={index} className='flex gap-2'>
                                     <h4>{date.name}</h4>
@@ -111,7 +111,9 @@ export default async function Ostad({ params }) {
                                     <h4>از ساعت {date.startTime} تا {date.endTime}</h4>
                                 </div>
                             )
-                        })}
+                        }) :
+                            <h4>درسی برای استاد {name} تعریف نشده</h4>
+                        }
                     </div>
 
                     <div className='flex flex-col md:flex-row gap-2 mb-12 justify-between'>

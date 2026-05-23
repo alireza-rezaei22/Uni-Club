@@ -30,19 +30,19 @@ const schema = mongoose.Schema({
     courses: [{
         name: {
             type: String,
-            required: true
+            required: false
         },
         day: {
             type: String,
-            required: true
+            required: false
         },
         startTime: {
             type: String,
-            required: true
+            required: false
         },
         endTime: {
             type: String,
-            required: true
+            required: false
         },
     }
     ],

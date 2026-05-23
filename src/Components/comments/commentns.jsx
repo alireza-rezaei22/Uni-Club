@@ -9,7 +9,6 @@ export default function Comments({ initComments, ostadId }) {
 
     useEffect(() => {
         setComments(initComments)
-        console.log('alertContext');
     }, [])
 
     const submitComment = async () => {
