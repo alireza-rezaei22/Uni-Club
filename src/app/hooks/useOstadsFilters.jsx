@@ -4,7 +4,6 @@ import { useEffect } from "react";
 export default function useOstadsFilters(filters) {
   const setOstads = useOstadsStore(state => state.setOstads)
   let filteredOstads = null
-  console.log('filters: ', filters);
   
   useEffect(() => {
     const fetchData = async () => {

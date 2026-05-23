@@ -5,8 +5,7 @@ export default async function ostads() {
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/ostads`, { next: { revalidate: 300 } })
 
-  const productsList = await res.json()
-  console.log(productsList);
+  const ostadsList = await res.json()
   
   return (
     <>
@@ -15,7 +14,7 @@ export default async function ostads() {
           {/* <Category /> */}
           <OstadsFilter />
         </aside>
-              <OstadsList ostadsArray={productsList} />
+              <OstadsList ostadsArray={ostadsList} />
       </main>
     </>
   );

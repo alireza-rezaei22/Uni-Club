@@ -15,7 +15,7 @@ function OstadItem({ ostad }) {
     return (
         <>
             <Link key={_id} href={`/ostad/${_id}`}>
-                <div className='bg-zinc-300 hover:bg-zinc-400 h-max flex justify-between gap-5 p-3 rounded-md border border-zinc-300 transition-colors'>
+                <div className='bg-gradient-to-br from-indigo-300 to-indigo-100 hover:bg-zinc-800 h-max flex justify-between gap-5 p-3 rounded-md border border-zinc-300 transition-colors'>
                     <div className='flex-1 flex flex-col justify-between'>
                         <span className='flex justify-between'>
                             <h2 className='text-lg font-semibold cursor-pointer'>استاد {name}</h2>
@@ -34,7 +34,7 @@ function OstadItem({ ostad }) {
                         <Image
                             className='rounded-xl cursor-pointer w-full h-full object-cover'
                             src={image || "/images/defaultPerson.png"}
-                            alt='product image'
+                            alt='تصویر استاد'
                             width={500}
                             height={300}
                         />

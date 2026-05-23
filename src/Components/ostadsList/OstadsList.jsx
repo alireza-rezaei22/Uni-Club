@@ -19,18 +19,15 @@ export default function OstadsList({ ostadsArray }) {
         const getOstads = async () => {
             const res = await fetch('/api/ostads')
             if (res.ok) {
-                const apiProducts = await res.json()
-                setOstads(apiProducts.reverse())     
-                console.log('os: ',apiProducts);
+                const apiOstads = await res.json()
+                setOstads(apiOstads)     
                           
                 setLoading(false)
             }
         }
         getOstads()
     }, [])
-    useEffect(() => {
-        console.log(ostads);
-        
+    useEffect(() => {        
         if (userData) {
             const getMarked = async () => {
                 const res = await fetch(`/api/markProducts`)
