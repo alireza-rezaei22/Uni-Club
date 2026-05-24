@@ -44,6 +44,10 @@ const schema = mongoose.Schema({
             type: String,
             required: false
         },
+        classLocation: {
+            type: String,
+            required: false
+        }
     }
     ],
     startYear: {

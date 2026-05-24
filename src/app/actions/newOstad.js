@@ -17,14 +17,16 @@ const NewOstadAction = async (prevState, formData) => {
     
     let courses = []
     let coursesArr = rawCourses && rawCourses.split(',').map( item => item.trim().replace(/'/g, ""))
-    for (let i = 0; i < coursesArr.length; i += 4) {
+    for (let i = 0; i < coursesArr.length; i += 5) {
         courses.push({
             name: coursesArr[i],
             day: coursesArr[i + 1],
             startTime: coursesArr[i + 2],
-            endTime: coursesArr[i + 3]
+            endTime: coursesArr[i + 3],
+            classLocation: coursesArr[i + 4],
         })
     }
+    console.log('courses: ', courses);
     
     const startYear = formData.get('startYear')
     const userData = await authorizUser()

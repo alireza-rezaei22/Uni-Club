@@ -39,6 +39,7 @@ function NewProduct() {
     const [classDay, setClassDay] = useState('-1')
     const [classStartTime, setClassStartTime] = useState('-1')
     const [classEndTime, setClassEndTime] = useState('-1')
+    const [classLocation, setClassLocation] = useState('')
     const [confirmation, setConfirmation] = useState(false)
 
     useEffect(() => {
@@ -67,16 +68,18 @@ function NewProduct() {
     }, [formState])
 
     const handleCourseDate = (event) => {
+        event.preventDefault()
         if (classStartTime < classEndTime) {
             
-            setCourses(prev => [...prev, [courseName, classDay, classStartTime, classEndTime]])
+            setCourses(prev => [...prev, [courseName, classDay, classStartTime, classEndTime, classLocation]])
+            setCourseName('')
+            setClassDay('-1')
+            setClassStartTime('-1')
+            setClassEndTime('-1')
+            setClassLocation('')
         } else {
             toast.error('ساعت ورود باید قبل از ساعت خروج باشه ', { position: 'bottom-center' })
         }
-        setCourseName('')
-        setClassDay('-1')
-        setClassStartTime('-1')
-        setClassEndTime('-1')
     }
     const deleteAttendance = (itemIndex) => {
         let tt = courses
@@ -266,11 +269,19 @@ function NewProduct() {
                                 <ChevronDown />
                             </div>
                         </div>
+                        <input type="text"
+                            name='classLocation'
+                            className='w-full bg-zinc-100 border  border-zinc-200 rounded-md px-2 py-2 outline-0'
+                            placeholder='محل تشکیل...'
+                            // defaultValue='محل'
+                            onChange={e => setClassLocation(e.target.value)}
+                            value={classLocation}
+                        />
                     </div>
                     <button
-                        className={`${(courseName.length > 1 && classDay !== '-1' && classStartTime !== '-1' && classEndTime !== '-1') ? 'bg-indigo-600 hover:bg-indigo-400' : 'bg-indigo-300'} text-white rounded-md p-2 cursor-pointer transition-colors`}
+                        className={`${(courseName.length > 1 && classDay !== '-1' && classStartTime !== '-1' && classEndTime !== '-1' && classLocation.length > 1) ? 'bg-indigo-600 hover:bg-indigo-400' : 'bg-indigo-300'} text-white rounded-md p-2 cursor-pointer transition-colors`}
                         onClick={handleCourseDate}
-                        disabled={courseName.length < 2 || classDay == '-1' || classStartTime == '-1' || classEndTime == '-1'}
+                        disabled={courseName.length < 2 || classDay == '-1' || classStartTime == '-1' || classEndTime == '-1' || classLocation.length < 2}
                     >
                         افزودن +
                     </button>
