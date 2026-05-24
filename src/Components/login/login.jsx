@@ -41,7 +41,7 @@ function Login({ setFormStatus }) {
     }, [loginState])
 
     return (
-        <div className='bg-green-600 text-zinc-900 relative w-full max-w-96 border rounded-md py-8'>
+        <div className='bg-gradient-to-br from-indigo-500 to-indigo-600 text-zinc-900 relative w-full max-w-96 border rounded-md py-8'>
             {isForgetPassMode ?
                 <ForgetPass setFormStatus={setFormStatus} />
                 :
@@ -49,12 +49,12 @@ function Login({ setFormStatus }) {
                     className='w-full flex flex-col justify-center items-center gap-3 px-5'
                     action={loginFormAction}
                 >
-                    <LogIn className='w-28 h-28' />
+                    <LogIn className='w-28 h-28 text-white' />
                     <input type="text"
                         value={phone}
                         onChange={e => setPhone(e.target.value)}
                         name='phone'
-                        className='bg-zinc-100 border w-full border-green-700 rounded-md px-2 py-3 outline-0'
+                        className='bg-zinc-100 border w-full border-indigo-700 rounded-md px-2 py-3 outline-0'
                         placeholder='شماره تلفن ...'
                     />
                     <Password
@@ -67,15 +67,15 @@ function Login({ setFormStatus }) {
                     <SubmitBtn isFormValid={isFormValid}>ورود</SubmitBtn>
                 </form>
             }
-            <div className='absolute -bottom-12 w-full flex flex-row justify-between px-2 text-green-400'>
+            <div className='absolute -bottom-12 w-full flex flex-row justify-between text-indigo-400'>
                 <h4
-                    className='cursor-pointer p-2 rounded-full hover:bg-green-200 hover:text-zinc-900 transition-color'
+                    className='cursor-pointer px-4 py-2 rounded-full hover:bg-indigo-200 hover:text-zinc-900 transition-colors'
                     onClick={() => setFormStatus('signin')}
                 >
                     ثبت نام
                 </h4>
                 <h4
-                    className='cursor-pointer p-2 rounded-full hover:bg-green-200 hover:text-zinc-900 transition-color'
+                    className='cursor-pointer px-4 py-2 rounded-full hover:bg-indigo-200 hover:text-zinc-900 transition-colors'
                     onClick={() => setIsForgetPassMode(prev => !prev)}
                 >
                     {isForgetPassMode ? 'ورود' : 'فراموشی رمز'}

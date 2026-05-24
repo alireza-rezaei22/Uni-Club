@@ -42,12 +42,12 @@ function ChangePassword() {
     return (
         <>
             <button
-                className={`self-start ${isChangePassMode ? 'bg-green-500 text-gray-700 border-3 border-green-500' : 'bg-gray-600 text-green-400 border-3 border-green-500'} w-fit rounded-lg py-3 px-2 cursor-pointer hover:bg-gray-700 hover:text-green-600 hover:border-green-500 transition-colors`}
+                className={`self-start ${isChangePassMode ? 'bg-blue-400 text-zinc-700' : 'bg-zinc-600 text-blue-400 border-3 border-blue-400'} w-fit rounded-lg py-3 px-2 cursor-pointer hover:bg-blue-300 hover:border-0 hover:text-blue-600 transition-colors`}
                 onClick={() => setIsChangePassMode(prev => !prev)}
             >تغییر گذرواژه</button>
             {isChangePassMode &&
                 <>
-                    <h2 className='text-green-500 text-2xl font-bold self-start'>تغییر گذرواژه</h2>
+                    <h2 className='text-blue-500 text-2xl font-bold self-start'>تغییر گذرواژه</h2>
                     <div className='bg-zinc-300 size-40 rounded-full flex justify-center items-center'>
                         <KeyRound className='size-24 text-zinc-800' />
                     </div>
@@ -55,8 +55,6 @@ function ChangePassword() {
                         className='w-full max-w-126 flex flex-col items-center gap-5 mb-16'
                         action={changePassFormAcion}
                     >
-                        {/* <RotateCcwKey className='w-28 h-28' /> */}
-
                         <Password
                             placeholder={'گذرواژه کنونی'}
                             state={currentPassword}

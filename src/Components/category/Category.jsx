@@ -29,7 +29,7 @@ function Category() {
     return (
         <div
             className='w-full flex flex-wrap justify-start
-                    md:bg-green-400 md:h-fit md:flex-col md:p-2 md:space-y-2 md:border md:rounded-md
+                    md:bg-gradient-to-br from-indigo-500 to-indigo-600 md:h-fit md:flex-col md:p-2 md:space-y-2 md:border md:rounded-md
                 '>
             <span className='hidden md:flex items-center gap-1'>
                 <Funnel size={16} />

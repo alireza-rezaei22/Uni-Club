@@ -12,6 +12,8 @@ export default function Navbar() {
   const pathname = usePathname();
   const routes = [
     { name: 'خانه', path: '/' },
+    { name: 'اساتید', path: '/ostads' },
+    { name: 'مبادلات', path: '/products' },
     userData ?
       { name: 'پنل', path: '/panel' } :
       { name: 'ورود/ثبت نام', path: '/login-register' }
@@ -23,7 +25,7 @@ export default function Navbar() {
           return <Link
             key={index}
             href={route.path}
-            className={`${pathname === route.path ? 'bg-green-400 text-zinc-900 hover:bg-green-600' : ' text-green-400 border-2 border-green-400 hover:bg-green-200 hover:text-zinc-900'}  font-medium p-1 px-4 rounded-xl cursor-pointer transition-all`}
+            className={`${pathname === route.path ? 'bg-indigo-500 text-zinc-100 hover:bg-indigo-600' : ' text-indigo-400 border-2 border-indigo-400 hover:bg-indigo-500 hover:text-zinc-100'}  font-medium p-1 px-4 rounded-xl cursor-pointer transition-colors`}
           >
             {route.name}
           </Link>

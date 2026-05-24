@@ -33,7 +33,7 @@ function markedProducts() {
 
   return (
     <>
-      <h2 className='text-green-400 text-2xl font-bold self-start mb-3'>نشان شده ها</h2>
+      <h2 className='text-indigo-400 text-2xl font-bold self-start mb-3'>نشان شده ها</h2>
       {
         loading ?
           <Loading /> :

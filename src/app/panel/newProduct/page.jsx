@@ -63,7 +63,7 @@ function NewProduct() {
 
   return (
     <div className='flex flex-col justify-center items-center gap-5'>
-      <h2 className='text-green-500 text-2xl font-bold self-start'>اگهی جدید</h2>
+      <h2 className='text-indigo-500 text-2xl font-bold self-start'>اگهی جدید</h2>
       <form
         className='w-full max-w-126 flex flex-col items-center gap-5 mb-16'
         action={formAction}

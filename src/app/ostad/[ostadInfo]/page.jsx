@@ -1,6 +1,3 @@
-// import productModel from '@/model/product'
-import ProductDate from '@/Components/productDate/productDate'
-import ShowMap from '@/Components/map/showMap'
 import Link from 'next/link'
 import MarkIcon from '@/Components/markIcon/MarkIcon'
 import { cookies } from 'next/headers'

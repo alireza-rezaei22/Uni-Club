@@ -12,7 +12,7 @@ const UserPhone = (props) => {
     const { phone, setPhone } = props
     return (
         <>
-            <Smartphone className='w-28 h-28' />
+            <Smartphone className='w-28 h-28 text-white' />
             <input type="text"
                 value={phone}
                 onChange={e => setPhone(e.target.value)}
@@ -27,7 +27,7 @@ const UserOTP = (props) => {
     const { userCode, setUserCode } = props
     return (
         <>
-            <MessageSquareMore className='w-28 h-28' />
+            <MessageSquareMore className='w-28 h-28 text-white' />
             <input type="number"
                 onChange={e => setUserCode(e.target.value)}
                 name='userCode'
@@ -42,7 +42,7 @@ const ChangePass = (props) => {
     const { phone, newPassword, setNewPassword, confirmNewPassword, setConfirmNewPassword, isFormValid } = props
     return (
         <>
-            <RotateCcwKey className='w-28 h-28' />
+            <RotateCcwKey className='w-28 h-28 text-white' />
             <input type="hidden" name='phone' value={phone} />
             <Password
                 placeholder={'گذرواژه'}

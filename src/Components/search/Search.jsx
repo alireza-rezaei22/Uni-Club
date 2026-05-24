@@ -13,7 +13,7 @@ export default function Search() {
     }
     return (
         <>
-            <div className="bg-green-400 text-zinc-900 hover:bg-green-500 transition-all w-3/5 max-w-80 flex justify-between rounded-full p-2 cursor-pointer">
+            <div className="bg-indigo-400 text-zinc-900 hover:bg-indigo-500 transition-all w-3/5 max-w-80 flex justify-between rounded-full p-2 cursor-pointer">
                 <input
                     value={searchedValue}
                     onChange={(e) => setSearchedValue(e.target.value)}

@@ -31,7 +31,7 @@ function OstadsFilter() {
         <>
             <div className=' md:hidden flex justify-start p-2 gap-2'>
                 <button
-                    className='flex justify-between hover:bg-zinc-700 items-center border-2 border-green-400 text-green-400 font-medium px-2 py-1 rounded-md transition-colors '
+                    className='flex justify-between hover:bg-zinc-700 items-center border-2 border-indigo-400 text-indigo-400 font-medium px-2 py-1 rounded-md transition-colors '
                     onClick={() => setDrawerStatus(prev => !prev)}
                 >
                     <h2>فیلتر</h2>
@@ -40,7 +40,7 @@ function OstadsFilter() {
                 {
                     hasFilter &&
                     <button
-                        className='flex justify-between hover:bg-zinc-700 items-center border-2 border-green-400 text-green-400 font-medium px-2 py-1 rounded-md transition-colors'
+                        className='flex justify-between hover:bg-zinc-700 items-center border-2 border-indigo-400 text-indigo-400 font-medium px-2 py-1 rounded-md transition-colors'
                         onClick={clearFiltersHadler}
                     >
                         <FunnelX size={16} />
@@ -50,8 +50,8 @@ function OstadsFilter() {
             </div>
 
             <div
-                className='w-full flex-wrap justify-start hidden bg-green-400 text-gray-700 font-medium
-                    md:flex md:h-fit md:flex-col md:items-start md:p-2 md:space-y-2 md:border md:rounded-md
+                className='w-full flex-wrap justify-start hidden bg-gradient-to-br from-indigo-500 to-indigo-600 text-zinc-100 font-medium
+                    md:flex md:h-fit md:flex-col md:items-start md:p-2 md:space-y-2 md:rounded-md
                 '>
                 <span className='flex items-center gap-1'>
                     <Funnel size={16} />
@@ -61,7 +61,7 @@ function OstadsFilter() {
                 {
                     hasFilter &&
                     <button
-                        className='bg-green-100 w-full flex justify-start items-center gap-1 text-zinc-700 text-xs font-medium border border-zinc-500 p-3 rounded-sm'
+                        className='bg-indigo-100 w-full flex justify-start items-center gap-1 text-zinc-700 text-xs font-medium border border-zinc-500 p-3 rounded-sm'
                         onClick={clearFiltersHadler}
                     >
                         <FunnelX size={16} />

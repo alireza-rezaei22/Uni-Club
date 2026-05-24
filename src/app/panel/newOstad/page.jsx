@@ -85,7 +85,7 @@ function NewProduct() {
 
     return (
         <div className='flex flex-col justify-center items-center gap-5'>
-            <h2 className='text-green-500 text-2xl font-bold self-start'>مشخصات استاد</h2>
+            <h2 className='text-indigo-500 text-2xl font-bold self-start'>مشخصات استاد</h2>
             <form
                 className='w-full max-w-126 flex flex-col items-center gap-5 mb-16'
                 action={formAction}
@@ -268,7 +268,7 @@ function NewProduct() {
                         </div>
                     </div>
                     <button
-                        className={`${(courseName.length > 1 && classDay !== '-1' && classStartTime !== '-1' && classEndTime !== '-1') ? 'bg-green-600 hover:bg-green-400' : 'bg-green-300'} text-white rounded-md p-2 cursor-pointer transition-colors`}
+                        className={`${(courseName.length > 1 && classDay !== '-1' && classStartTime !== '-1' && classEndTime !== '-1') ? 'bg-indigo-600 hover:bg-indigo-400' : 'bg-indigo-300'} text-white rounded-md p-2 cursor-pointer transition-colors`}
                         onClick={handleCourseDate}
                         disabled={courseName.length < 2 || classDay == '-1' || classStartTime == '-1' || classEndTime == '-1'}
                     >

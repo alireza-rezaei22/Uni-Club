@@ -3,7 +3,7 @@ import Password from '@/Components/Password/Password'
 import SubmitBtn from '@/Components/submitBtn/SubmitBtn'
 import registerAction from '@/app/actions/register'
 import { registerSchema } from '@/utils/validation'
-import { LogIn } from 'lucide-react'
+import { LogIn, UserPlus2Icon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import React, { useActionState, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
@@ -39,10 +39,11 @@ function Register({ setFormStatus }) {
     }, [registerState])
     return (
         <form
-            className='bg-green-600 text-zinc-900 relative w-full max-w-96 flex flex-col justify-center items-center gap-3 border rounded-md py-8 px-5'
+            className='bg-gradient-to-br from-indigo-500 to-indigo-600 text-zinc-900 relative w-full max-w-96 flex flex-col justify-center items-center gap-3 border rounded-md py-8 px-5'
             action={registerFormAction}
         >
-            <LogIn className='w-28 h-28' />
+            {/* <LogIn className='w-28 h-28 text-white' /> */}
+            <UserPlus2Icon className='w-28 h-28 text-white' />
             <input
                 type="text"
                 name='name'
@@ -74,7 +75,7 @@ function Register({ setFormStatus }) {
             <SubmitBtn isFormValid={isFormValid}>ثبت نام</SubmitBtn>
 
             <h4
-                className='p-2 rounded-full hover:bg-green-200 hover:text-zinc-900 transition-colors  absolute -bottom-12 self-start text-green-400 cursor-pointer'
+                className=' px-4 py-2 rounded-full hover:bg-indigo-200 hover:text-zinc-900 transition-colors  absolute -bottom-12 self-start text-indigo-400 cursor-pointer'
                 onClick={() => setFormStatus('login')}
             >
                 ورود

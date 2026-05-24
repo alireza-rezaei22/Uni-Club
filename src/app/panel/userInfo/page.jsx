@@ -40,7 +40,7 @@ function page() {
 
     return (
         <div className='flex flex-col justify-center items-center gap-10'>
-            <h2 className='text-green-500 text-2xl font-bold self-start'>اطلاعات من</h2>
+            <h2 className='text-indigo-500 text-2xl font-bold self-start'>اطلاعات من</h2>
             <div className='bg-zinc-300 size-40 rounded-full flex justify-center items-center'>
                 <UserRound className='size-24 text-zinc-800' />
             </div>

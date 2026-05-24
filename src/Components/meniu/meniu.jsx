@@ -38,7 +38,7 @@ function Meniu() {
             {routes.map((route, index) => {
                 return route.name === 'خروج' ?
                     <button
-                        className='flex flex-nowrap gap-2 items-center border-b border-zinc-500 px-2 py-4 rounded-md transition-colors text-green-400 hover:bg-green-200 hover:text-gray-700'
+                        className='flex flex-nowrap gap-2 items-center border-b border-zinc-500 px-2 py-4 rounded-md transition-colors text-indigo-400 hover:bg-indigo-200 hover:text-gray-700'
                         onClick={logOutHandler}
                     >
                         <route.icon />
@@ -46,7 +46,7 @@ function Meniu() {
                     </button>
                     : <Link
                         key={index} href={route.path}
-                        className='hover:bg-green-200 hover:text-gray-700 text-green-400 flex flex-nowrap gap-2 items-center border-b border-zinc-500 px-2 py-4 rounded-md transition-colors'
+                        className='hover:bg-indigo-200 hover:text-gray-700 text-indigo-400 flex flex-nowrap gap-2 items-center border-b border-zinc-500 px-2 py-4 rounded-md transition-colors'
                     >
                         <route.icon />
                         {route.name}

@@ -36,12 +36,12 @@ function SideBar() {
         }
     }
     return (
-        <aside className='bg-gray-700 text-green-500 w-full hidden md:w-1/6 md:flex h-[90vh] rounded-l-xl text-sm font-medium'>
+        <aside className='bg-gray-700 text-indigo-500 w-full hidden md:w-1/6 md:flex h-[90vh] rounded-l-xl text-sm font-medium'>
             <ul className='w-full flex flex-col gap-2 p-2'>
                 {routes.map((route, index) => {
                     return route.name === 'خروج' ?
                         <button
-                            className='flex flex-nowrap gap-2 items-center border-b border-zinc-500 px-2 py-4 rounded-md transition-colors hover:bg-green-200 hover:text-gray-700'
+                            className='flex flex-nowrap gap-2 items-center border-b border-zinc-500 px-2 py-4 rounded-md transition-colors hover:bg-indigo-200 hover:text-gray-700'
                             onClick={logOutHandler}
                             key={index}
                         >
@@ -50,7 +50,7 @@ function SideBar() {
                         </button>
                         : <Link
                             key={index} href={route.path}
-                            className={`${pathname === route.path ? 'bg-green-400 text-gray-700 hover:bg-green-500' : 'hover:bg-green-200 hover:text-gray-700 '} flex flex-nowrap gap-2 items-center border-b border-zinc-500 px-2 py-4 rounded-md transition-colors`}
+                            className={`${pathname === route.path ? 'bg-indigo-400 text-gray-700 hover:bg-indigo-500' : 'hover:bg-indigo-200 hover:text-gray-700 '} flex flex-nowrap gap-2 items-center border-b border-zinc-500 px-2 py-4 rounded-md transition-colors`}
                         >
                             <route.icon />
                             {route.name}
