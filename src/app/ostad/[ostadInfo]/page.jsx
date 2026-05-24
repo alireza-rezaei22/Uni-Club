@@ -4,7 +4,7 @@ import { cookies } from 'next/headers'
 import { verify } from 'jsonwebtoken'
 import Image from 'next/image'
 import Comments from '@/Components/comments/commentns'
-import { BookOpenTextIcon, Clock, GraduationCapIcon, PenToolIcon, StarIcon, Timer, User2, UserSquare } from 'lucide-react'
+import { BookCopy, Clock, GraduationCapIcon, PenToolIcon, StarIcon, UserSquare } from 'lucide-react'
 import Rating from '@/Components/rating/Rating'
 import ostadModel from '@/model/ostad'
 import commentModel from '@/model/comment'
@@ -97,23 +97,18 @@ export default async function Ostad({ params }) {
                     <div className='flex flex-col gap-2 mb-12 justify-between'>
 
                         <span className='flex gap-2 items-center'>
-                            <BookOpenTextIcon />
+                            <BookCopy />
                             <h3 className='text-lg font-bold'>استاد {name} این درس ها را ارایه می کند:</h3>
                         </span>
-                        <span className='px-4'>
+                        <ul className='px-10 list-disc'>
                             {courses.length ? courses.map((course, index) => {
                                 return (
-                                    <h4>{course.name} روز {course.day} از ساعت {course.startTime} تا {course.endTime}</h4>
-                                    // <div key={index} className='flex gap-3'>
-                                    //     <h4>{date.name}</h4>
-                                    //     <h4>{date.day}</h4>
-                                    //     <h4>از ساعت {date.startTime} تا {date.endTime}</h4>
-                                    // </div>
+                                    <li>{course.name} روز {course.day} از ساعت {course.startTime} تا {course.endTime} در {course.classLocation}</li>
                                 )
                             }) :
-                                <h4>درسی برای استاد {name} تعریف نشده</h4>
+                                <li>درسی برای استاد {name} تعریف نشده</li>
                             }
-                        </span>
+                        </ul>
                     </div>
 
                     <div className='flex flex-col md:flex-row gap-2 mb-12 justify-between'>
