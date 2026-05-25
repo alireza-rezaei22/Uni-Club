@@ -9,7 +9,6 @@ export async function POST(req) {
     if (userInfo) {
         await connectToDB()
         const isUserRated = await rateModel.findOne({ userId, ostadId })
-        console.log(isUserRated);
         if (isUserRated) {
             return Response.json({ error: 'شما قبلا رای دادید' }, { status: 400 })
         } else {
@@ -31,7 +30,9 @@ export async function POST(req) {
             } catch {
                 return Response.json({ error: 'اشکالی پیش آمد لطفا دوباره تلاش کنید' }, { status: 500 })
             }
-
+            
         }
+    }else{
+        return Response.json({ error: 'برای ثبت رای وارد حساب کاربری شوید' }, { status: 403 })
     }
 }

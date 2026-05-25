@@ -108,7 +108,7 @@ export default function Comments({ initComments, ostadId }) {
                 >
 
                 </textarea>
-                <button className=" bg-indigo-700 text-white rounded-md px-3 py-1" onClick={submitComment}>ارسال</button>
+                <button className=" bg-indigo-700 text-white rounded-md px-3 py-1 cursor-pointer hover:bg-indigo-800 transition-colors" onClick={submitComment}>ثبت</button>
             </div>
         </div>
     )
