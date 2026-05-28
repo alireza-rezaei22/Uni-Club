@@ -8,17 +8,21 @@ import { BookCopy, Clock, GraduationCapIcon, PenToolIcon, StarIcon, UserSquare }
 import Rating from '@/Components/rating/Rating'
 import ostadModel from '@/model/ostad'
 import commentModel from '@/model/comment'
+import userModel from '@/model/user'
+import connectToDB from '@/configs/DB'
+import mongoose from 'mongoose'
 
 export default async function Ostad({ params }) {
     const { ostadInfo: ostadId } = params
-
+    await connectToDB()
     const ostad = await ostadModel.findById(ostadId)
     const rawComments = await commentModel.find({ ostadId }).populate({ path: 'userId', select: 'name -_id' }).select('userId comment')
-
+    console.log(rawComments);
+    
     const comments = rawComments.map(c => ({
         _id: c._id.toString(),
-        comment: c.comment.toString(),
-        userName: c.userId.name.toString(),
+        comment: c.comment,
+        userName: c.userId?.name || 'کاربر حذف شده',
     }))
 
     const degreesList = { diploma: 'دیپلم', associate: 'کاردانی', bachelor: 'کارشناسی', master: 'کارشناسی ارشد', PhD: 'دکترا' }
