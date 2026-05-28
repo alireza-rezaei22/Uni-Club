@@ -11,7 +11,6 @@ export default async function ostads() {
     <>
       <main className="flex flex-col items-start md:flex-row md:mx-[5%] p-5">
         <aside className="md:w-1/5 md:h-fit md:flex-col md:items-start md:m-2  md:space-y-2">
-          {/* <Category /> */}
           <OstadsFilter />
         </aside>
               <OstadsList ostadsArray={ostadsList} />

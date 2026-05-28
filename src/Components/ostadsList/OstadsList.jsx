@@ -19,15 +19,14 @@ export default function OstadsList({ ostadsArray }) {
         const getOstads = async () => {
             const res = await fetch('/api/ostads')
             if (res.ok) {
-                const apiOstads = await res.json()
+                const apiOstads = await res.json()              
                 setOstads(apiOstads)     
-                          
                 setLoading(false)
             }
         }
         getOstads()
     }, [])
-    useEffect(() => {        
+    useEffect(() => {    
         if (userData) {
             const getMarked = async () => {
                 const res = await fetch(`/api/markProducts`)
@@ -49,7 +48,7 @@ export default function OstadsList({ ostadsArray }) {
                         {ostads?.length ?
                             ostads.map(ostad => {
                                 return <div key={ostad._id} className='w-full md:w-1/2 p-2'>
-                                    <OstadItem ostad={ostad} />
+                                    <OstadItem key={ostad._id} ostad={ostad} commentsCount={ostad.commentsCount} />
                                 </div>
                             }) :
                             <PopUp Icon={SearchX} msg={'هیچ محصولی یافت نشد'} />

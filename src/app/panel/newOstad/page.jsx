@@ -183,7 +183,7 @@ function NewProduct() {
                             return (
                                 <div key={index} className='w-fit bg-zinc-400 text-zinc-50 text-sm flex flex-row justify-between items-start gap-2 p-2 rounded-xl'>
                                     <span>
-                                        <h2 className='text-base font-medium text-zinc-700'>{date[0]}</h2>
+                                        <h2 className='text-base font-medium text-zinc-700'>{date[0]} - {date[4]}</h2>
                                         <h2>{date[1]}  از ساعت {date[2]} تا ساعت {date[3]}</h2>
                                     </span>
                                     <XCircle color='white' className='cursor-pointer' onClick={() => deleteAttendance(index)} />
@@ -273,7 +273,6 @@ function NewProduct() {
                             name='classLocation'
                             className='w-full bg-zinc-100 border  border-zinc-200 rounded-md px-2 py-2 outline-0'
                             placeholder='محل تشکیل...'
-                            // defaultValue='محل'
                             onChange={e => setClassLocation(e.target.value)}
                             value={classLocation}
                         />

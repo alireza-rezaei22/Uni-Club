@@ -10,7 +10,6 @@ import ostadModel from '@/model/ostad'
 import commentModel from '@/model/comment'
 import userModel from '@/model/user'
 import connectToDB from '@/configs/DB'
-import mongoose from 'mongoose'
 
 export default async function Ostad({ params }) {
     const { ostadInfo: ostadId } = params
