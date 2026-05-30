@@ -6,11 +6,16 @@ const schema = new mongoose.Schema({
         ref: 'user',
         required: true
     },
-    productId:{
+    itemId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'product',
         required: true,
+        refPath: 'itemType'
     },
+    itemType: {
+        type: String,
+        required: true,
+        enum: ['Product', 'ostad']
+    }
 })
 const markModel = mongoose.models.mark || mongoose.model('mark', schema)
 export default markModel

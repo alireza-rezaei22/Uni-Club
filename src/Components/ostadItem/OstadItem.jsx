@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { MapPin, DollarSign, GraduationCapIcon, Star, StarIcon, MessageSquare } from 'lucide-react';
+import { GraduationCapIcon, StarIcon, MessageSquare } from 'lucide-react';
 import MarkIcon from '../markIcon/MarkIcon';
 import Image from 'next/image';
 
@@ -30,7 +30,7 @@ function OstadItem({ ostad, commentsCount }) {
                             loading='lazy'
                         />
                         <span className='absolute start-0 top-0 '>
-                            <MarkIcon productId={_id} />
+                            <MarkIcon itemId={_id} type={'ostad'} />
                         </span>
                     </div>
                 </div>

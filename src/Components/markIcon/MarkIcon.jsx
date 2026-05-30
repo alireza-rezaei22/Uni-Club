@@ -4,21 +4,27 @@ import { BookmarkCheck, BookmarkPlus } from 'lucide-react'
 import React, { useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
 
-function MarkIcon({ productId }) {
+function MarkIcon({ itemId, type }) {
   const [isMarked, setIsMarked] = useState(false)
-  const productsMarked = UseMarkStore(state => state.marks)
-  const setProductsMarked = UseMarkStore(state => state.setMarks)
+  const userMarkeds = UseMarkStore(state => state.marks)
+  const setUserMarkeds = UseMarkStore(state => state.setMarks)
 
   const addToMarked = useCallback(async (event) => {
     event.preventDefault()
     if (isMarked) {
       try {
-        const res = await fetch(`/api/markProducts/${productId}`, {
+        const res = await fetch('/api/markItems', {
           method: 'DELETE',
+          header:{
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            itemId
+          })
         })
         if (res.ok) {
           const data = await res.json()
-          setProductsMarked(data.markedProductsItems)
+          setUserMarkeds(data.markedItems)
         } else {
           const response = await res.json()
           toast.error(response.error, { position: 'bottom-center' })
@@ -28,27 +34,36 @@ function MarkIcon({ productId }) {
       }
     } else {
       try {
-        const res = await fetch(`/api/markProducts/${productId}`, {
+        const res = await fetch('/api/markItems', {
           method: 'POST',
+          header: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            itemId,
+            type
+          })
         })
         if (res.ok) {
           const data = await res.json()
-          console.log(data.markedProductsItems);
-          setProductsMarked(data.markedProductsItems)
+          console.log(data);
+          setUserMarkeds(data.markedItems)
         } else {
-          console.log('error');
           const response = await res.json()
           toast.error(response.error, { position: 'bottom-center' })
         }
-      } catch {
+      } catch (error) {
+        console.log(error);
         toast.error('خطا در اتصال به سرور', { position: 'bottom-center' })
       }
     }
   }
   )
   useEffect(() => {
-    setIsMarked(productsMarked.some(marked => marked?._id === productId));
-  }, [productsMarked])
+    console.log(userMarkeds);
+
+    setIsMarked(userMarkeds.some(marked => marked?._id === itemId));
+  }, [userMarkeds])
 
   return (
     <button

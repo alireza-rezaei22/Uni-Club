@@ -13,8 +13,8 @@ export default function OstadsList({ ostadsArray }) {
     const setOstads = useOstadsStore(state => state.setOstads)
     const userData = useAuthStore(state => state.user)
     const [loading, setLoading] = useState(true)
-    const productsmarked = UseMarkStore(state => state.marks)
-    const setProductsMarked = UseMarkStore(state => state.setMarks)
+    const UserMarkeds = UseMarkStore(state => state.marks)
+    const setUserMarkeds = UseMarkStore(state => state.setMarks)
     useEffect(() => {
         const getOstads = async () => {
             const res = await fetch('/api/ostads')
@@ -29,9 +29,9 @@ export default function OstadsList({ ostadsArray }) {
     useEffect(() => {    
         if (userData) {
             const getMarked = async () => {
-                const res = await fetch(`/api/markProducts`)
+                const res = await fetch(`/api/markItems`)
                 const data = await res.json()
-                setProductsMarked(data.markedProductsItems)
+                setUserMarkeds(data.markedItems)
             }
             getMarked()
         }

@@ -1,6 +1,3 @@
-import Category from "@/Components/category/Category";
-import Products from "@/Components/products/Products";
-import Filter from "@/Components/filter/Filter";
 import Header from "@/Components/header/Header";
 import LastOstads from "@/Components/lastOstads/LastOstads";
 import { Suspense } from "react";
