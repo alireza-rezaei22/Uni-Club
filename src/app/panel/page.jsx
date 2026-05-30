@@ -17,6 +17,9 @@ import ProductItem from '@/Components/productItem/ProductItem';
 import NullItemPanel from '@/Components/nullItemPanel/nullItemPanel';
 import ChatItem from '@/Components/chatItem/chatItem';
 import Meniu from '@/Components/meniu/meniu';
+import connectToDB from '@/configs/DB';
+import OstadItem from '@/Components/ostadItem/OstadItem';
+import commentModel from '@/model/comment';
 
 export const dynamic = 'force-dynamic'
 
@@ -36,15 +39,20 @@ async function Panel() {
   const token = userToken?.value
 
   const userInfo = verify(token, process.env.ACCESSTOKEN_SECRETKEY)
+  await connectToDB()
   const [userProductsCount = 0, lastProduct] = await Promise.all([
     productModel.countDocuments({ ownerId: userInfo.id }),
     productModel.findOne({ ownerId: userInfo.id }).sort({ date: -1 }).select('-__v -location -ownerId').lean()
   ])
   const [userMarksCount = 0, lastMarkRes] = await Promise.all([
     markModel.countDocuments({ userId: userInfo.id }),
-    markModel.findOne({ userId: userInfo.id }).sort({ date: -1 }).select('productId -_id').populate({ path: 'productId', select: '-__v -location -ownerId' }).lean()
+    markModel.findOne({ userId: userInfo.id }).sort({_id: -1}).select('itemId itemType').populate('itemId')
   ])
-  const lastMark = lastMarkRes?.productId
+  const lastMark = lastMarkRes?.itemId
+  const commentsCount = await commentModel.countDocuments({ ostadId: lastMarkRes.itemId._id }).lean()
+
+  console.log(lastMarkRes);
+
   const [userChatsCount = 0, lastChatItem] = await Promise.all([
     chatModel.countDocuments({ participants: userInfo.id }),
     chatModel
@@ -66,7 +74,7 @@ async function Panel() {
 
   return (
     <>
-    <Meniu/>
+      <Meniu />
       <div className='w-full hidden md:flex flex-wrap'>
         <StatusCount title={'تعداد آگهی ها'} count={userProductsCount} describe={''} href={'panel/myProducts'}>
           {
@@ -85,7 +93,10 @@ async function Panel() {
         <StatusCount title={'تعداد نشان شده ها'} count={userMarksCount} describe={''} href={'panel/markedProducts'}>
           {
             lastMark ?
-              <ProductItem product={lastMark} /> :
+              lastMarkRes?.itemType == 'ostad' ?
+                <OstadItem key={lastMarkRes?.itemId._id} ostad={lastMarkRes?.itemId} commentsCount={commentsCount} /> :
+                <ProductItem product={lastMark} />
+              :
               <NullItemPanel text={'تاکنون آگهی را نشان نکرده اید'} />
           }
         </StatusCount>
