@@ -1,25 +1,29 @@
 import connectToDB from "@/configs/DB";
 import markModel from "@/model/mark";
 import authorizUser from "@/utils/authorizUser"
+import ostadModel from "@/model/ostad";
 
 export async function GET(req) {
     try {
         await connectToDB()
         const userInfo = await authorizUser()
-        
-        const marks = await markModel.find({ userId: userInfo.id }).populate('itemId')
-        const markedItems = marks.map(mark => mark.itemId);
+
+        const marks = await markModel.find({ userId: userInfo.id }).populate('itemId').lean()
+        const markedItems = marks.map(mark => {
+            return {...mark.itemId, type:mark.itemType}
+        });
 
         return Response.json({ markedItems }, { status: 200 })
-    } catch(err) {
-        return Response.json({ error: err}, { status: 500 })
+    } catch (err) {
+        console.log(err);
+        return Response.json({ error: err }, { status: 500 })
     }
 }
 
 export async function POST(req) {
     const { itemId, type } = await req.json()
     console.log(type);
-    
+
     const userInfo = await authorizUser()
     if (userInfo) {
         try {
