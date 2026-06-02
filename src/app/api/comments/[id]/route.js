@@ -4,7 +4,7 @@ import authorizUser from "@/utils/authorizUser"
 
 export async function POST(req, { params }) {
     const userComment = await req.json()
-    const { ostadId } = await params
+    const { id : ostadId } = await params
     const userInfo = await authorizUser()
     if (userInfo) {
         try {
@@ -27,7 +27,24 @@ export async function POST(req, { params }) {
             return Response.json({ error: 'اشکالی پیش آمد لطفا دوباره تلاش کنید', status: 500 })
 
         }
-    } else{
+    } else {
         return Response.json({ error: 'برای ثبت دیدگاه باید وارد حساب کاربری شوید' }, { status: 403 })
+    }
+}
+export async function DELETE(req ,{ params }) {
+    const { id } = await params
+    try {
+        const userInfo = await authorizUser()
+        if (userInfo.id) {
+            await connectToDB()
+            await commentModel.findOneAndDelete({ _id: id})
+            const newUserComments = commentModel.findById(userInfo.id)
+            return Response.json({ newUserComments, msg: 'دیدگاه پاک شد', status: 200 })
+        } else {
+            return Response.json({ error: 'برای پاک کردن دیدگاه وارد حساب کاربری شوید', status: 403 })
+        }
+    } catch (error) {
+        return Response.json({ error, status: 500 })
+
     }
 }

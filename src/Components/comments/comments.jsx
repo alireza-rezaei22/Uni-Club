@@ -36,58 +36,10 @@ export default function Comments({ initComments, ostadId }) {
                 } else {
                     toast.error(data.error, { position: 'bottom-center' })
                 }
-            } catch {
-
+            } catch(error) {
+                console.log(error);
             }
-            // setComments(prev => [...prev, newComment])
-            // setUserComment('')
         }
-        //     if (authContext.isLoggedIn) {
-        //         if (userComment) {
-        //             fetch('http://localhost:3000/comments', {
-        //                 method: "POST",
-        //                 headers: {
-        //                     "Content-Type": "application/json"
-        //                 },
-        //                 body: JSON.stringify({
-        //                     productId: productId,
-        //                     userId: userInfo.id,
-        //                     name: userInfo.username,
-        //                     productTitle: productTitle,
-        //                     comment: userComment,
-        //                 })
-        //             })
-        //                 .then(res => {
-        //                     console.log(res);
-        //                     if (!res.ok) {
-        //                         return res.text().then((text) => {
-        //                             throw new Error(text)
-        //                         })
-        //                     } else {
-        //                         return res.json()
-        //                     }
-        //                 })
-        //                 .then(data => {
-        //                     setComments(prev => [...prev, data])
-        //                     alertContext.showAlertToast('دیدگاه شما با موفقیت ثبت شد', true, true)
-        //                 })
-        //                 .catch((text) => {
-        //                     console.log(text.message);
-        //                     switch (text.message) {
-        //                         case ('Failed to fetch'): {
-        //                             alertContext.showAlertToast('خطا در اتصال به سرور', true, false)
-        //                         }
-        //                     }
-        //                 })
-
-        //             alertContext.showAlertToast('لطفا مقداری وارد کنید', true, false)
-
-        //         }
-        //     } else {
-        //         alertContext.showAlertToast('لطفا ابتدا وارد شوید', true, false)
-
-        //     }
-        //     setUserComment('')
     }
     return (
         <div className="bg-gradient-to-bl from-indigo-600 to-indigo-900 text-zinc-200 flex flex-col items-center rounded-xl px-5 py-8 mt-5 ">

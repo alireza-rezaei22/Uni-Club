@@ -1,7 +1,7 @@
 "use client"
 import Link from 'next/link'
 import React from 'react'
-import { UserRound, ShoppingBasket, Bookmark, MessagesSquare, LogOut, PlusCircle, DollarSign, UserPlus2 } from 'lucide-react'
+import { UserRound, ShoppingBasket, MessageSquareIcon, Bookmark, MessagesSquare, LogOut, PlusCircle, DollarSign, UserPlus2 } from 'lucide-react'
 import { useAuthStore } from '@/store/useAuthStore'
 import { usePathname, useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
@@ -13,7 +13,8 @@ function SideBar() {
     const pathname = usePathname()
     const routes = [
         { name: 'اطلاعات من', icon: UserRound, path: '/panel/userInfo' },
-        { name: 'آگهی های من', icon: ShoppingBasket, path: '/panel/myProducts' },
+        { name: 'انتشار های من', icon: ShoppingBasket, path: '/panel/myProducts' },
+        { name: 'دیدگاه های من', icon: MessageSquareIcon, path: '/panel/myComments' },
         { name: 'معاملات من', icon: DollarSign, path: '#' },
         { name: 'اگهی جدید', icon: PlusCircle, path: '/panel/newProduct' },
         { name: 'ثبت استاد', icon: UserPlus2, path: '/panel/newOstad' },

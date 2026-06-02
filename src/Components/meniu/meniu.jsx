@@ -1,6 +1,6 @@
 "use client"
 import { useAuthStore } from '@/store/useAuthStore'
-import { Bookmark, DollarSign, LogOut, MessagesSquare, PlusCircle, ShoppingBasket, UserPlus2, UserRound } from 'lucide-react'
+import { Bookmark, DollarSign, LogOut, MessageSquareIcon, MessagesSquare, PlusCircle, ShoppingBasket, UserPlus2, UserRound } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React from 'react'
@@ -9,6 +9,7 @@ import toast from 'react-hot-toast'
 const routes = [
     { name: 'اطلاعات من', icon: UserRound, path: '/panel/userInfo' },
     { name: 'آگهی های من', icon: ShoppingBasket, path: '/panel/myProducts' },
+    { name: 'دیدگاه های من', icon: MessageSquareIcon, path: '/panel/myComments' },
     { name: 'معاملات من', icon: DollarSign, path: '#' },
     { name: 'اگهی جدید', icon: PlusCircle, path: '/panel/newProduct' },
     { name: 'ثبت استاد', icon: UserPlus2, path: '/panel/newOstad' },
