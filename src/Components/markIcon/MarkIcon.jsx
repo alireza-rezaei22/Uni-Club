@@ -60,8 +60,6 @@ function MarkIcon({ itemId, type }) {
   }
   )
   useEffect(() => {
-    console.log(userMarkeds);
-
     setIsMarked(userMarkeds.some(marked => marked?._id === itemId));
   }, [userMarkeds])
 

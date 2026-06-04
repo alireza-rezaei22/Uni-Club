@@ -13,7 +13,7 @@ function SideBar() {
     const pathname = usePathname()
     const routes = [
         { name: 'اطلاعات من', icon: UserRound, path: '/panel/userInfo' },
-        { name: 'انتشار های من', icon: ShoppingBasket, path: '/panel/myProducts' },
+        { name: 'آگهی های من', icon: ShoppingBasket, path: '/panel/myProducts' },
         { name: 'دیدگاه های من', icon: MessageSquareIcon, path: '/panel/myComments' },
         { name: 'معاملات من', icon: DollarSign, path: '#' },
         { name: 'اگهی جدید', icon: PlusCircle, path: '/panel/newProduct' },

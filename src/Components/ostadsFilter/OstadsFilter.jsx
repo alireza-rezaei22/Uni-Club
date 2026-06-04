@@ -81,10 +81,10 @@ function OstadsFilter() {
                             <h3>بیشترین امتیاز</h3>
                             <input
                                 type="radio"
-                                id="mPopular"
-                                value="asc"
-                                checked={order.popular === 'asc'}
-                                onChange={e => setOrder({ popular: e.target.value })}
+                                id="mRate"
+                                value="desc"
+                                checked={order.rate === 'desc'}
+                                onChange={e => setOrder({ rate: e.target.value })}
                             />
                         </span>
                         <span className='flex justify-between p-1 hover:bg-gray-100 hover:border hover:border-gray-400 transition-colors rounded-md cursor-pointer'>
@@ -93,8 +93,8 @@ function OstadsFilter() {
                                 type="radio"
                                 id="MExperienced"
                                 value='asc'
-                                checked={order.experience === 'asc'}
-                                onChange={e => setOrder({ experience: e.target.value })}
+                                checked={order.startYear === 'asc'}
+                                onChange={e => setOrder({ startYear: e.target.value })}
                             />
                         </span>
                         <span className='flex justify-between p-1 hover:bg-gray-100 hover:border hover:border-gray-400 transition-colors rounded-md cursor-pointer'>
@@ -103,8 +103,8 @@ function OstadsFilter() {
                                 type="radio"
                                 id="LExperienced"
                                 value="desc"
-                                checked={order.experience === 'desc'}
-                                onChange={e => setOrder({ experience: e.target.value })}
+                                checked={order.startYear === 'desc'}
+                                onChange={e => setOrder({ startYear: e.target.value })}
                             />
                         </span>
                     </AccordionDetails>
@@ -121,6 +121,7 @@ function OstadsFilter() {
                                 type="checkbox"
                                 className="border border-gray-300 rounded-md outline-0 px-1 hover:bg-gray-100 hover:border-gray-400 cursor-pointer transition-colors"
                                 onChange={e => setDegrees('diploma')}
+                                checked={degrees.includes('diploma')}
                             />
                         </div>
                         <div className='flex justify-between gap-2 p-2'>
@@ -129,6 +130,7 @@ function OstadsFilter() {
                                 type="checkbox"
                                 className="border border-gray-300 rounded-md outline-0 px-1 hover:bg-gray-100 hover:border-gray-400 cursor-pointer transition-colors"
                                 onChange={e => setDegrees('associate')}
+                                checked={degrees.includes('associate')}
                             />
                         </div>
                         <div className='flex justify-between gap-2 p-2 '>
@@ -137,6 +139,7 @@ function OstadsFilter() {
                                 type="checkbox"
                                 className="border border-gray-300 rounded-md outline-0 px-1 hover:bg-gray-100 hover:border-gray-400 cursor-pointer transition-colors"
                                 onChange={e => setDegrees('bachelor')}
+                                checked={degrees.includes('bachelor')}
                             />
                         </div>
                         <div className='flex justify-between gap-2 p-2'>
@@ -145,6 +148,7 @@ function OstadsFilter() {
                                 type="checkbox"
                                 className="border border-gray-300 rounded-md outline-0 px-1 hover:bg-gray-100 hover:border-gray-400 cursor-pointer transition-colors"
                                 onChange={e => setDegrees('master')}
+                                checked={degrees.includes('master')}
                             />
                         </div>
                         <div className='flex justify-between gap-2 p-2'>
@@ -153,6 +157,7 @@ function OstadsFilter() {
                                 type="checkbox"
                                 className="border border-gray-300 rounded-md outline-0 px-1 hover:bg-gray-100 hover:border-gray-400 cursor-pointer transition-colors"
                                 onChange={e => setDegrees('PhD')}
+                                checked={degrees.includes('PhD')}
                             />
                         </div>
 
@@ -209,10 +214,10 @@ function OstadsFilter() {
                                 <h3>بیشترین امتیاز</h3>
                                 <input
                                     type="radio"
-                                    id="mPopular"
+                                    id="mrate"
                                     value="asc"
-                                    checked={order.popular === 'asc'}
-                                    onChange={e => setOrder({ popular: e.target.value })}
+                                    checked={order.rate === 'asc'}
+                                    onChange={e => setOrder({ rate: e.target.value })}
                                 />
                             </span>
                             <span className='flex justify-between p-1 hover:bg-gray-100 hover:border hover:border-gray-400 transition-colors rounded-md cursor-pointer'>

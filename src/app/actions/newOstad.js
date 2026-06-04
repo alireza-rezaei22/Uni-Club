@@ -75,7 +75,7 @@ const NewOstadAction = async (prevState, formData) => {
                         studyField: '',
                         category: '-1',
                         courses: [],
-                        startYear: '-1',
+                        startYear: -1,
                     }
                 }
             } catch (error) {

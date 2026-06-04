@@ -72,9 +72,9 @@ export default async function Ostad({ params }) {
 
                             <span className='flex gap-2 items-center'>
                                 <PenToolIcon />
-                                <h4 className='font-medium'>تاریخ شروع فعالیت: {startYear == '-1' ? 'مشخص نشده' : startYear}</h4>
+                                <h4 className='font-medium'>تاریخ شروع فعالیت: {startYear == -1 ? 'مشخص نشده' : startYear == 0 ? 'پیش از 1395' : startYear}</h4>
                             </span>
-                            <MarkIcon productId={ostadId} />
+                            <MarkIcon itemId={ostadId} type={'ostad'} />
                         </span>
                         <span className='w-full  flex justify-between items-center gap-2'>
                             <span className='flex gap-2 items-center'>

@@ -17,12 +17,8 @@ export default function OstadsList({ ostadsArray }) {
     const setUserMarkeds = UseMarkStore(state => state.setMarks)
     useEffect(() => {
         const getOstads = async () => {
-            const res = await fetch('/api/ostads')
-            if (res.ok) {
-                const apiOstads = await res.json()              
-                setOstads(apiOstads)     
+            setOstads(ostadsArray)     
                 setLoading(false)
-            }
         }
         getOstads()
     }, [])

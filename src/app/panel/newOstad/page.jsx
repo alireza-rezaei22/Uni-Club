@@ -22,7 +22,7 @@ function NewProduct() {
             studyField: '',
             courses: [],
             category: '-1',
-            startYear: '-1',
+            startYear: -1,
         }
     })
     const [image, setImage] = useState(null)
@@ -291,19 +291,19 @@ function NewProduct() {
                         className='appearance-none outline-0 pl-10'
                         name="startYear"
                         onChange={e => setStartYear(e.target.value)}>
-                        <option value="-1">انتخاب</option>
-                        <option value="1405">1405</option>
-                        <option value="1404">1404</option>
-                        <option value="1403">1403</option>
-                        <option value="1402">1402</option>
-                        <option value="1401">1401</option>
-                        <option value="1400">1400</option>
-                        <option value="1399">1399</option>
-                        <option value="1398">1398</option>
-                        <option value="1397">1397</option>
-                        <option value="1396">1396</option>
-                        <option value="1395">1395</option>
-                        <option value="پیش از 1395">پیش از 1395</option>
+                        <option value={-1}>انتخاب</option>
+                        <option value={1405}>1405</option>
+                        <option value={1404}>1404</option>
+                        <option value={1403}>1403</option>
+                        <option value={1402}>1402</option>
+                        <option value={1401}>1401</option>
+                        <option value={1400}>1400</option>
+                        <option value={1399}>1399</option>
+                        <option value={1398}>1398</option>
+                        <option value={1397}>1397</option>
+                        <option value={1396}>1396</option>
+                        <option value={1395}>1395</option>
+                        <option value={0}>پیش از 1395</option>
                     </select>
                     <div className='absolute left-4 flex items-center pointer-events-none' >
                         <ChevronDown />

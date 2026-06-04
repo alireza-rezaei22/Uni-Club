@@ -51,7 +51,7 @@ const schema = mongoose.Schema({
     }
     ],
     startYear: {
-        type: String,
+        type: Number,
         required: false,
     },
     rate: {
