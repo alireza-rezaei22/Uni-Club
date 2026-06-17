@@ -16,27 +16,17 @@ import chatModel from '@/model/chat';
 import ProductItem from '@/Components/productItem/ProductItem';
 import NullItemPanel from '@/Components/nullItemPanel/nullItemPanel';
 import ChatItem from '@/Components/chatItem/chatItem';
-import Meniu from '@/Components/meniu/meniu';
+import Menu from '@/Components/menu/menu';
 import connectToDB from '@/configs/DB';
 import OstadItem from '@/Components/ostadItem/OstadItem';
 import commentModel from '@/model/comment';
 import ostadModel from '@/model/ostad';
 import MyComment from '@/Components/myComment/MyComment';
+import MyOstad from '@/Components/myOstad/MyOstad';
 
 export const dynamic = 'force-dynamic'
 
 async function Panel() {
-
-  const routes = [
-    { name: 'اطلاعات من', icon: UserRound, path: '/panel/userInfo' },
-    { name: 'آگهی های من', icon: ShoppingBasket, path: '/panel/myProducts' },
-    { name: 'معاملات من', icon: DollarSign, path: '#' },
-    { name: 'اگهی جدید', icon: PlusCircle, path: '/panel/newProduct' },
-    { name: 'استاد جدید', icon: UserPlus2, path: '/panel/newProduct' },
-    { name: 'نشان شده ها', icon: Bookmark, path: '/panel/markedProducts' },
-    { name: 'گفتوگو های من', icon: MessagesSquare, path: '/panel/chats' },
-    { name: 'خروج', icon: LogOut, path: '/' },
-  ]
   const userToken = (await cookies()).get('token')
   const token = userToken?.value
 
@@ -50,6 +40,10 @@ async function Panel() {
   let markCommentsCount = 0
   let UserCommentsCount = 0
   let UserLastComment = []
+
+  let UserOstadsCount = 0
+  let UserLastOstad = []
+
   try {
     const userInfo = verify(token, process.env.ACCESSTOKEN_SECRETKEY)
     await connectToDB()
@@ -65,17 +59,23 @@ async function Panel() {
     ])
     userMarksCount = UMarksCount
     userLastMark = ULastMark
-    markCommentsCount = await commentModel.countDocuments({ ostadId: ULastMark.itemId._id }).lean()
+    markCommentsCount = await commentModel.countDocuments({ ostadId: ULastMark?.itemId._id }).lean()
 
     const [UCommentsCount = 0, ULastComment = []] = await Promise.all([
       commentModel.countDocuments({ userId: userInfo.id }),
-      commentModel.findOne({ userId: userInfo.id }).select('ostadId comment').populate({ path: 'ostadId', select: 'name image degree studyField category rate startYear' }).lean()
-      
+      commentModel.findOne({ userId: userInfo.id }).sort({ _id: -1 }).select('ostadId comment').populate({ path: 'ostadId', select: 'name image degree studyField category rate startYear' }).lean()
+
     ])
     UserCommentsCount = UCommentsCount
     UserLastComment = ULastComment
-    console.log(ULastComment);
 
+    const [UOstadsCount = 0, ULastOstad = []] = await Promise.all([
+      ostadModel.countDocuments({ registrarId: userInfo.id }),
+      ostadModel.findOne({ registrarId: userInfo.id }).sort({ _id: -1 }).select('-courses -biography -__v').lean()
+
+    ])
+    UserOstadsCount = UOstadsCount
+    UserLastOstad = ULastOstad
 
     const [UChatsCount = 0, ULastChatItem = []] = await Promise.all([
       chatModel.countDocuments({ participants: userInfo.id }),
@@ -104,7 +104,7 @@ async function Panel() {
   }
   return (
     <>
-      <Meniu />
+      <Menu />
       <div className='w-full hidden md:flex flex-wrap'>
         <StatusCount title={'تعداد آگهی ها'} count={userProductsCount} describe={''} href={'panel/myProducts'}>
           {
@@ -120,7 +120,7 @@ async function Panel() {
               <NullItemPanel text={'تاکنون معامله ای نداشته اید'} />
           }
         </StatusCount>
-        <StatusCount title={'تعداد دیدگاه ها'} count={UserCommentsCount} describe={''} href={'panel/'}>
+        <StatusCount title={'تعداد دیدگاه ها'} count={UserCommentsCount} describe={''} href={'panel/myComments'}>
           {
             UserLastComment ?
               <MyComment {...UserLastComment} />
@@ -136,6 +136,17 @@ async function Panel() {
                 <ProductItem product={userMarksCount} />
               :
               <NullItemPanel text={'تاکنون آگهی را نشان نکرده اید'} />
+          }
+        </StatusCount>
+        <StatusCount title={'تعداد اساتید'} count={UserOstadsCount} describe={''} href={'panel/myOstads'}>
+          {
+          UserOstadsCount ?
+              // userLastMark?.itemType == 'ostad' ?
+                // <OstadItem key={userLastMark?.itemId._id} ostad={userLastMark?.itemId} commentsCount={markCommentsCount} /> :
+                // <ProductItem product={userMarksCount} />
+          <MyOstad {...UserLastOstad} />
+          :
+          <NullItemPanel text={'تاکنون آگهی را نشان نکرده اید'} />
           }
         </StatusCount>
         <StatusCount title={'تعداد گفتوگو شده ها'} count={userChatsCount} describe={''} href={'panel/chats'}>

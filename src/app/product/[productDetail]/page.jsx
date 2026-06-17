@@ -1,5 +1,5 @@
 import productModel from '@/model/product'
-import ProductDate from '@/Components/productDate/productDate'
+import ProductDate from '@/Components/itemDate/productDate'
 import ShowMap from '@/Components/map/showMap'
 import Link from 'next/link'
 import MarkIcon from '@/Components/markIcon/MarkIcon'

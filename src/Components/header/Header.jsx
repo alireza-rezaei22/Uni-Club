@@ -25,8 +25,8 @@ function Header() {
     }, [])
 
     return (
-        <header className="relative bg-gradient-to-br from-indigo-500 to-indigo-900 flex items-end w-full h-[25vh] md:h-[45vh] md:mt-4 rounded-lg overflow-hidden">
-            <div className="w-3/4 flex flex-col gap-4 p-4 text-indigo-200 z-50">
+        <header className="relative bg-gradient-to-br from-indigo-500 to-indigo-900 flex items-start w-full h-[30vh] md:h-[45vh] md:mt-4 rounded-lg overflow-hidden">
+            <div className="w-3/4 flex flex-col gap-4 p-8 text-indigo-200 z-50">
                 <h1 className="text-lg md:text-4xl font-bold">{headerInfo[banerIndex]?.title}</h1>
                 <p className="text-xs md:text-xl font-medium">{headerInfo[banerIndex]?.describtion}</p>
                 <Link
@@ -36,10 +36,10 @@ function Header() {
             </div>
             <Image
                 src={headerInfo[banerIndex]?.img}
-                className='absolute -left-5 -bottom-5 md:left-20 md:-bottom-10 md:w-1/3'
+                className='absolute -left-10 -bottom-5 md:left-40 md:-bottom-10 md:w-1/3'
                 alt='baner image'
-                width={200}
-                height={200}
+                width={300}
+                height={300}
             />
         </header>
     )

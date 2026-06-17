@@ -1,7 +1,7 @@
 "use client"
 import Link from 'next/link'
 import React from 'react'
-import { UserRound, ShoppingBasket, MessageSquareIcon, Bookmark, MessagesSquare, LogOut, PlusCircle, DollarSign, UserPlus2 } from 'lucide-react'
+import { UserCog2, ShoppingBasket, User2, MessageSquareIcon, Bookmark, MessagesSquare, LogOut, PlusCircle, DollarSign, UserPlus2 } from 'lucide-react'
 import { useAuthStore } from '@/store/useAuthStore'
 import { usePathname, useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
@@ -12,14 +12,15 @@ function SideBar() {
     console.log('should remove token from cookies here(sidebar)');
     const pathname = usePathname()
     const routes = [
-        { name: 'اطلاعات من', icon: UserRound, path: '/panel/userInfo' },
+        { name: 'اطلاعات من', icon: UserCog2, path: '/panel/userInfo' },
+        { name: 'معاملات من', icon: DollarSign, path: '#' },
         { name: 'آگهی های من', icon: ShoppingBasket, path: '/panel/myProducts' },
         { name: 'دیدگاه های من', icon: MessageSquareIcon, path: '/panel/myComments' },
-        { name: 'معاملات من', icon: DollarSign, path: '#' },
-        { name: 'اگهی جدید', icon: PlusCircle, path: '/panel/newProduct' },
-        { name: 'ثبت استاد', icon: UserPlus2, path: '/panel/newOstad' },
         { name: 'نشان شده ها', icon: Bookmark, path: '/panel/markedProducts' },
         { name: 'گفتوگو های من', icon: MessagesSquare, path: '/panel/chats' },
+        { name: 'اساتید ثبت شده', icon: User2, path: '/panel/myOstads' },
+        { name: 'اگهی جدید', icon: PlusCircle, path: '/panel/newProduct' },
+        { name: 'ثبت استاد', icon: UserPlus2, path: '/panel/newOstad' },
         { name: 'خروج', icon: LogOut, path: '/' },
     ]
 

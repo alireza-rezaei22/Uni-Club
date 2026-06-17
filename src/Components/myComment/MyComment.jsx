@@ -7,7 +7,8 @@ import { useUserCommentsStore } from '@/store/useUserCommentsStore';
 
 function MyComment(props) {
     const { _id, ostadId: ostad, comment } = props
-
+    console.log(props);
+    
     const setUComments = useUserCommentsStore(state => state.setComments)
 
     const degreesList = { diploma: 'دیپلم', associate: 'کاردانی', bachelor: 'کارشناسی', master: 'کارشناسی ارشد', PhD: 'دکترا' }

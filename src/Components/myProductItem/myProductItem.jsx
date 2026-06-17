@@ -1,6 +1,6 @@
 "use client"
 import { Trash2 } from 'lucide-react';
-import ProductDate from '../productDate/productDate';
+import ProductDate from '../itemDate/productDate';
 import Link from 'next/link';
 import { useAuthStore } from '@/store/useAuthStore';
 import MarkIcon from '../markIcon/MarkIcon';

@@ -10,6 +10,7 @@ import ostadModel from '@/model/ostad'
 import commentModel from '@/model/comment'
 import userModel from '@/model/user'
 import connectToDB from '@/configs/DB'
+import ItemDate from '@/Components/itemDate/ItemDate'
 
 export default async function Ostad({ params }) {
     const { ostadInfo: ostadId } = params
@@ -17,7 +18,7 @@ export default async function Ostad({ params }) {
     const ostad = await ostadModel.findById(ostadId)
     const rawComments = await commentModel.find({ ostadId }).populate({ path: 'userId', select: 'name -_id' }).select('userId comment')
     console.log(rawComments);
-    
+
     const comments = rawComments.map(c => ({
         _id: c._id.toString(),
         comment: c.comment,
@@ -27,7 +28,7 @@ export default async function Ostad({ params }) {
     const degreesList = { diploma: 'دیپلم', associate: 'کاردانی', bachelor: 'کارشناسی', master: 'کارشناسی ارشد', PhD: 'دکترا' }
     const categoryList = { specialized: 'تخصصی', general: 'عمومی' }
 
-    const { image, name, biography, degree, studyField, category, courses, rate, startYear, created_at } = ostad
+    const { image, name, biography, degree, studyField, category, courses, rate, startYear, created_at, updated_at } = ostad
     const ostadDegree = degreesList[degree]
     const ostadcategory = categoryList[category]
     const userToken = (await cookies()).get('token')
@@ -77,9 +78,11 @@ export default async function Ostad({ params }) {
                             <MarkIcon itemId={ostadId} type={'ostad'} />
                         </span>
                         <span className='w-full  flex justify-between items-center gap-2'>
-                            <span className='flex gap-2 items-center'>
+                            <span className='flex gap-2 items-end'>
                                 <Clock />
-                                <h4 className='font-medium'>آخرین بروز رسانی: {created_at.toLocal}</h4>
+                                <h4 className='font-medium'>آخرین بروز رسانی:
+                                </h4>
+                                <ItemDate date={updated_at || created_at} />
                             </span>
                             <h4 className='font-medium flex'>
                                 امتیاز: {rate}

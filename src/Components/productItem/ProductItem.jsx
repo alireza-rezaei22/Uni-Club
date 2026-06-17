@@ -1,4 +1,4 @@
-import ProductDate from '../productDate/productDate';
+import itemDate from '../itemDate/ItemDate';
 import Link from 'next/link';
 import { MapPin, DollarSign } from 'lucide-react';
 import MarkIcon from '../markIcon/MarkIcon';
@@ -36,7 +36,7 @@ function ProductItem({ product }) {
                                 }
                             </span>
 
-                            <ProductDate date={date} />
+                            <itemDate date={date} />
                         </span>
                     </div>
                     <div className='w-30 h-30 relative '>

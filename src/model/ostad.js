@@ -37,11 +37,11 @@ const schema = mongoose.Schema({
             required: false
         },
         startTime: {
-            type: String,
+            type: Number,
             required: false
         },
         endTime: {
-            type: String,
+            type: Number,
             required: false
         },
         classLocation: {
@@ -60,13 +60,22 @@ const schema = mongoose.Schema({
     },
     created_at: {
         type: Date,
-        default: Date.now(),
+        default: Date.now,
     },
-    registrarId:{
+    updated_at: {
+        type: Date,
+    },
+    registrarId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
         required: true,
     }
-})
+}, {
+    timestamps: {
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
+    }
+}
+)
 const ostadModel = mongoose.models?.ostad || mongoose.model('ostad', schema)
 export default ostadModel

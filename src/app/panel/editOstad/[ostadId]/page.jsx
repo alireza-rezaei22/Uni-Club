@@ -1,20 +1,22 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { ChevronDown, PlusSquare, XCircle } from 'lucide-react'
+import { ChevronDown, PlusIcon, PlusSquare, Trash2, XCircle } from 'lucide-react'
 import SubmitBtn from '@/Components/submitBtn/SubmitBtn'
 import { useActionState } from 'react'
-import NewOstadAction from '@/app/actions/newOstad'
 import { newOstadSchema } from '@/utils/validation'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
+import EditOstadAction from '@/app/actions/editOstadAction'
 
-function NewOstad() {
+function EditOstad({ params }) {
+    const { ostadId } = params
     const router = useRouter()
     const [isFormValid, setIsFormValid] = useState(false)
-    const [formState, formAction] = useActionState(NewOstadAction, {
+    const [formState, formAction] = useActionState(EditOstadAction, {
         message: '',
         error: undefined,
         inputs: {
+            id: '',
             image: '',
             name: '',
             biography: '',
@@ -25,15 +27,9 @@ function NewOstad() {
             startYear: -1,
         }
     })
-    const [image, setImage] = useState(null)
+    const [ostad, setOstad] = useState([])
     const [preview, setPreview] = useState()
-    const [name, setName] = useState('')
-    const [biography, setBiography] = useState('')
-    const [degree, setDegree] = useState('')
-    const [studyField, setStudyField] = useState('')
-    const [category, setCategory] = useState('-1')
     const [courses, setCourses] = useState([])
-    const [startYear, setStartYear] = useState(null)
 
     const [courseName, setCourseName] = useState('')
     const [classDay, setClassDay] = useState('-1')
@@ -42,19 +38,50 @@ function NewOstad() {
     const [classLocation, setClassLocation] = useState('')
     const [confirmation, setConfirmation] = useState(false)
 
+    const [image, setImage] = useState(null)
     useEffect(() => {
-        setIsFormValid(newOstadSchema.safeParse({ name, biography, degree, category }).success && confirmation)
-    }, [image, name, biography, degree, studyField, category, startYear, confirmation])
+        const getOstadInfo = async () => {
+            try {
+                const res = await fetch(`/api/ostads/my/${ostadId}`)
+                const data = await res.json()
+                if (data.status == 200) {
+                    setOstad(data?.ostad)
+                    setCourses(data?.ostad?.courses)
+                }
+                else {
+                    toast.error(data.error, { position: 'bottom-center' })
+                }
+
+            } catch {
+                console.log('خطا در برقراری ارتباط با سرور');
+                toast.error('خطا در برقراری ارتباط با سرور', { position: 'bottom-center' })
+            }
+        }
+        getOstadInfo()
+    }, [])
+
     useEffect(() => {
+        setIsFormValid(newOstadSchema.safeParse(ostad).success && confirmation)
+    }, [ostad, confirmation])
+    useEffect(() => {
+        console.log(ostad);
+
+        if (ostad?.image?.name) {
+            const imageURL = URL.createObjectURL(image)
+            setPreview(imageURL)
+        }
+        if (ostad?.image) {
+            setPreview(ostad.image)
+        }
+    }, [ostad])
+    useEffect(() => {
+        console.log("image: ", image);
+
         if (image?.name) {
             const imageURL = URL.createObjectURL(image)
             setPreview(imageURL)
         }
     }, [image])
-
-    useEffect(() => {
-        console.log(isFormValid);
-    }, [isFormValid])
 
     useEffect(() => {
         console.log(formState);
@@ -70,8 +97,8 @@ function NewOstad() {
     const handleCourseDate = (event) => {
         event.preventDefault()
         if (classStartTime < classEndTime) {
-            
-            setCourses(prev => [...prev, [courseName, classDay, classStartTime, classEndTime, classLocation]])
+
+            setCourses(prev => [...prev, ({ name: courseName, day: classDay, startTime: classStartTime, endTime: classEndTime, classLocation })])
             setCourseName('')
             setClassDay('-1')
             setClassStartTime('-1')
@@ -81,6 +108,11 @@ function NewOstad() {
             toast.error('ساعت ورود باید قبل از ساعت خروج باشه ', { position: 'bottom-center' })
         }
     }
+    useEffect(() => {
+        console.log(courses);
+        setOstad(prev => ({ ...prev, courses }))
+    }, [courses])
+
     const deleteAttendance = (itemIndex) => {
         let tt = courses
         setCourses(tt.filter((date, index) => index != itemIndex))
@@ -88,61 +120,71 @@ function NewOstad() {
 
     return (
         <div className='flex flex-col justify-center items-center gap-5'>
-            <h2 className='text-indigo-500 text-2xl font-bold self-start'>مشخصات استاد</h2>
+            <h2 className='text-indigo-500 text-2xl font-bold self-start'>ویرایش استاد</h2>
             <form
                 className='w-full max-w-126 flex flex-col items-center gap-5 mb-16'
                 action={formAction}
             >
                 <div className='flex items-center'>
-                    {preview ?
-                        <>
-                            <input type="file"
-                                name='image'
-                                accept="image/*"
-                                id='userImgInput'
-                                className='hidden'
-                                onChange={e => setImage(e.target.files[0])}
-                            />
+                    <div className='relative'>
+                        <input
+                            type="file"
+                            name='image'
+                            accept="image/*"
+                            id='userImgInput'
+                            className='hidden'
+                            onChange={e => setImage(e.target.files[0])}
+                        />
+
+                        {preview ? (
                             <label htmlFor='userImgInput'>
                                 <img src={preview} className='w-full h-full rounded-md border-4 border-zinc-500' />
                             </label>
-                        </> :
-                        <>
-                            <input type="file"
-                                name='image'
-                                accept="image/*"
-                                id='userImgInput'
-                                className='hidden'
-                                onChange={e => setImage(e.target.files[0])}
-                            />
+                        ) : (
                             <label htmlFor='userImgInput'>
                                 <PlusSquare className='self-start size-28 text-zinc-700 cursor-pointer' />
                             </label>
-                        </>
-                    }
+                        )}
+
+                        {preview && (
+                            <button
+                                type="button"
+                                className='absolute left-2 top-2 bg-zinc-300 text-zinc-700 rounded-full p-1 w-10 h-10 cursor-pointer flex justify-center items-center hover:bg-red-500 hover:text-white transition-all'
+                                onClick={() => {
+                                    setPreview(null);
+                                    setImage(null);
+                                    document.getElementById('userImgInput').value = '';
+                                }}
+                            >
+                                <Trash2 />
+                            </button>
+                        )}
+                    </div>
                 </div>
                 <h3 className='self-start text-xl font-bold'>نام*</h3>
                 <input type="text"
                     name='name'
                     className='bg-zinc-100 border w-full border-zinc-200 rounded-md px-2 py-2 outline-0'
                     placeholder='نام استاد را وارد کنید ...'
-                    onChange={e => setName(e.target.value)}
-                    defaultValue={formState?.inputs?.name}
+                    onChange={e => setOstad(prev => ({ ...prev, name: e.target.value }))}
+                    defaultValue={ostad?.name}
                 />
                 <h3 className='self-start text-xl font-bold'>بیوگرافی*</h3>
                 <textarea type="text"
                     name='biography'
                     className='bg-zinc-100 border w-full border-zinc-200 rounded-md px-2 py-2 outline-0'
                     placeholder='بیوگرافی از استاد را بنویسید ...'
-                    onChange={e => setBiography(e.target.value)}
-                    defaultValue={formState?.inputs?.biography}
+                    onChange={e => setOstad(prev => ({ ...prev, biography: e.target.value }))}
+                    defaultValue={ostad?.biography}
                 />
                 <h3 className='self-start text-xl font-bold'>مدرک*</h3>
                 <div className="bg-zinc-100 w-full flex rounded-md p-2 cursor-pointer relative">
                     <select
                         className='appearance-none outline-0 pl-10'
                         name="degree"
-                        onChange={e => setDegree(e.target.value)}>
+                        value={ostad.degree}
+                        onChange={e => setOstad(prev => ({ ...prev, degree: e.target.value }))}
+                    >
                         <option value="-1">انتخاب</option>
                         <option value="diploma">دیپلم</option>
                         <option value="associate">کاردانی</option>
@@ -159,15 +201,16 @@ function NewOstad() {
                     name='studyField'
                     className='bg-zinc-100 border w-full border-zinc-200 rounded-md px-2 py-2 outline-0'
                     placeholder='رشته تحصیلی استاد را بنویسید ...'
-                    onChange={e => setStudyField(e.target.value)}
-                    defaultValue={formState?.inputs?.studyField}
+                    onChange={e => setOstad(prev => ({ ...prev, studyField: e.target.value }))}
+                    defaultValue={ostad?.studyField}
                 />
                 <h3 className='self-start text-xl font-bold'>دسته بندی*</h3>
                 <div className="bg-zinc-100 w-full flex rounded-md p-2 cursor-pointer relative">
                     <select
                         className='appearance-none outline-0 pl-10'
                         name="category"
-                        onChange={e => setCategory(e.target.value)}>
+                        value={ostad.category}
+                        onChange={e => setOstad(prev => ({ ...prev, category: e.target.value }))}>
                         <option value="-1">انتخاب</option>
                         <option value="specialized">تخصصی</option>
                         <option value="general">عمومی</option>
@@ -183,19 +226,21 @@ function NewOstad() {
                             return (
                                 <div key={index} className='w-fit bg-zinc-400 text-zinc-50 text-sm flex flex-row justify-between items-start gap-2 p-2 rounded-xl'>
                                     <span>
-                                        <h2 className='text-base font-medium text-zinc-700'>{date[0]} - {date[4]}</h2>
-                                        <h2>{date[1]}  از ساعت {date[2]} تا ساعت {date[3]}</h2>
+                                        <h2 className='text-base font-medium text-zinc-700'>{date.name} - {date.classLocation}</h2>
+                                        <h2>{date.day}  از ساعت {date.startTime} تا ساعت {date.endTime}</h2>
                                     </span>
                                     <XCircle color='white' className='cursor-pointer' onClick={() => deleteAttendance(index)} />
                                 </div>
                             )
                         })}
                     </div>
-                    <input type="hidden" name='courses' value={courses} />
+                    <input type="hidden" name='id' value={ostad._id} />
+                    <input type="hidden" name='courses' value={JSON.stringify(courses)} />
+                    {/* <input type="hidden" name='image' value={image} /> */}
                     <input type="text"
                         name='className'
                         className='flex-1 bg-zinc-100 border  border-zinc-200 rounded-md px-2 py-2 outline-0'
-                        placeholder='نام درسی که استاد استاد  تدریس می کند ...'
+                        placeholder='نام درسی که استاد تدریس می کند ...'
                         onChange={e => setCourseName(e.target.value)}
                         value={courseName}
                     />
@@ -290,7 +335,8 @@ function NewOstad() {
                     <select
                         className='appearance-none outline-0 pl-10'
                         name="startYear"
-                        onChange={e => setStartYear(e.target.value)}>
+                        value={ostad.startYear}
+                        onChange={e => setOstad(prev => ({ ...prev, startYear: e.target.value }))}>
                         <option value={-1}>انتخاب</option>
                         <option value={1405}>1405</option>
                         <option value={1404}>1404</option>
@@ -319,4 +365,4 @@ function NewOstad() {
     )
 }
 
-export default NewOstad
+export default EditOstad
