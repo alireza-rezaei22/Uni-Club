@@ -1,6 +1,6 @@
 "use client"
 import { Trash2 } from 'lucide-react';
-import ProductDate from '../itemDate/productDate';
+import ItemDate from '../itemDate/ItemDate';
 import Link from 'next/link';
 import { useAuthStore } from '@/store/useAuthStore';
 import MarkIcon from '../markIcon/MarkIcon';
@@ -45,7 +45,7 @@ function MyProductItem({ product }) {
                             <h4 className='text-xs font-medium'>{price ? `${price.toLocaleString()} تومان` : 'توافقی'}</h4>
                         </span>
                         <span className='text-zinc-600 flex justify-between'>
-                            {date && <ProductDate date={date} />}
+                            {date && <ItemDate date={date} />}
                             <h4 className='text-xs font-medium'>{city}</h4>
                         </span>
                     </div>
