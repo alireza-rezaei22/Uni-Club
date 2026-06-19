@@ -4,19 +4,21 @@ import authorizUser from "@/utils/authorizUser"
 import ostadModel from "@/model/ostad";
 
 export async function GET(req) {
-    try {
-        await connectToDB()
-        const userInfo = await authorizUser()
+    const userInfo = await authorizUser()
+    if (userInfo.id) {
+        try {
+            await connectToDB()
 
-        const marks = await markModel.find({ userId: userInfo.id }).populate('itemId').lean()
-        const markedItems = marks.map(mark => {
-            return {...mark.itemId, type:mark.itemType}
-        });
+            const marks = await markModel.find({ userId: userInfo.id }).populate('itemId').lean()
+            const markedItems = marks.map(mark => {
+                return { ...mark.itemId, type: mark.itemType }
+            });
 
-        return Response.json({ markedItems }, { status: 200 })
-    } catch (err) {
-        console.log(err);
-        return Response.json({ error: err }, { status: 500 })
+            return Response.json({ markedItems, status: 200 })
+        } catch (err) {
+            console.log(err);
+            return Response.json({ error: err, status: 500 })
+        }
     }
 }
 
@@ -25,12 +27,12 @@ export async function POST(req) {
     console.log(type);
 
     const userInfo = await authorizUser()
-    if (userInfo) {
+    if (userInfo.id) {
         try {
             await connectToDB()
             const existingMark = await markModel.findOne({ userId: userInfo.id, itemId });
             if (existingMark) {
-                return Response.json({ error: 'قبلا نشان شده' }, { status: 400 });
+                return Response.json({ error: 'قبلا نشان شده', status: 400 });
             } else {
                 await markModel.create({
                     userId: userInfo.id,
@@ -39,22 +41,22 @@ export async function POST(req) {
                 })
                 const marks = await markModel.find({ userId: userInfo.id }).populate('itemId')
                 const markedItems = marks.map(mark => mark.itemId);
-                return Response.json({ markedItems, msg: 'با موفقیت نشان شد' }, { status: 201 })
+                return Response.json({ markedItems, msg: 'با موفقیت نشان شد', status: 201 })
             }
         }
         catch (error) {
             console.log(error);
-            return Response.json({ error: 'مشکلی در نشان کردن پیش آمد' }, { status: 500 })
+            return Response.json({ error: 'مشکلی در نشان کردن پیش آمد', status: 500 })
         }
     } else {
-        return Response.json({ error: 'برای نشان کردن لاگین کنید' }, { status: 403 })
+        return Response.json({ error: 'برای نشان کردن لاگین کنید', status: 403 })
     }
 }
 
 export async function DELETE(req) {
     const { itemId } = await req.json()
     const userInfo = await authorizUser()
-    if (userInfo) {
+    if (userInfo.id) {
         try {
             await connectToDB()
             const selectedItem = await markModel.findOne({ userId: userInfo.id, itemId })
@@ -62,12 +64,12 @@ export async function DELETE(req) {
                 await markModel.findByIdAndDelete(selectedItem._id)
                 const marks = await markModel.find({ userId: userInfo.id }).populate('itemId')
                 const markedItems = marks.map(mark => mark.itemId);
-                return Response.json({ markedItems, msg: 'نشان پاک شد' }, { status: 200 })
+                return Response.json({ markedItems, msg: 'نشان پاک شد', status: 200 })
             }
         } catch (error) {
-            return Response.json({ error: 'مشکلی پیش آمد' }, { status: 500 })
+            return Response.json({ error: 'مشکلی پیش آمد', status: 500 })
         }
     } else {
-        return Response.json({ error: 'ابتدا لاگین کنید' }, { status: 403 })
+        return Response.json({ error: 'ابتدا لاگین کنید', status: 403 })
     }
 }

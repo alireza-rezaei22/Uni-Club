@@ -6,9 +6,7 @@ import Image from 'next/image';
 import { useUserCommentsStore } from '@/store/useUserCommentsStore';
 
 function MyComment(props) {
-    const { _id, ostadId: ostad, comment } = props
-    console.log(props);
-    
+    const { _id, ostadId: ostad, comment } = props    
     const setUComments = useUserCommentsStore(state => state.setComments)
 
     const degreesList = { diploma: 'دیپلم', associate: 'کاردانی', bachelor: 'کارشناسی', master: 'کارشناسی ارشد', PhD: 'دکترا' }
@@ -23,7 +21,8 @@ function MyComment(props) {
                 method: 'DELETE',
             })
             const data = await res.json()
-            setUComments(data)
+            setUComments(data.userCommentsWithC_Count)
+            console.log(data)
         }
         deleteCommentFunc()
     }

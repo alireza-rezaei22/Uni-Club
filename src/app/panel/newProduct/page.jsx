@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { ChevronDown, PlusSquare } from 'lucide-react'
+import { ChevronDown, PlusSquare, Trash2 } from 'lucide-react'
 import Cities from '@/Components/cities/Cities'
 import SubmitBtn from '@/Components/submitBtn/SubmitBtn'
 import { useActionState } from 'react'
@@ -34,8 +34,8 @@ function NewProduct() {
   const [location, setLocation] = useState('')
 
   useEffect(() => {
-    setIsFormValid(newProductSchema.safeParse({ image, title, description, city, condition, category, price }).success)
-  }, [title, city, condition, category, price])
+    setIsFormValid(newProductSchema.safeParse({ image, title, description, condition, category, price }).success)
+  }, [title, condition, category, price])
   useEffect(() => {
     if (image?.name) {
       const imageURL = URL.createObjectURL(image)
@@ -69,7 +69,41 @@ function NewProduct() {
         action={formAction}
       >
         <div className='flex items-center'>
-          {preview ?
+          <div className='relative'>
+            <input
+              type="file"
+              name='image'
+              accept="image/*"
+              id='userImgInput'
+              className='hidden'
+              onChange={e => setImage(e.target.files[0])}
+            />
+
+            {preview ? (
+              <label htmlFor='userImgInput'>
+                <img src={preview} className='w-full h-full rounded-md border-4 border-zinc-500' />
+              </label>
+            ) : (
+              <label htmlFor='userImgInput'>
+                <PlusSquare className='self-start size-28 text-zinc-700 cursor-pointer' />
+              </label>
+            )}
+
+            {preview && (
+              <button
+                type="button"
+                className='absolute left-2 top-2 bg-zinc-300 text-zinc-700 rounded-full p-1 w-10 h-10 cursor-pointer flex justify-center items-center hover:bg-red-500 hover:text-white transition-all'
+                onClick={() => {
+                  setPreview(null);
+                  setImage(null);
+                  document.getElementById('userImgInput').value = '';
+                }}
+              >
+                <Trash2 />
+              </button>
+            )}
+          </div>
+          {/* {preview ?
             <>
               <input type="file"
                 name='image'
@@ -94,7 +128,7 @@ function NewProduct() {
                 <PlusSquare className='self-start size-28 text-zinc-700 cursor-pointer' />
               </label>
             </>
-          }
+          } */}
         </div>
 
         <h3 className='self-start text-xl font-bold'>عنوان*</h3>
@@ -113,8 +147,8 @@ function NewProduct() {
           onChange={e => setDescription(e.target.value)}
           defaultValue={formState?.inputs?.description}
         />
-        <h3 className='self-start text-xl font-bold'>شهر*</h3>
-        <Cities className='w-full' setCity={setCity} isInNav={false} />
+        {/* <h3 className='self-start text-xl font-bold'>شهر*</h3>
+        <Cities className='w-full' setCity={setCity} isInNav={false} /> */}
 
         <h3 className='self-start text-xl font-bold'>وضعیت کالا*</h3>
         <div className="bg-zinc-100 w-full flex rounded-full p-2 cursor-pointer relative">
@@ -142,6 +176,7 @@ function NewProduct() {
             <option value="digital">کالای دیجیتال</option>
             <option value="vehicle">وسیله نقلیه</option>
             <option value="accessory">اکسسوری</option>
+            <option value="book">کتاب و جزوه</option>
           </select>
           <div className='absolute left-4 flex items-center pointer-events-none' >
             <ChevronDown />
@@ -156,11 +191,11 @@ function NewProduct() {
           defaultValue={formState?.inputs?.price}
           value={price.toLocaleString()}
         />
-        <h3 className='self-start text-xl font-bold'>موقعیت مکانی</h3>
+        {/* <h3 className='self-start text-xl font-bold'>موقعیت مکانی</h3>
         <div className='bg-emerald-400 h-80 w-full'>
           <SelectMap setLocationProp={setLocation} />
           <input type='hidden' name='location' value={location} />
-        </div>
+        </div> */}
         <SubmitBtn isFormValid={isFormValid}>ثبت</SubmitBtn>
       </form>
     </div>

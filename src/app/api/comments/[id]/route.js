@@ -4,7 +4,7 @@ import authorizUser from "@/utils/authorizUser"
 
 export async function POST(req, { params }) {
     const userComment = await req.json()
-    const { id : ostadId } = await params
+    const { id: ostadId } = await params
     const userInfo = await authorizUser()
     if (userInfo) {
         try {
@@ -28,22 +28,35 @@ export async function POST(req, { params }) {
 
         }
     } else {
-        return Response.json({ error: 'برای ثبت دیدگاه باید وارد حساب کاربری شوید' }, { status: 403 })
+        return Response.json({ error: 'برای ثبت دیدگاه باید وارد حساب کاربری شوید', status: 403 })
     }
 }
-export async function DELETE(req ,{ params }) {
+export async function DELETE(req, { params }) {
     const { id } = await params
     try {
         const userInfo = await authorizUser()
+        await connectToDB()
         if (userInfo.id) {
-            await connectToDB()
-            await commentModel.findOneAndDelete({ _id: id})
-            const newUserComments = commentModel.findById(userInfo.id)
-            return Response.json({ newUserComments, msg: 'دیدگاه پاک شد', status: 200 })
+            await commentModel.findOneAndDelete({ _id: id })
+            const newUserComments = await commentModel.find({ userId: userInfo.id }).populate({ path: 'ostadId', select: '-biography -courses -startYear -studyField -__v' }).lean()
+            const userCommentsWithC_Count = await Promise.all(
+                newUserComments.map(async (item) => {
+                    const count = await commentModel.countDocuments({ ostadId: item.ostadId._id })
+                    return {
+                        ...item,
+                        ostadId: {
+                            ...item.ostadId,
+                            commentsCount: count
+                        }
+                    }
+                })
+            )
+            return Response.json({ userCommentsWithC_Count, msg: 'دیدگاه پاک شد', status: 200 })
         } else {
             return Response.json({ error: 'برای پاک کردن دیدگاه وارد حساب کاربری شوید', status: 403 })
         }
     } catch (error) {
+        console.log(error);
         return Response.json({ error, status: 500 })
 
     }

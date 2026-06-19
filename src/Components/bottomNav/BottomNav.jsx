@@ -9,7 +9,7 @@ function BottomNav() {
   const routes = [
     { Icon: Home, path: '/' },
     { Icon: CirclePlus, path: '/panel/newProduct' },
-    { Icon: Bookmark, path: '/panel/markedProducts' },
+    { Icon: Bookmark, path: '/panel/myMarks' },
     userData ?
       { Icon: UserRound, path: '/panel' } :
       { Icon: LogInIcon, path: '/login-register' },

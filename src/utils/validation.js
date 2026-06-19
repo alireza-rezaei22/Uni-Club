@@ -16,7 +16,7 @@ export const loginSchema = z.object({
 
 export const newProductSchema = z.object({
     title: z.string().min(2, 'عنوان باید حداقل 2 کاراکتر باشد').max(20, 'عنوان باید حداکثر 20 کاراکتر باشد'),
-    city: z.string().min(2, 'شهر باید حداقل 2 کاراکتر باشد').max(20, 'شهر باید حداکثر 20 کاراکتر باشد'),
+    // city: z.string().min(2, 'شهر باید حداقل 2 کاراکتر باشد').max(20, 'شهر باید حداکثر 20 کاراکتر باشد'),
     condition: z.enum(['new', 'as_new', 'worked']),
     category: z.enum(['house', 'digital', 'vehicle', 'accessory']),
     // price: z.string().min(1, 'قیمت الزامی است').transform(val => Number(val)).refine(val => !isNaN(val), 'قیمت باید عدد باشد')

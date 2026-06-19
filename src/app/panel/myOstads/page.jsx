@@ -44,10 +44,10 @@ function MyOstads() {
                 setLoading(false)
             }
         }
-        if (!ostads.length) {
-            getMyOstads()
-        } else {
+        if (ostads.length) {
             setLoading(false)
+        } else {
+            getMyOstads()
         }
 
     }, [ostads, setOstads])

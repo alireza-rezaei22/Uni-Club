@@ -128,7 +128,7 @@ async function Panel() {
               <NullItemPanel text={'تاکنون معامله ای نداشته اید'} />
           }
         </StatusCount>
-        <StatusCount title={'تعداد نشان شده ها'} count={userMarksCount} describe={''} href={'panel/markedProducts'}>
+        <StatusCount title={'تعداد نشان شده ها'} count={userMarksCount} describe={''} href={'panel/myMarks'}>
           {
             userMarksCount ?
               userLastMark?.itemType == 'ostad' ?
@@ -141,9 +141,6 @@ async function Panel() {
         <StatusCount title={'تعداد اساتید'} count={UserOstadsCount} describe={''} href={'panel/myOstads'}>
           {
           UserOstadsCount ?
-              // userLastMark?.itemType == 'ostad' ?
-                // <OstadItem key={userLastMark?.itemId._id} ostad={userLastMark?.itemId} commentsCount={markCommentsCount} /> :
-                // <ProductItem product={userMarksCount} />
           <MyOstad {...UserLastOstad} />
           :
           <NullItemPanel text={'تاکنون آگهی را نشان نکرده اید'} />

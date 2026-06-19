@@ -16,7 +16,7 @@ function SideBar() {
         { name: 'معاملات من', icon: DollarSign, path: '#' },
         { name: 'آگهی های من', icon: ShoppingBasket, path: '/panel/myProducts' },
         { name: 'دیدگاه های من', icon: MessageSquareIcon, path: '/panel/myComments' },
-        { name: 'نشان شده ها', icon: Bookmark, path: '/panel/markedProducts' },
+        { name: 'نشان شده ها', icon: Bookmark, path: '/panel/myMarks' },
         { name: 'گفتوگو های من', icon: MessagesSquare, path: '/panel/chats' },
         { name: 'اساتید ثبت شده', icon: User2, path: '/panel/myOstads' },
         { name: 'اگهی جدید', icon: PlusCircle, path: '/panel/newProduct' },

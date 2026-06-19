@@ -31,29 +31,30 @@ const NewOstadAction = async (prevState, formData) => {
     const startYear = formData.get('startYear')
     const userData = await authorizUser()
     const image = formData.get('image')
-    let imgName = null
-    if (image.size) {
-        try {
-            const BufferImg = Buffer.from(await image.arrayBuffer())
-            imgName = Date.now() + image.name
-            const direction = path.join(process.cwd(), 'public/uploads/')
-            const filePath = path.join(direction, imgName)
-            await mkdir(direction, { recursive: true })
-            await writeFile(filePath, BufferImg)
-        } catch (error) {
-            console.error("Failed to save image:", error);
-        }
-    }
+    
 
     if (userData) {
         const validationResult = newOstadSchema.safeParse({
             name, biography, degree, category
         })
         if (validationResult.success) {
+            let imgName = null
+            if (image.size) {
+                try {
+                    const BufferImg = Buffer.from(await image.arrayBuffer())
+                    imgName = Date.now() + image.name
+                    const direction = path.join(process.cwd(), 'public/uploads/ostads/')
+                    const filePath = path.join(direction, imgName)
+                    await mkdir(direction, { recursive: true })
+                    await writeFile(filePath, BufferImg)
+                } catch (error) {
+                    console.error("Failed to save image:", error);
+                }
+            }
             try {
                 await connectToDB()
                 await ostadModel.create({
-                    image: imgName ? `/uploads/${imgName}` : '',
+                    image: imgName ? `/uploads/ostads/${imgName}` : '',
                     name,
                     biography,
                     degree,

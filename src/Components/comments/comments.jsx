@@ -12,7 +12,6 @@ export default function Comments({ initComments, ostadId }) {
     }, [])
 
     const submitComment = async () => {
-        console.log(userComment);
         const userInput = userComment
         if (userInput) {
             try {
@@ -26,12 +25,10 @@ export default function Comments({ initComments, ostadId }) {
                     )
                 })
                 const data = await res.json()
-                console.log(data.status);
 
                 if (data.status == 201) {
                     toast.success(data.msg, { position: 'bottom-center' })
                     setUserComment('')
-                    console.log(data);
                     setComments(data.newComments)
                 } else {
                     toast.error(data.error, { position: 'bottom-center' })
