@@ -1,11 +1,12 @@
-import itemDate from '../itemDate/ItemDate';
+import ItemDate from '../itemDate/ItemDate';
 import Link from 'next/link';
 import { MapPin, DollarSign } from 'lucide-react';
 import MarkIcon from '../markIcon/MarkIcon';
 import Image from 'next/image';
 
 function ProductItem({ product }) {
-
+    console.log(product);
+    
     const { image, title, city, description, date, condition, price, _id } = product
 
     const conditionsList = { new: 'نو', as_new: 'درحدنو', worked: 'کارکرده' }
@@ -36,7 +37,7 @@ function ProductItem({ product }) {
                                 }
                             </span>
 
-                            <itemDate date={date} />
+                            <ItemDate date={date} />
                         </span>
                     </div>
                     <div className='w-30 h-30 relative '>

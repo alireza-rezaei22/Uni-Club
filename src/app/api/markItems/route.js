@@ -12,7 +12,7 @@ export async function GET(req) {
             const marks = await markModel.find({ userId: userInfo.id }).populate('itemId').lean()
             const markedItems = marks.map(mark => {
                 return { ...mark.itemId, type: mark.itemType }
-            });
+            })
 
             return Response.json({ markedItems, status: 200 })
         } catch (err) {
@@ -24,7 +24,6 @@ export async function GET(req) {
 
 export async function POST(req) {
     const { itemId, type } = await req.json()
-    console.log(type);
 
     const userInfo = await authorizUser()
     if (userInfo.id) {
@@ -39,8 +38,10 @@ export async function POST(req) {
                     itemId,
                     itemType: type
                 })
-                const marks = await markModel.find({ userId: userInfo.id }).populate('itemId')
-                const markedItems = marks.map(mark => mark.itemId);
+                const marks = await markModel.find({ userId: userInfo.id }).populate('itemId').lean()
+                const markedItems = marks.map(mark => {
+                    return { ...mark.itemId, type: mark.itemType }
+                })
                 return Response.json({ markedItems, msg: 'با موفقیت نشان شد', status: 201 })
             }
         }
@@ -62,8 +63,10 @@ export async function DELETE(req) {
             const selectedItem = await markModel.findOne({ userId: userInfo.id, itemId })
             if (selectedItem) {
                 await markModel.findByIdAndDelete(selectedItem._id)
-                const marks = await markModel.find({ userId: userInfo.id }).populate('itemId')
-                const markedItems = marks.map(mark => mark.itemId);
+                const marks = await markModel.find({ userId: userInfo.id }).populate('itemId').lean()
+                const markedItems = marks.map(mark => {
+                    return { ...mark.itemId, type: mark.itemType }
+                })
                 return Response.json({ markedItems, msg: 'نشان پاک شد', status: 200 })
             }
         } catch (error) {
@@ -73,3 +76,4 @@ export async function DELETE(req) {
         return Response.json({ error: 'ابتدا لاگین کنید', status: 403 })
     }
 }
+

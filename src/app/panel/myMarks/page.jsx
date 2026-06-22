@@ -12,7 +12,7 @@ function MarkedItems() {
   const userMarked = UseMarkStore(state => state.marks)
   const setUserMarked = UseMarkStore(state => state.setMarks)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState({ err: '', icon: null })
+  const [error, setError] = useState({ err: '', icon: BookmarkX })
 
   useEffect(() => {
 
@@ -22,9 +22,14 @@ function MarkedItems() {
         const data = await res.json()
         switch (data.status) {
           case 200: {
-            setUserMarked(data.markedItems)
-            console.log(data.markedItems);
+            if(data.markedItems.length){
+              setUserMarked(data.markedItems)
+              console.log(data.markedItems);
+              
+            }else{
+              setError({ err: 'چیزی نشان نکرده اید', icon: BookmarkX })
 
+            }
             break
           }
           case 403: {
@@ -51,10 +56,14 @@ function MarkedItems() {
     }
     if (userMarked.length) {
       setUserMarked(userMarked)
+      setError({ err: 'اشکالی پیش آمد', icon: BookmarkX })
       setLoading(false)
+
     } else {
       getUserProducts()
     }
+    console.log(userMarked);
+    
   }, [userMarked.length, setUserMarked])
 
 
@@ -72,7 +81,7 @@ function MarkedItems() {
                     return <div key={item?._id} className='w-full lg:w-1/2 p-2 '>
                       {item.type == 'ostad' ?
                         <OstadItem key={item?._id} ostad={item} commentsCount={0} /> :
-                        <ProductItem product={product} />
+                        <ProductItem product={item} />
                       }
                     </div>
                   }) :

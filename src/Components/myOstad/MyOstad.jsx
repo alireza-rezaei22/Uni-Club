@@ -9,13 +9,12 @@ import { useUOstadsStore } from '@/store/useUOstadsStore';
 function MyOstad(props) {
 
     const { _id, image, name, biography, degree, studyField, category, rate, startYear, commentsCount } = props
-
+    
     const degreesList = { diploma: 'دیپلم', associate: 'کاردانی', bachelor: 'کارشناسی', master: 'کارشناسی ارشد', PhD: 'دکترا' }
     const categoryList = { specialized: 'تخصصی', general: 'عمومی' }
     const ostadDegree = degreesList[degree]
     const ostadcategory = categoryList[category]
     const setOstads = useUOstadsStore(state => state.setOstads)
-
 
     const deleteHandler = async () => {
 

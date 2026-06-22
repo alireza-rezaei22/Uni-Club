@@ -6,7 +6,7 @@ import Image from 'next/image';
 function OstadItem({ ostad, commentsCount }) {
 
     const { _id, image, name, biography, degree, studyField, category, rate, startYear } = ostad
-
+    
     const degreesList = { diploma: 'دیپلم', associate: 'کاردانی', bachelor: 'کارشناسی', master: 'کارشناسی ارشد', PhD: 'دکترا' }
     const categoryList = { specialized: 'تخصصی', general: 'عمومی' }
     const ostadDegree = degreesList[degree]

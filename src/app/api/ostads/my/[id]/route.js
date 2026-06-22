@@ -2,6 +2,8 @@ import connectToDB from "@/configs/DB"
 import authorizUser from "@/utils/authorizUser"
 import ostadModel from "@/model/ostad"
 import commentModel from "@/model/comment"
+import markModel from "@/model/mark"
+import rateModel from "@/model/rate"
 
 export async function GET(request, { params }){
     try {
@@ -48,6 +50,8 @@ export async function DELETE(request, { params }) {
             return Response.json({ error: 'استاد یافت نشد یا دسترسی حذف ندارید' }, { status: 403 })
         }
         await commentModel.deleteMany({ ostadId: id })
+        await rateModel.deleteMany({ ostadId: id })
+        await markModel.deleteMany({ itemId: id })
         const newList = await ostadModel.find({ registrarId: userInfo.id })
         return Response.json({ newList, msg: 'استاد با موفقیت حذف شد' }, { status: 200 })
 

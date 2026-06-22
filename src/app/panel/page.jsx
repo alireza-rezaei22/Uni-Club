@@ -37,11 +37,13 @@ async function Panel() {
   let userChatsCount = 0
   let lastChatItem = []
   let chatInfo = {}
-  let markCommentsCount = 0
+  let lastMarksCommentsCount = 0
   let UserCommentsCount = 0
   let UserLastComment = []
 
   let UserOstadsCount = 0
+  let lastUOstadsCommentsCount = 0
+  let lastCommentCommentsCount = 0
   let UserLastOstad = []
 
   try {
@@ -59,7 +61,7 @@ async function Panel() {
     ])
     userMarksCount = UMarksCount
     userLastMark = ULastMark
-    markCommentsCount = await commentModel.countDocuments({ ostadId: ULastMark?.itemId._id }).lean()
+    lastMarksCommentsCount = await commentModel.countDocuments({ ostadId: ULastMark ?.itemId._id }).lean()
 
     const [UCommentsCount = 0, ULastComment = []] = await Promise.all([
       commentModel.countDocuments({ userId: userInfo.id }),
@@ -67,7 +69,10 @@ async function Panel() {
 
     ])
     UserCommentsCount = UCommentsCount
-    UserLastComment = ULastComment
+    lastCommentCommentsCount = await commentModel.countDocuments({ ostadId: ULastComment?.ostadId._id }).lean()
+    UserLastComment = ({ ...ULastComment, ostadId: { ...ULastComment.ostadId, commentsCount: lastCommentCommentsCount}})
+    console.log('UserLastComment: ', UserLastComment);
+    
 
     const [UOstadsCount = 0, ULastOstad = []] = await Promise.all([
       ostadModel.countDocuments({ registrarId: userInfo.id }),
@@ -76,6 +81,9 @@ async function Panel() {
     ])
     UserOstadsCount = UOstadsCount
     UserLastOstad = ULastOstad
+    
+    lastUOstadsCommentsCount = await commentModel.countDocuments({ ostadId: ULastOstad?._id }).lean()
+    UserLastOstad = ({ ...ULastOstad, commentsCount: lastUOstadsCommentsCount })
 
     const [UChatsCount = 0, ULastChatItem = []] = await Promise.all([
       chatModel.countDocuments({ participants: userInfo.id }),
@@ -132,7 +140,7 @@ async function Panel() {
           {
             userMarksCount ?
               userLastMark?.itemType == 'ostad' ?
-                <OstadItem key={userLastMark?.itemId._id} ostad={userLastMark?.itemId} commentsCount={markCommentsCount} /> :
+                <OstadItem key={userLastMark?.itemId._id} ostad={userLastMark?.itemId} commentsCount={lastMarksCommentsCount} /> :
                 <ProductItem product={userMarksCount} />
               :
               <NullItemPanel text={'تاکنون آگهی را نشان نکرده اید'} />

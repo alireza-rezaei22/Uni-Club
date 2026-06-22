@@ -24,6 +24,8 @@ function MarkIcon({ itemId, type }) {
         })
         if (res.ok) {
           const data = await res.json()
+          console.log(data.markedItems);
+          
           setUserMarkeds(data.markedItems)
         } else {
           const response = await res.json()
