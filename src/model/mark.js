@@ -14,7 +14,7 @@ const schema = new mongoose.Schema({
     itemType: {
         type: String,
         required: true,
-        enum: ['Product', 'ostad']
+        enum: ['product', 'ostad']
     }
 })
 const markModel = mongoose.models.mark || mongoose.model('mark', schema)

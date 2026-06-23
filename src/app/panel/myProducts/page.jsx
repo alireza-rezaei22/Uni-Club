@@ -8,32 +8,46 @@ import { ArrowUpToLine } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 
 function myProducts() {
-    const [userProducts, setUserProducts] = useState([])
-    const user = useAuthStore(state => state.user)
     const UserProductsStore = UseUProductsStore(state => state.UProducts)
+    const setUserProductsStore = UseUProductsStore(state => state.setUProducts)
     const [loading, setLoading] = useState(true)
+    const [error, setError] = useState({ err: '', icon: null })
 
     useEffect(() => {
 
         const getUserProducts = async () => {
-            if (user.id) {
-                const id = user.id
-                try{
-                    const res = await fetch(`/api/products/${id}`)
-                    const prods = await res.json()
-                    setUserProducts(prods)
-                    setLoading(false)
-                }catch{
-                    setLoading(false)
+            try {
+                const res = await fetch(`/api/products/my`)
+                const data = await res.json()
+                switch (data.status) {
+                    case 200: {
+                        setUserProductsStore(data.items)
+                        break
+                    }
+                    case 403: {
+                        setError({ err: data.error, icon: ArrowUpToLine })
+                        break
+                    }
+                    case 500: {
+                        setError({ err: data.error, icon: ArrowUpToLine })
+                        break
+                    }
+                    default: {
+                        setError({ err: 'خطای ناشناخته از سمت سرور', icon: ArrowUpToLine })
+                    }
                 }
+            } catch {
+                setLoading(false)
+            } finally {
+                setLoading(false)
             }
         }
         if (UserProductsStore.length) {
-            setUserProducts(UserProductsStore)
+            setLoading(false)
         } else {
             getUserProducts()
         }
-    }, [user, UserProductsStore])
+    }, [UserProductsStore])
     return (
         <>
             <h2 className='text-indigo-400 text-2xl font-bold self-start mb-3'>آگهی های من</h2>
@@ -42,15 +56,13 @@ function myProducts() {
                     loading ?
                         <Loading />
                         :
-                        userProducts.length ?
-                            userProducts.map(prod => {
-                                return <div key={prod._id} className='w-full lg:w-1/2 p-2 '>
-                                    <div className='bg-zinc-300 hover:bg-zinc-400 h-fit p-2 rounded-md border border-gray-300'>
-                                        <MyProductItem product={prod} />
-                                    </div>
+                        UserProductsStore.length ?
+                            UserProductsStore.map(prod => {
+                                return <div key={prod._id} className='w-full md:w-1/2 p-2'>
+                                    <MyProductItem product={prod} />
                                 </div>
                             }) :
-                            <PopUp Icon={ArrowUpToLine} msg={'هیچ محصولی منتشر نکرده اید'} />
+                            <PopUp Icon={error.icon} msg={error.err} />
                 }
             </div>
         </>

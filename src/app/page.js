@@ -2,6 +2,7 @@ import Header from "@/Components/header/Header";
 import LastOstads from "@/Components/lastOstads/LastOstads";
 import { Suspense } from "react";
 import Loading from "@/Components/loading/Loading";
+import LastProducts from "@/Components/lastProducts/LastProducts";
 
 export default async function Home() {
   return (
@@ -12,7 +13,7 @@ export default async function Home() {
           <LastOstads />
         </Suspense>
         <Suspense fallback={<Loading/>}>
-          <LastOstads />
+          <LastProducts />
         </Suspense>
       </main>
     </>

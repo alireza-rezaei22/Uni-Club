@@ -15,10 +15,6 @@ const schema = mongoose.Schema({
         type: String,
         required: false,
     },
-    city: {
-        type: String,
-        required: true,
-    },
     price: {
         type: String,
         required: false,
@@ -31,18 +27,14 @@ const schema = mongoose.Schema({
         type: String,
         required: true,
     },
-    location: {
-        type: Array,
-        required: false
-    },
-    date: {
-        type: Date,
-        default: Date.now(),
-    },
     ownerId:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
         required: true,
+    },
+    created_at:{
+        type: Date,
+        default: Date.now
     }
 })
 const productModel = mongoose.models?.product || mongoose.model('product', schema)

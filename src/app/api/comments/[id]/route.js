@@ -23,7 +23,7 @@ export async function POST(req, { params }) {
 
             return Response.json({ msg: 'دیدگاه شما با موفقیت ثبت شد', newComments, status: 201 })
         } catch (error) {
-            console.log('sorry', error);
+            console.log(error);
             return Response.json({ error: 'اشکالی پیش آمد لطفا دوباره تلاش کنید', status: 500 })
 
         }

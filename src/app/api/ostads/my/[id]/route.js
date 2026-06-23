@@ -26,7 +26,7 @@ export async function GET(request, { params }){
         return Response.json({ ostad, status: 200 })
 
     } catch (error) {
-        console.error("Delete Error:", error)
+        console.log(error)
         return Response.json({ error: 'خطای داخلی سرور' }, { status: 500 })
     }
 }  

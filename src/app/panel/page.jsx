@@ -1,12 +1,5 @@
 import React from 'react'
 
-import Link from 'next/link'
-import { DollarSign, UserPlus2, UserRound } from 'lucide-react'
-import { ShoppingBasket } from 'lucide-react'
-import { Bookmark } from 'lucide-react';
-import { MessagesSquare } from 'lucide-react';
-import { LogOut } from 'lucide-react';
-import { PlusCircle } from 'lucide-react';
 import StatusCount from '@/Components/statusCount/StatusCount';
 import productModel from '@/model/product';
 import { cookies } from 'next/headers';
@@ -23,6 +16,7 @@ import commentModel from '@/model/comment';
 import ostadModel from '@/model/ostad';
 import MyComment from '@/Components/myComment/MyComment';
 import MyOstad from '@/Components/myOstad/MyOstad';
+import MyProductItem from '@/Components/myProductItem/myProductItem';
 
 export const dynamic = 'force-dynamic'
 
@@ -51,7 +45,7 @@ async function Panel() {
     await connectToDB()
     const [userPsCount = 0, lastP = []] = await Promise.all([
       productModel.countDocuments({ ownerId: userInfo.id }),
-      productModel.findOne({ ownerId: userInfo.id }).sort({ date: -1 }).select('-__v -location -ownerId').lean()
+      productModel.findOne({ ownerId: userInfo.id }).sort({ created_at: -1 }).select('-__v -location -ownerId').lean()
     ])
     userProductsCount = userPsCount
     lastProduct = lastP
@@ -61,6 +55,8 @@ async function Panel() {
     ])
     userMarksCount = UMarksCount
     userLastMark = ULastMark
+    console.log('ULastMark: ', ULastMark);
+    
     lastMarksCommentsCount = await commentModel.countDocuments({ ostadId: ULastMark ?.itemId._id }).lean()
 
     const [UCommentsCount = 0, ULastComment = []] = await Promise.all([
@@ -70,9 +66,7 @@ async function Panel() {
     ])
     UserCommentsCount = UCommentsCount
     lastCommentCommentsCount = await commentModel.countDocuments({ ostadId: ULastComment?.ostadId._id }).lean()
-    UserLastComment = ({ ...ULastComment, ostadId: { ...ULastComment.ostadId, commentsCount: lastCommentCommentsCount}})
-    console.log('UserLastComment: ', UserLastComment);
-    
+    UserLastComment = ({ ...ULastComment, ostadId: { ...ULastComment.ostadId, commentsCount: lastCommentCommentsCount}})    
 
     const [UOstadsCount = 0, ULastOstad = []] = await Promise.all([
       ostadModel.countDocuments({ registrarId: userInfo.id }),
@@ -117,7 +111,7 @@ async function Panel() {
         <StatusCount title={'تعداد آگهی ها'} count={userProductsCount} describe={''} href={'panel/myProducts'}>
           {
             lastProduct ?
-              <ProductItem product={lastProduct} /> :
+              <MyProductItem product={lastProduct} /> :
               <NullItemPanel text={'تاکنون آگهی ثبت نکرده اید'} />
           }
         </StatusCount>
@@ -141,7 +135,7 @@ async function Panel() {
             userMarksCount ?
               userLastMark?.itemType == 'ostad' ?
                 <OstadItem key={userLastMark?.itemId._id} ostad={userLastMark?.itemId} commentsCount={lastMarksCommentsCount} /> :
-                <ProductItem product={userMarksCount} />
+                <ProductItem product={userLastMark.itemId} />
               :
               <NullItemPanel text={'تاکنون آگهی را نشان نکرده اید'} />
           }

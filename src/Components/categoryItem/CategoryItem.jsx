@@ -6,7 +6,7 @@ function CategoryItem({ route, selectCategory }) {
     return (
         <button
             onClick={() => selectCategory(value)}
-            className='flex-1 min-w-24 max-w-full h-24 bg-emerald-100 rounded-md flex flex-col justify-center items-center m-2 text-xs cursor-pointer
+            className='flex-1 min-w-24 max-w-full h-24 bg-indigo-200 rounded-md flex flex-col justify-center items-center m-2 text-xs cursor-pointer
                 md:bg-white md:h-fit md:flex-row md:justify-start md:p-2 md:m-1'>
             <Icon />
             {text}

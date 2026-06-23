@@ -15,21 +15,34 @@ function MarkIcon({ itemId, type }) {
       try {
         const res = await fetch('/api/markItems', {
           method: 'DELETE',
-          header:{
+          header: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
             itemId
           })
         })
-        if (res.ok) {
-          const data = await res.json()
-          console.log(data.markedItems);
-          
-          setUserMarkeds(data.markedItems)
-        } else {
-          const response = await res.json()
-          toast.error(response.error, { position: 'bottom-center' })
+        const data = await res.json()
+        switch (data.status) {
+          case (200): {
+            setUserMarkeds(data.markedItems)
+            break
+          }
+          case (400): {
+            toast.error(data.error, { position: 'bottom-center' })
+            break
+          }
+          case (403): {
+            toast.error(data.error, { position: 'bottom-center' })
+            break
+          }
+          case (500): {
+            toast.error(data.error, { position: 'bottom-center' })
+            break
+          }
+          default: {
+            console.log(data);
+          }
         }
       } catch {
         toast.error('خطا در اتصال به سرور', { position: 'bottom-center' })
@@ -46,13 +59,28 @@ function MarkIcon({ itemId, type }) {
             type
           })
         })
-        if (res.ok) {
-          const data = await res.json()
-          console.log(data);
-          setUserMarkeds(data.markedItems)
-        } else {
-          const response = await res.json()
-          toast.error(response.error, { position: 'bottom-center' })
+        const data = await res.json()
+
+        switch (data.status) {
+          case (201): {
+            setUserMarkeds(data.markedItems)
+            break
+          }
+          case (400): {
+            toast.error(data.error, { position: 'bottom-center' })
+            break
+          }
+          case (403): {
+            toast.error(data.error, { position: 'bottom-center' })
+            break
+          }
+          case (500): {
+            toast.error(data.error, { position: 'bottom-center' })
+            break
+          }
+          default: {
+            console.log(data);
+          }
         }
       } catch (error) {
         console.log(error);
@@ -62,7 +90,7 @@ function MarkIcon({ itemId, type }) {
   }
   )
   useEffect(() => {
-    setIsMarked(userMarkeds.some(marked => marked?._id === itemId));
+    setIsMarked(userMarkeds.some(marked => marked?._id == itemId));
   }, [userMarkeds])
 
   return (

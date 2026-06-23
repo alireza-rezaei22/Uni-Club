@@ -32,7 +32,7 @@ const NewProductAction = async (prevState, formData) => {
     }
 
     if (userData) {
-        const validationResult = newProductSchema.safeParse({ title, city, condition, category })
+        const validationResult = newProductSchema.safeParse({ title, condition, category })
         if (validationResult.success) {
             try {
                 await connectToDB()
@@ -40,13 +40,11 @@ const NewProductAction = async (prevState, formData) => {
                     image: imgName ? `/uploads/products/${imgName}` : '',
                     title,
                     description,
-                    city,
                     condition,
                     category,
                     price,
-                    location: location,
                     ownerId: userData.id
-                })
+                })                
                 return {
                     message: "آگهی با موفقیت ثبت شد :)",
                     error: undefined,

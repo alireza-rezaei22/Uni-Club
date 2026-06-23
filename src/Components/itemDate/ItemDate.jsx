@@ -2,9 +2,7 @@
 import { Clock } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 
-function ItemDate({ date }) {
-    console.log(date);
-    
+function ItemDate({ date }) {    
     const [itemDateState, setItemDateState] = useState(null)
     const time = new Date(date).toLocaleTimeString().slice(0, 5)
     function getPersianDateString(date) {
@@ -32,7 +30,7 @@ function ItemDate({ date }) {
     })
 
     return (
-        <div className='flex items-center text-zinc-200 gap-1 text-xs md:text-sm font-medium'>
+        <div className='flex items-center text-zinc-500 gap-1 text-xs md:text-sm font-medium'>
             {/* <Clock size={14} /> */}
             <h5>{time}</h5>
             <h5>{itemDateState}</h5>

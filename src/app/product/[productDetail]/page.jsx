@@ -1,5 +1,5 @@
 import productModel from '@/model/product'
-import ProductDate from '@/Components/itemDate/productDate'
+import ItemDate from '@/Components/itemDate/ItemDate'
 import ShowMap from '@/Components/map/showMap'
 import Link from 'next/link'
 import MarkIcon from '@/Components/markIcon/MarkIcon'
@@ -11,7 +11,7 @@ export default async function page({ params }) {
     const { productDetail: productId } = params
 
     const product = await productModel.findById(productId)
-    const { image, title, description, date, condition, price } = product
+    const { image, title, description, created_at, condition, price } = product
     const conditionsList = { new: 'نو', as_new: 'درحدنو', worked: 'کارکرده' }
     const productCondition = conditionsList[condition]
     const userToken = (await cookies()).get('token')
@@ -45,8 +45,8 @@ export default async function page({ params }) {
                         <h4 className='font-medium'>وضعیت: {productCondition}</h4>
                         <h4 className='font-medium'>قیمت: {price ? `${price.toLocaleString()} تومان` : 'توافقی'}</h4>
                         <span className='w-full md:w-fit flex justify-between items-center gap-2'>
-                            <ProductDate date={date} />
-                            <MarkIcon productId={productId} />
+                            <ItemDate date={created_at} />
+                            <MarkIcon itemId={productId} type={'product'} />
                         </span>
                     </span>
                 </div>

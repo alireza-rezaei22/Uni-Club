@@ -3,12 +3,11 @@ import Link from 'next/link';
 import { GraduationCapIcon, StarIcon, MessageSquare, Trash2Icon, PenIcon, EyeIcon } from 'lucide-react';
 import MarkIcon from '../markIcon/MarkIcon';
 import Image from 'next/image';
-import { useState } from 'react';
 import { useUOstadsStore } from '@/store/useUOstadsStore';
 
 function MyOstad(props) {
 
-    const { _id, image, name, biography, degree, studyField, category, rate, startYear, commentsCount } = props
+    const { _id, image, name, degree, category, rate, commentsCount } = props
     
     const degreesList = { diploma: 'دیپلم', associate: 'کاردانی', bachelor: 'کارشناسی', master: 'کارشناسی ارشد', PhD: 'دکترا' }
     const categoryList = { specialized: 'تخصصی', general: 'عمومی' }
@@ -50,7 +49,6 @@ function MyOstad(props) {
                             <EyeIcon />
                         </Link>
                     </span>
-                    {/* <p className=' text-zinc-600 text-xs md:text-sm font-semibold line-clamp-3'>{biography}</p> */}
                 </span>
                 <div className='w-1/3 relative flex justify-end'>
                     <Image

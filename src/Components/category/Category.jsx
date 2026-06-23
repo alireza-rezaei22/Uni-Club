@@ -1,8 +1,7 @@
 "use client"
 import React from 'react'
-import { Funnel, Home, List } from 'lucide-react'
+import { Funnel, Home, List, Book, ForkKnifeCrossedIcon } from 'lucide-react'
 import { Smartphone } from 'lucide-react';
-import { Car } from 'lucide-react';
 import { Watch } from 'lucide-react';
 import CategoryItem from '../categoryItem/CategoryItem';
 import { useFilterSotre } from '@/store/useFilterStore';
@@ -20,9 +19,10 @@ function Category() {
 
     const routes = [
         { Icon: List, text: 'همه', value: '-1' },
+        { Icon: ForkKnifeCrossedIcon, text: 'غذا', value: 'food' },
+        { Icon: Book, text: 'کتاب و جزوه', value: 'book' },
         { Icon: Home, text: 'املاک', value: 'house' },
         { Icon: Smartphone, text: 'کالای دیجیتال', value: 'digital' },
-        { Icon: Car, text: 'وسیله نقلیه', value: 'vehicle' },
         { Icon: Watch, text: 'اکسسوری', value: 'accessory' },
     ]
 

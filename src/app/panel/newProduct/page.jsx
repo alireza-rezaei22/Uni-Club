@@ -6,7 +6,7 @@ import SubmitBtn from '@/Components/submitBtn/SubmitBtn'
 import { useActionState } from 'react'
 import NewProductAction from '../../actions/newProduct'
 import { newProductSchema } from '@/utils/validation'
-import SelectMap from '@/Components/map/selectMap'
+// import SelectMap from '@/Components/map/selectMap'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 
@@ -46,10 +46,6 @@ function NewProduct() {
     console.log(isFormValid);
 
   }, [isFormValid])
-  useEffect(() => {
-    console.log(location);
-
-  }, [location])
   useEffect(() => {
     console.log(formState);
 
@@ -103,32 +99,6 @@ function NewProduct() {
               </button>
             )}
           </div>
-          {/* {preview ?
-            <>
-              <input type="file"
-                name='image'
-                accept="image/*"
-                id='userImgInput'
-                className='hidden'
-                onChange={e => setImage(e.target.files[0])}
-              />
-              <label htmlFor='userImgInput'>
-                <img src={preview} className='w-full h-full rounded-md border-4 border-zinc-500' />
-              </label>
-            </> :
-            <>
-              <input type="file"
-                name='image'
-                accept="image/*"
-                id='userImgInput'
-                className='hidden'
-                onChange={e => setImage(e.target.files[0])}
-              />
-              <label htmlFor='userImgInput'>
-                <PlusSquare className='self-start size-28 text-zinc-700 cursor-pointer' />
-              </label>
-            </>
-          } */}
         </div>
 
         <h3 className='self-start text-xl font-bold'>عنوان*</h3>
@@ -172,11 +142,12 @@ function NewProduct() {
             name="category"
             onChange={e => setCategory(e.target.value)}>
             <option value="-1">انتخاب</option>
+            <option value="food">غذا</option>
+            <option value="book">کتاب و جزوه</option>
             <option value="house">املاک</option>
             <option value="digital">کالای دیجیتال</option>
-            <option value="vehicle">وسیله نقلیه</option>
             <option value="accessory">اکسسوری</option>
-            <option value="book">کتاب و جزوه</option>
+            <option value="other">سایر</option>
           </select>
           <div className='absolute left-4 flex items-center pointer-events-none' >
             <ChevronDown />

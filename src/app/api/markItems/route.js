@@ -13,7 +13,6 @@ export async function GET(req) {
             const markedItems = marks.map(mark => {
                 return { ...mark.itemId, type: mark.itemType }
             })
-
             return Response.json({ markedItems, status: 200 })
         } catch (err) {
             console.log(err);
@@ -26,7 +25,7 @@ export async function POST(req) {
     const { itemId, type } = await req.json()
 
     const userInfo = await authorizUser()
-    if (userInfo.id) {
+    if(userInfo) {
         try {
             await connectToDB()
             const existingMark = await markModel.findOne({ userId: userInfo.id, itemId });
@@ -57,7 +56,7 @@ export async function POST(req) {
 export async function DELETE(req) {
     const { itemId } = await req.json()
     const userInfo = await authorizUser()
-    if (userInfo.id) {
+    if (userInfo) {
         try {
             await connectToDB()
             const selectedItem = await markModel.findOne({ userId: userInfo.id, itemId })
