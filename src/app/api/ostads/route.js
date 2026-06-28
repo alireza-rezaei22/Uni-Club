@@ -11,7 +11,9 @@ export async function GET(request) {
             return { ...item, commentsCount: count }
         })
     )    
-    return Response.json(getItems)
+    // return Response.json(getItems)
+    return Response.json({ ostads: getItems, msg: 'لیست کاربران دریافت شد', status: 200 })
+
 }
 
 export async function POST(request) {

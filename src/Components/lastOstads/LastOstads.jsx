@@ -27,7 +27,7 @@ async function LastOstads() {
                         مشاهده همه
                     </Link>
                 </div>
-                <div className="flex gap-2 overflow-x-auto px-2">
+                <div className="flex gap-2 overflow-x-scroll hide-scrollbar px-2">
                     {getItems.map(item => (
                         <OstadItem key={item._id} ostad={item} commentsCount={item.commentsCount} />
                     ))}

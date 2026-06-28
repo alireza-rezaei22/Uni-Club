@@ -10,12 +10,17 @@ const schema = mongoose.Schema({
     phone: {
         type: String,
         require: true,
+        unique: true,
         length: 11,
     },
     password: {
         type: String,
         require: true,
         minLength: 4,
+    },
+    role: {
+        type: String,
+        enum: ['user', 'ostad', 'admin']
     }
 })
 const userModel = mongoose.models?.user || mongoose.model('user', schema)

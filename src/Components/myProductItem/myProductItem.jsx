@@ -6,6 +6,8 @@ import MarkIcon from '../markIcon/MarkIcon';
 import { UseUProductsStore } from '@/store/useUProductsStore';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
+import ItemBtn from '../itemBtn/ItemBtn';
+import DeleteBtn from '../deleteBtn/DeleteBtn';
 
 function MyProductItem({ product }) {
 
@@ -54,21 +56,8 @@ function MyProductItem({ product }) {
                     <span className='flex flex-col justify-between gap-2 w-2/3'>
                         <h2 className='text-md md:text-lg font-bold'>{title}</h2>
                         <span className='flex space-x-2 space-x-reverse'>
-                            <button
-                                className='bg-red-400 text-white flex gap-2 p-2 rounded-md cursor-pointer hover:bg-red-500 transition-colors'
-                                onClick={deleteProduct}
-                            >
-                                حذف
-                                <Trash2Icon />
-                            </button>
-                            {/* <Link href={`/panel/editOstad/${_id}`} className='bg-orange-400 text-white flex gap-2 p-2 rounded-md cursor-pointer hover:bg-orange-500 transition-colors'>
-                                    ویرایش
-                                    <PenIcon />
-                                </Link> */}
-                            <Link href={`/product/${id}`} className='bg-blue-600 text-white flex gap-2 p-2 rounded-md cursor-pointer hover:bg-blue-700 transition-colors'>
-                                بازدید
-                                <EyeIcon />
-                            </Link>
+                            <DeleteBtn deleteHandler={deleteProduct} />
+                            <ItemBtn id={id} title={'بازدید'} Icon={EyeIcon} type={'view'} src={'/product'} />
                         </span>
                     </span>
                     <div className='w-1/3 relative flex justify-end'>

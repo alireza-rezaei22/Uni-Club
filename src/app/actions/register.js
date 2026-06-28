@@ -1,5 +1,6 @@
 "use server";
 import connectToDB from "@/configs/DB";
+import chatModel from "@/model/chat";
 import userModel from "@/model/user";
 import { registerSchema } from "@/utils/validation";
 import bcrypt from 'bcryptjs'
@@ -28,11 +29,13 @@ const registerAction = async (prevState, formData) => {
                     }
                 }
             } else {
+                const isFirstUser = await userModel.countDocuments() ? false: true
                 const hashedPassword = await bcrypt.hash(password, 10)
                 await userModel.create({
                     name,
                     phone,
-                    password: hashedPassword
+                    password: hashedPassword,
+                    role: isFirstUser ? 'admin' : 'user'
                 })
                 return {
                     message: "کاربر با موفقیت ثبت شد :)",

@@ -3,7 +3,7 @@ import productModel from "@/model/product";
 
 export async function GET(request){
     const products = await productModel.find({}, '-__v')
-    return Response.json(products)
+    return Response.json({products, status: 200})
 }
 
 export async function POST(request){

@@ -4,6 +4,8 @@ import { GraduationCapIcon, StarIcon, MessageSquare, Trash2Icon, PenIcon, EyeIco
 import MarkIcon from '../markIcon/MarkIcon';
 import Image from 'next/image';
 import { useUOstadsStore } from '@/store/useUOstadsStore';
+import ItemBtn from '../itemBtn/ItemBtn';
+import DeleteBtn from '../deleteBtn/DeleteBtn';
 
 function MyOstad(props) {
 
@@ -33,21 +35,9 @@ function MyOstad(props) {
                 <span className='flex flex-col justify-between gap-2 w-2/3'>
                     <h2 className='text-md md:text-lg font-bold'>استاد {name}</h2>
                     <span className='flex space-x-2 space-x-reverse'>
-                        <button
-                            className='bg-red-400 text-white flex gap-2 p-2 rounded-md cursor-pointer hover:bg-red-500 transition-colors'
-                            onClick={deleteHandler}
-                        >
-                            حذف
-                            <Trash2Icon />
-                        </button>
-                        <Link href={`/panel/editOstad/${_id}`} className='bg-orange-400 text-white flex gap-2 p-2 rounded-md cursor-pointer hover:bg-orange-500 transition-colors'>
-                            ویرایش
-                            <PenIcon />
-                        </Link>
-                        <Link href={`/ostad/${_id}`} className='bg-blue-600 text-white flex gap-2 p-2 rounded-md cursor-pointer hover:bg-blue-700 transition-colors'>
-                            بازدید
-                            <EyeIcon />
-                        </Link>
+                        <DeleteBtn deleteHandler={deleteHandler}/>
+                        <ItemBtn id={_id} title={'ویرایش'} Icon={PenIcon} type={'edit'} src={'/panel/editOstad'}/>
+                        <ItemBtn id={_id} title={'بازدید'} Icon={EyeIcon} type={'view'} src={'/ostad'}/>
                     </span>
                 </span>
                 <div className='w-1/3 relative flex justify-end'>

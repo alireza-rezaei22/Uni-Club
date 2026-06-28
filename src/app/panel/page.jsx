@@ -54,9 +54,7 @@ async function Panel() {
       markModel.findOne({ userId: userInfo.id }).sort({ _id: -1 }).select('itemId itemType').populate('itemId')
     ])
     userMarksCount = UMarksCount
-    userLastMark = ULastMark
-    console.log('ULastMark: ', ULastMark);
-    
+    userLastMark = ULastMark    
     lastMarksCommentsCount = await commentModel.countDocuments({ ostadId: ULastMark ?.itemId._id }).lean()
 
     const [UCommentsCount = 0, ULastComment = []] = await Promise.all([
@@ -101,8 +99,6 @@ async function Panel() {
 
 
   } catch (error) {
-    console.log(error);
-
   }
   return (
     <>

@@ -7,12 +7,18 @@ import { usePathname, useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 
 function SideBar() {
+    const userInfo = useAuthStore(state => state.user)
     const logOut = useAuthStore(state => state.clearUser)
     const router = useRouter()
     console.log('should remove token from cookies here(sidebar)');
     const pathname = usePathname()
     const routes = [
         { name: 'اطلاعات من', icon: UserCog2, path: '/panel/userInfo' },
+        userInfo.role === 'admin' && 
+        
+        { name: 'کاربران', icon: DollarSign, path: '/panel/users' },
+        { name: 'اسایتید', icon: DollarSign, path: '/panel/ostads' },
+        { name: 'محصولات', icon: DollarSign, path: '/panel/products' },
         { name: 'معاملات من', icon: DollarSign, path: '#' },
         { name: 'آگهی های من', icon: ShoppingBasket, path: '/panel/myProducts' },
         { name: 'دیدگاه های من', icon: MessageSquareIcon, path: '/panel/myComments' },
@@ -25,20 +31,20 @@ function SideBar() {
     ]
 
     const logOutHandler = async () => {
-        
+
         router.push('/')
-        const res = await fetch('/api/logOut', {method: 'POST'})        
+        const res = await fetch('/api/logOut', { method: 'POST' })
         if (res.ok) {
             logOut()
             const data = await res.json()
-            toast.success(data.msg, {position: 'bottom-center'})
-        }else{
+            toast.success(data.msg, { position: 'bottom-center' })
+        } else {
             const data = await res.json()
-            toast.error(data.msg, {position: 'bottom-center'})
+            toast.error(data.msg, { position: 'bottom-center' })
         }
     }
     return (
-        <aside className='bg-gray-700 text-indigo-500 w-full hidden md:w-1/6 md:flex h-[90vh] rounded-l-xl text-sm font-medium'>
+        <aside className='bg-gray-700 text-indigo-500 w-full hidden md:w-1/6 overflow-y-scroll hide-scrollbar md:flex h-[90vh] rounded-l-xl text-sm font-medium'>
             <ul className='w-full flex flex-col gap-2 p-2'>
                 {routes.map((route, index) => {
                     return route.name === 'خروج' ?

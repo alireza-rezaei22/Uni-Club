@@ -17,7 +17,7 @@ const loginAction = async (prevState, formData) => {
             if (user) {
                 const isValidPassword = await bcrypt.compare(password, user.password)
                 if (isValidPassword) {
-                    const token = sign({id: user.id, name: user.name, phone: user.phone}, process.env.ACCESSTOKEN_SECRETKEY,{expiresIn:'1d'})
+                    const token = sign({id: user.id, name: user.name, phone: user.phone, role: user.role}, process.env.ACCESSTOKEN_SECRETKEY,{expiresIn:'1d'})
                     const userCookies = await cookies()
                     userCookies.set({
                         name: 'token',
