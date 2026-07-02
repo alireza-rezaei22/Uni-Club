@@ -7,10 +7,12 @@ import { newOstadSchema } from '@/utils/validation'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import EditOstadAction from '@/app/actions/editOstadAction'
+import { useAuthStore } from '@/store/useAuthStore'
 
 function EditOstad({ params }) {
     const { ostadId } = params
     const router = useRouter()
+    const userInfo = useAuthStore(state => state.user)
     const [isFormValid, setIsFormValid] = useState(false)
     const [formState, formAction] = useActionState(EditOstadAction, {
         message: '',
@@ -41,20 +43,22 @@ function EditOstad({ params }) {
     const [image, setImage] = useState(null)
     useEffect(() => {
         const getOstadInfo = async () => {
-            try {
-                const res = await fetch(`/api/ostads/my/${ostadId}`)
-                const data = await res.json()
-                if (data.status == 200) {
-                    setOstad(data?.ostad)
-                    setCourses(data?.ostad?.courses)
-                }
-                else {
-                    toast.error(data.error, { position: 'bottom-center' })
-                }
+            if (userInfo?.id) {
+                try {
+                    const res = await fetch(`/api/ostads/my/${ostadId}`)
+                    const data = await res.json()
+                    if (data.status == 200) {
+                        setOstad(data?.ostad)
+                        setCourses(data?.ostad?.courses)
+                    }
+                    else {
+                        toast.error(data.error, { position: 'bottom-center' })
+                    }
 
-            } catch {
-                console.log('خطا در برقراری ارتباط با سرور');
-                toast.error('خطا در برقراری ارتباط با سرور', { position: 'bottom-center' })
+                } catch {
+                    console.log('خطا در برقراری ارتباط با سرور');
+                    toast.error('خطا در برقراری ارتباط با سرور', { position: 'bottom-center' })
+                }
             }
         }
         getOstadInfo()
@@ -236,7 +240,6 @@ function EditOstad({ params }) {
                     </div>
                     <input type="hidden" name='id' value={ostad._id} />
                     <input type="hidden" name='courses' value={JSON.stringify(courses)} />
-                    {/* <input type="hidden" name='image' value={image} /> */}
                     <input type="text"
                         name='className'
                         className='flex-1 bg-zinc-100 border  border-zinc-200 rounded-md px-2 py-2 outline-0'

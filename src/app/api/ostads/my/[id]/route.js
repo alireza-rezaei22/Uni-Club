@@ -5,31 +5,27 @@ import commentModel from "@/model/comment"
 import markModel from "@/model/mark"
 import rateModel from "@/model/rate"
 
-export async function GET(request, { params }){
+export async function GET(request, { params }) {
     try {
         await connectToDB()
         const userInfo = await authorizUser()
-
-        if (!userInfo?.id) {
+        if (userInfo?.id) {
+            const { id } = await params
+            const ostadRegisterer = await ostadModel.findById(id).select('registrarId')
+            if (userInfo?.role == 'admin' || ostadRegisterer.registrarId == userInfo.id) {
+                const ostad = await ostadModel.findById(id)
+                return Response.json({ ostad, status: 200 })
+            } else {
+                return Response.json({ error: 'استاد یافت نشد یا دسترسی حذف ندارید' }, { status: 403 })
+            }
+        } else {
             return Response.json({ error: 'باید لاگین کنید' }, { status: 401 })
         }
-
-        const { id } = await params
-        const ostad = await ostadModel.findOne({
-            _id :id,
-            registrarId: userInfo.id
-        })
-
-        if (!ostad) {
-            return Response.json({ error: 'استاد یافت نشد یا دسترسی حذف ندارید' }, { status: 403 })
-        }
-        return Response.json({ ostad, status: 200 })
-
     } catch (error) {
         console.log(error)
         return Response.json({ error: 'خطای داخلی سرور' }, { status: 500 })
     }
-}  
+}
 
 export async function DELETE(request, { params }) {
     try {

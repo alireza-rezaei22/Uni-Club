@@ -6,25 +6,55 @@ import authorizUser from "@/utils/authorizUser";
 const editUserAction = async (prevState, formData) => {
     const newName = formData.get('name')
     const newPhone = formData.get('phone')
+    const userId = formData.get('userId')
+    const userRole = formData.get('role')    
     try {
         await connectToDB()
         try {
             const userData = await authorizUser()
-            const user = await userModel.findByIdAndUpdate(
-                userData.id,
-                {
-                    name: newName,
-                    phone: newPhone
-                },
-                { new: true }
-            ).select('-password')
-            return {
-                message: 'اطلاعات با موفقیت تغییر کرد :)',
-                error: undefined,
-                statusCode: 301,
-                inputs: user
+            if (userData.role === 'admin'){
+                const user = await userModel.findByIdAndUpdate(
+                    userId,
+                    {
+                        name: newName,
+                        phone: newPhone,
+                        role: userRole
+                    },
+                    { new: true }
+                ).select('-password')
+                return {
+                    message: 'اطلاعات با موفقیت تغییر کرد :)',
+                    error: undefined,
+                    statusCode: 301,
+                    inputs: user
+                }
+            }else if(userData.id == userId){
+                const user = await userModel.findByIdAndUpdate(
+                    userData.id,
+                    {
+                        name: newName,
+                        phone: newPhone
+                    },
+                    { new: true }
+                ).select('-password')
+                return {
+                    message: 'اطلاعات با موفقیت تغییر کرد :)',
+                    error: undefined,
+                    statusCode: 301,
+                    inputs: user
+                }
+            }else{
+                return {
+                    message: 'شما درسترسی ندارید',
+                    error: 'user have not access to change',
+                    statusCode: 403,
+                    inputs: {
+                        name: newName,
+                        phone: newPhone
+                    }
+                }
             }
-        }catch{
+        } catch {
             return {
                 message: 'مشکلی در وریفای کردن کاربر پیش آمد',
                 error: 'there is a problem with verifying',

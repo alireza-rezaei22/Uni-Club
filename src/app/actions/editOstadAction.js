@@ -16,54 +16,59 @@ const EditOstadAction = async (prevState, formData) => {
     const category = formData.get('category')
     const RawCourses = formData.get('courses')
     const courses = RawCourses ? JSON.parse(RawCourses) : []
-        
+
     const startYear = formData.get('startYear')
     const userData = await authorizUser()
     const image = formData.get('image')
     console.log('image: ', image);
-    
+
     if (userData) {
         const validationResult = newOstadSchema.safeParse({
             name, biography, degree, category
         })
         if (validationResult.success) {
             try {
-                let imgName = null
-                if (image.size) {
-                    try {
-                        const BufferImg = Buffer.from(await image.arrayBuffer())
-                        imgName = Date.now() + image.name
-                        const direction = path.join(process.cwd(), 'public/uploads/')
-                        const filePath = path.join(direction, imgName)
-                        await mkdir(direction, { recursive: true })
-                        await writeFile(filePath, BufferImg)
-                    } catch (error) {
-                        console.error("Failed to save image:", error);
-                    }
-                }
                 await connectToDB()
-                await ostadModel.findByIdAndUpdate(id,{
-                    image: imgName ? `/uploads/${imgName}`: '',
-                    name,
-                    biography,
-                    degree,
-                    studyField,
-                    category,
-                    courses,
-                    startYear,
-                })
-                return {
-                    message: "اطلاعات استاد با موفقیت ویرایش شد :)",
-                    error: undefined,
-                    inputs: {
-                        image: '',
-                        name: '',
-                        biography: '',
-                        degree: '-1',
-                        studyField: '',
-                        category: '-1',
-                        courses: [],
-                        startYear: -1,
+                const ostadRegisterer = await ostadModel.findById(id).select('registrarId')
+
+                if (userData.role == 'admin' || ostadRegisterer.registrarId == userData.id) {
+                    let imgName = null
+                    if (image.size) {
+                        try {
+                            const BufferImg = Buffer.from(await image.arrayBuffer())
+                            imgName = Date.now() + image.name
+                            const direction = path.join(process.cwd(), 'public/uploads/')
+                            const filePath = path.join(direction, imgName)
+                            await mkdir(direction, { recursive: true })
+                            await writeFile(filePath, BufferImg)
+                        } catch (error) {
+                            console.error("Failed to save image:", error);
+                        }
+                    }
+                    await connectToDB()
+                    await ostadModel.findByIdAndUpdate(id, {
+                        image: imgName ? `/uploads/${imgName}` : '',
+                        name,
+                        biography,
+                        degree,
+                        studyField,
+                        category,
+                        courses,
+                        startYear,
+                    })
+                    return {
+                        message: "اطلاعات استاد با موفقیت ویرایش شد :)",
+                        error: undefined,
+                        inputs: {
+                            image: '',
+                            name: '',
+                            biography: '',
+                            degree: '-1',
+                            studyField: '',
+                            category: '-1',
+                            courses: [],
+                            startYear: -1,
+                        }
                     }
                 }
             } catch (error) {

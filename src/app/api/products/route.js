@@ -1,27 +1,35 @@
 import connectToDB from "@/configs/DB";
 import productModel from "@/model/product";
+import userModel from "@/model/user";
+import authorizUser from "@/utils/authorizUser";
 
-export async function GET(request){
-    const products = await productModel.find({}, '-__v')
-    return Response.json({products, status: 200})
+export async function GET(request) {
+    try {
+        await connectToDB()
+        const products = await productModel.find({}, '-__v')
+        return Response.json({ products, status: 200 })
+    } catch (error) {
+        console.log(error);
+        return Response.json({ error: 'خطایی سمت سرور پیش آمد', status: 500 })
+    }
 }
 
-export async function POST(request){
-    
-    await connectToDB()    
+export async function POST(request) {
+
+    await connectToDB()
     const filters = await request.json()
 
-    const {order, price, condition, city, category} = filters
+    const { order, price, condition, city, category } = filters
     const query = {}
-    if (category && category !== '-1') query.category = category 
-    if(city && city !== '-1') query.city = city 
-    if(price) {
-        query.price ={}
-        if(price?.from) query.price.$gte = +price.from
-        if(price?.to) query.price.$lte = +price.to
-        if(Object.keys(query.price).length === 0) delete query.price
+    if (category && category !== '-1') query.category = category
+    if (city && city !== '-1') query.city = city
+    if (price) {
+        query.price = {}
+        if (price?.from) query.price.$gte = +price.from
+        if (price?.to) query.price.$lte = +price.to
+        if (Object.keys(query.price).length === 0) delete query.price
     }
-    if(condition) query.condition = condition
+    if (condition) query.condition = condition
 
     const filteredProducts = await productModel.find(query).sort(order)
     return Response.json(filteredProducts);

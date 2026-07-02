@@ -4,6 +4,7 @@ import ItemBtn from '@/Components/itemBtn/ItemBtn'
 import Loading from '@/Components/loading/Loading'
 import { Edit2 } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
 
 function page() {
     const [users, setUsers] = useState([])
@@ -14,13 +15,43 @@ function page() {
             const data = await res.json()
             if (data.status == 200) {
                 setUsers(data.users)
-                console.log(data.users)
             } else {
             }
             setLoading(false)
         }
         getUsers()
     }, [])
+    const deleteUser = (event, itemId) => {
+            event.preventDefault()        
+            const deleteUserFunc = async () => {
+                const res = await fetch(`/api/users/${itemId}`, {
+                    method: 'DELETE',
+                })
+                const data = await res.json()
+                switch (data.status) {
+                    case (200): {
+                        setUsers(data.newList)
+                        break
+                    }
+                    case (401): {
+                        toast.error(data.error, { position: 'bottom-center' })
+                        break
+                    }
+                    case (403): {
+                        toast.error(data.error, { position: 'bottom-center' })
+                        break
+                    }
+                    case (500): {
+                        toast.error(data.error, { position: 'bottom-center' })
+                        break
+                    }
+                    default: {
+                        console.log(data);
+                    }
+                }
+            }
+            deleteUserFunc()
+        }
     return (
         <div className="w-full p-4">
             <h2 className="text-indigo-600 text-2xl font-bold mb-6">لیست کاربران</h2>
@@ -40,7 +71,7 @@ function page() {
 
                         <tbody className="divide-y divide-zinc-200">
                             {users.map((user, index) => (
-                                <tr key={user.id} className="hover:bg-indigo-50 transition-colors">
+                                <tr key={user._id} className="hover:bg-indigo-50 transition-colors">
                                     <td className="px-6 py-4 text-zinc-500 font-medium">{index + 1}</td>
                                     <td className="px-6 py-4 font-bold text-zinc-800">{user.name}</td>
                                     <td className="px-6 py-4 text-zinc-600">{user.phone}</td>
@@ -54,8 +85,8 @@ function page() {
                                     </td>
                                     <td className="px-6 py-4 text-center">
                                         <div className="flex justify-center gap-3">
-                                            <ItemBtn id={user.id} title={'ویرایش'} type={'edit'} src={''} Icon={Edit2} />
-                                            <DeleteBtn deleteHandler={null} />
+                                            <ItemBtn id={user._id} title={'ویرایش'} type={'edit'} src={'/panel/editUser'} Icon={Edit2} />
+                                            <DeleteBtn deleteHandler={(e) => deleteUser(e, user._id)} />
                                         </div>
                                     </td>
                                 </tr>

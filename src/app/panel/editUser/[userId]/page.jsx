@@ -1,5 +1,5 @@
 "use client"
-import { UserRound } from 'lucide-react'
+import { ChevronDown, UserRound } from 'lucide-react'
 import React, { useState, useActionState, useEffect } from 'react'
 import SubmitBtn from '@/Components/submitBtn/SubmitBtn'
 import editUserAction from '@/app/actions/editUserAction'
@@ -8,28 +8,68 @@ import { useAuthStore } from '@/store/useAuthStore'
 import ChangePassword from '@/Components/changePassword/changePassword'
 import toast from 'react-hot-toast'
 
-function page() {
-    const user = useAuthStore(state => state.user)
-    const setUser = useAuthStore(state => state.setUser)
+function EditUser({ params }) {
+    const { userId } = params
+    const userInfo = useAuthStore(state => state.user)
+    // const setUser = useAuthStore(state => state.setUser)
+    const [user, setUser] = useState(null)
     const [isEditMode, setIsEditMode] = useState(false)
     const [isFormValid, setIsFormValid] = useState(false)
     const [name, setName] = useState('')
     const [phone, setPhone] = useState('')
+    const [role, setRole] = useState('')
     const [editState, editFormInfo] = useActionState(editUserAction, {
         message: '',
         error: undefined,
         inputs: {
             userName: '',
             phone: '',
+            role: 'user'
         }
     })
 
     useEffect(() => {
-        console.log(user);
-    }, [user])
+        const getUserInfo = async () => {
+            console.log(userId);
+            if (userInfo.role === 'admin') {
+                const res = await fetch(`/api/users/${userId}`)
+                const data = await res.json()
+                switch (data.status) {
+                    case (200): {
+                        setUser(data.user)
+                        console.log(data.user);
+
+                        break
+                    }
+                    case (401): {
+                        toast.error(data.error, { position: 'bottom-center' })
+                        break
+                    }
+                    case (403): {
+                        toast.error(data.error, { position: 'bottom-center' })
+                        break
+                    }
+                    case (500): {
+                        toast.error(data.error, { position: 'bottom-center' })
+                        break
+                    }
+                    default: {
+                        console.log(data);
+                    }
+                }
+            }else{
+                toast.error( 'شما دسترسی انجام این کار را ندارید', { position: 'bottom-center' })
+            }
+        }
+        getUserInfo()
+    }, [])
     useEffect(() => {
         setIsFormValid(editUserSchema.safeParse({ phone, name }).success)
     }, [phone, name])
+    useEffect(() => {
+        setName(user?.name)
+        setPhone(user?.phone)
+    }, [user])
 
     useEffect(() => {
         if (editState.statusCode === 301) {
@@ -51,7 +91,7 @@ function page() {
                 className='w-full max-w-126 flex flex-col items-center gap-5'
                 action={editFormInfo}
             >
-                <input type='hidden' name='userId' value={user?.id} />
+                <input type='hidden' name='userId' value={userId} />
                 <input type="text"
                     defaultValue={user?.name}
                     placeholder='نام کاربری ...'
@@ -68,6 +108,22 @@ function page() {
                     name='phone'
                     className='bg-zinc-100 border w-full border-zinc-200 rounded-md px-2 py-3 outline-0'
                 />
+                <div className="bg-zinc-100 w-full flex rounded-md p-2 cursor-pointer relative">
+                    <select
+                        className='appearance-none outline-0 pl-10'
+                        name="role"
+                        disabled={!isEditMode}
+                        value={role || user?.role}
+                        onChange={e => setRole(e.target.value)}
+                    >
+                        <option value="-1">انتخاب</option>
+                        <option value="admin">مدیر</option>
+                        <option value="user">کاربر</option>
+                    </select>
+                    <div className='absolute left-4 flex items-center pointer-events-none' >
+                        <ChevronDown />
+                    </div>
+                </div>
                 {isEditMode ?
                     <div className='w-full flex gap-2'>
                         <button
@@ -85,9 +141,9 @@ function page() {
                     </button>
                 }
             </form>
-            <ChangePassword />
+            {/* <ChangePassword /> */}
         </div>
     )
 }
 
-export default page
+export default EditUser
