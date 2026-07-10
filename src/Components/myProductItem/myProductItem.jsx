@@ -69,7 +69,7 @@ function MyProductItem({ product }) {
                             height={100}
                             loading='lazy'
                         />
-                        <span className='absolute start-0 top-0 '>
+                        <span className='absolute end-0 top-0 '>
                             <MarkIcon itemId={id} type={'product'} />
                         </span>
                     </div>

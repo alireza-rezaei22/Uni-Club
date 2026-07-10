@@ -146,7 +146,7 @@ async function Panel() {
         </StatusCount>
         <StatusCount title={'تعداد گفتوگو شده ها'} count={userChatsCount} describe={''} href={'panel/chats'}>
           {
-            false ?
+            userChatsCount ?
               <ChatItem chat={chatInfo} />
               :
               <NullItemPanel text={'تاکنون گفتوگویی نداشته اید'} />

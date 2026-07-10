@@ -53,7 +53,7 @@ function MyComment(props) {
                             height={100}
                             loading='lazy'
                         />
-                        <span className='absolute start-0 top-0 '>
+                        <span className='absolute end-0 top-0 '>
                             <MarkIcon itemId={_id} type={'ostad'} />
                         </span>
                     </div>

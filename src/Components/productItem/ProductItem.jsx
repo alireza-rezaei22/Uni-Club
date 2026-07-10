@@ -11,7 +11,7 @@ function ProductItem({ product }) {
     const productCondition = conditionsList[condition]
 
     return (
-        <Link key={_id} href={`/ostad/${_id}`}>
+        <Link key={_id} href={`/product/${_id}`}>
             <div className='min-w-72 h-44 bg-gradient-to-br from-indigo-300 to-indigo-100 hover:bg-zinc-800 flex flex-col justify-between gap-2 p-3 rounded-md border border-zinc-300 transition-colors'>
                 <div className='flex justify-between gap-2'>
                     <span className='flex flex-col justify-between gap-2 w-2/3'>
@@ -27,7 +27,7 @@ function ProductItem({ product }) {
                             height={100}
                             loading='lazy'
                         />
-                        <span className='absolute start-0 top-0 '>
+                        <span className='absolute end-0 top-0 '>
                             <MarkIcon itemId={_id} type={'product'} />
                         </span>
                     </div>
