@@ -2,7 +2,7 @@ import Category from "@/Components/category/Category";
 import Products from "@/Components/products/Products";
 import Filter from "@/Components/filter/Filter";
 
-export default async function Home() {
+export default async function ProductsPage() {
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/products`, { next: { revalidate: 300 } })
 

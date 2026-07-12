@@ -34,7 +34,7 @@ function MyOstad(props) {
             <div className='flex justify-between gap-2'>
                 <span className='flex flex-col justify-between gap-2 w-2/3'>
                     <h2 className='text-md md:text-lg font-bold'>استاد {name}</h2>
-                    <span className='flex space-x-2 space-x-reverse'>
+                    <span className='flex gap-2'>
                         <DeleteBtn deleteHandler={deleteHandler}/>
                         <ItemBtn id={_id} title={'ویرایش'} Icon={PenIcon} type={'edit'} src={'/panel/editOstad'}/>
                         <ItemBtn id={_id} title={'بازدید'} Icon={EyeIcon} type={'view'} src={'/ostad'}/>
@@ -71,7 +71,7 @@ function MyOstad(props) {
                         </span>
                         <span className='flex gap-1 font-medium'>
                             {rate}
-                            <StarIcon size={20} fill='yellow' color />
+                            <StarIcon size={20} fill='yellow' color={'yellow'} />
                         </span>
                     </span>
                 </span>

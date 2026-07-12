@@ -35,12 +35,12 @@ function Rating({ initalRate = 5, userId, ostadId }) {
         const starValue = position + 1
 
         if (rating >= starValue) {
-            return <Star fill='yellow' color className='cursor-pointer' />
+            return <Star fill='yellow' color={'yellow'} className='cursor-pointer' />
         }
         if (rating >= starValue - 0.5) {
-            return <StarHalf fill='yellow' color className='cursor-pointer' />
+            return <StarHalf fill='yellow' color={'yellow'} className='cursor-pointer' />
         }
-        return <Star fill='white' color className='cursor-pointer' />
+        return <Star fill='white' color={'yellow'} className='cursor-pointer' />
     }
     return (
         <div className='flex flex-row-reverse'>

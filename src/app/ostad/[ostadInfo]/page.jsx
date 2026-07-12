@@ -86,7 +86,7 @@ export default async function Ostad({ params }) {
                             </span>
                             <h4 className='font-medium flex'>
                                 امتیاز: {rate}
-                                <StarIcon fill='yellow' color />
+                                <StarIcon fill='yellow' color={'yellow'} />
                             </h4>
                         </span>
                     </span>
@@ -109,7 +109,7 @@ export default async function Ostad({ params }) {
                         <ul className='px-10 list-disc'>
                             {courses.length ? courses.map((course, index) => {
                                 return (
-                                    <li>{course.name} روز {course.day} از ساعت {course.startTime} تا {course.endTime} در {course.classLocation}</li>
+                                    <li key={index}>{course.name} روز {course.day} از ساعت {course.startTime} تا {course.endTime} در {course.classLocation}</li>
                                 )
                             }) :
                                 <li>درسی برای استاد {name} تعریف نشده</li>

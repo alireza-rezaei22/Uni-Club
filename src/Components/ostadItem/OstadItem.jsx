@@ -51,7 +51,7 @@ function OstadItem({ ostad, commentsCount }) {
                             </span>
                             <span className='flex gap-1 font-medium'>
                                 {rate}
-                                <StarIcon size={20} fill='yellow' color />
+                                <StarIcon size={20} fill='yellow' color={'yellow'} />
                             </span>
                         </span>
                     </span>

@@ -40,6 +40,7 @@ function Menu() {
             {routes.map((route, index) => {
                 return route.name === 'خروج' ?
                     <button
+                        key={index}
                         className='flex flex-nowrap gap-2 items-center border-b border-zinc-500 px-2 py-4 rounded-md transition-colors text-indigo-400 hover:bg-indigo-200 hover:text-gray-700'
                         onClick={logOutHandler}
                     >

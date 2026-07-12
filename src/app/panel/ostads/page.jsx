@@ -91,7 +91,7 @@ function page() {
                                     <td className="px-6 py-4 text-zinc-600">
                                         <span className='flex gap-1 font-medium'>
                                             {ostad.rate}
-                                            <StarIcon size={20} fill='yellow' color />
+                                            <StarIcon size={20} fill='yellow' color={'yellow'} />
                                         </span>
                                     </td>
 

@@ -11,9 +11,9 @@ async function LastOstads() {
     try {
         await connectToDB()
         const lastItems = await ostadModel.find({}).sort({ created_at: -1 }).limit(4).lean()
-
+        const plainItems = JSON.parse(JSON.stringify(lastItems))
         const getItems = await Promise.all(
-            lastItems.map(async (item) => {
+            plainItems.map(async (item) => {
                 const count = await commentModel.countDocuments({ ostadId: item._id })
                 return { ...item, commentsCount: count }
             })

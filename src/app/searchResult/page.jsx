@@ -11,7 +11,7 @@ import Loading from '@/Components/loading/Loading'
 function SearchResult() {
   const searchParams = useSearchParams()
   const query = searchParams.get('query')
-  
+  const [loading, setLoading] = useState(true)
   const [searchResults, setSearchResults] = useState([])
   useEffect(() => {
     const getSearchResult = async () => {
@@ -20,8 +20,8 @@ function SearchResult() {
         const data = await res.json()
 
         const result = data.searchResult
-        console.log(result);
         setSearchResults(result);
+        setLoading(false)
       } catch (error) {
         toast.error('لطفا دوباره تلاش کنید', { position: 'bottom-center' })
       }
@@ -31,8 +31,10 @@ function SearchResult() {
 
   return (
     <>
-      <div className={`flex ${searchResults.length ? 'items-start' : ' bg-zinc-900 items-center'} justify-center h-[100dvh]`}>
-        <Suspense fallback={<Loading />}>
+      {loading ?
+        <Loading /> :
+        <div className={`flex ${searchResults.length ? 'items-start' : ' bg-zinc-900 items-center'} justify-center h-[100dvh]`}>
+
           {
             searchResults.length ?
               <div className='w-full max-w-7xl flex flex-wrap '>
@@ -41,7 +43,7 @@ function SearchResult() {
                     {/* <div className='bg-white h-fit p-2 rounded-md border border-gray-300'> */}
                     {item.biography ?
                       <OstadItem key={item?._id} ostad={item} commentsCount={0} /> :
-                      <ProductItem product={product} />
+                      <ProductItem product={item} />
                     }
                     {/* </div> */}
                   </div>
@@ -49,8 +51,8 @@ function SearchResult() {
               </div> :
               <PopUp Icon={SearchX} msg={'هیچ مورد مشابهی پیدا نشد'} />
           }
-        </Suspense>
-      </div>
+        </div>
+      }
     </>
   )
 }

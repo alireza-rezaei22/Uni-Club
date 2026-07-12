@@ -10,6 +10,7 @@ async function LastProducts() {
     try {
         await connectToDB()
         const lastItems = await productModel.find({}).sort({ created_at: -1 }).limit(4).lean()
+        const plainItems = JSON.parse(JSON.stringify(lastItems))
 
         return (
             <div className="bg-gradient-to-br from-indigo-500 to-indigo-900 w-full mt-5 p-2 rounded-md flex flex-col gap-1">
@@ -20,7 +21,7 @@ async function LastProducts() {
                     </Link>
                 </div>
                 <div className="flex gap-2 overflow-x-scroll hide-scrollbar px-2">
-                    {lastItems.map(item => (
+                    {plainItems.map(item => (
                         <ProductItem key={item._id} product={item} />
                     ))}
                 </div>

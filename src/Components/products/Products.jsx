@@ -9,7 +9,6 @@ import { SearchX } from 'lucide-react';
 import PopUp from '../popUp/PopUp';
 
 export default function Products({productsList}) {
-
     const products = useProductsStore(state => state.products)
     const setProducts = useProductsStore(state => state.setProducts)
     const userData = useAuthStore(state => state.user)
@@ -25,9 +24,15 @@ export default function Products({productsList}) {
                 setLoading(false)
             }
         }
-        getProducts()
+        if (!productsList || productsList.status !== 200){
+            getProducts()
+        }else{
+            setProducts(productsList.products)
+            setLoading(false)
+        }
     }, [])
     useEffect(() => {
+        
         if (userData) {
             const getMarked = async () => {
                 const res = await fetch(`/api/markProducts`)
@@ -46,7 +51,7 @@ export default function Products({productsList}) {
                     :
                     <div className='flex flex-wrap items-start w-full h-full'>
 
-                        {products?.length ?
+                        {products.length ?
                             products.map(product => {
                                 return <div key={product._id} className='w-full md:w-1/2 p-2'>
                                     <ProductItem product={product} />

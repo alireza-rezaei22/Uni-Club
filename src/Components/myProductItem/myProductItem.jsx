@@ -55,7 +55,7 @@ function MyProductItem({ product }) {
                 <div className='flex justify-between gap-2'>
                     <span className='flex flex-col justify-between gap-2 w-2/3'>
                         <h2 className='text-md md:text-lg font-bold'>{title}</h2>
-                        <span className='flex space-x-2 space-x-reverse'>
+                        <span className='flex gap-2'>
                             <DeleteBtn deleteHandler={deleteProduct} />
                             <ItemBtn id={id} title={'بازدید'} Icon={EyeIcon} type={'view'} src={'/product'} />
                         </span>

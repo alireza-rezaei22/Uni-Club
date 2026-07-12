@@ -48,13 +48,14 @@ async function Panel() {
       productModel.findOne({ ownerId: userInfo.id }).sort({ created_at: -1 }).select('-__v -location -ownerId').lean()
     ])
     userProductsCount = userPsCount
-    lastProduct = lastP
+    lastProduct = JSON.parse(JSON.stringify(lastP))
+
     const [UMarksCount = 0, ULastMark = []] = await Promise.all([
       markModel.countDocuments({ userId: userInfo.id }),
-      markModel.findOne({ userId: userInfo.id }).sort({ _id: -1 }).select('itemId itemType').populate('itemId')
+      markModel.findOne({ userId: userInfo.id }).sort({ _id: -1 }).select('itemId itemType').populate('itemId').lean()
     ])
     userMarksCount = UMarksCount
-    userLastMark = ULastMark    
+    userLastMark = JSON.parse(JSON.stringify(ULastMark))    
     lastMarksCommentsCount = await commentModel.countDocuments({ ostadId: ULastMark ?.itemId._id }).lean()
 
     const [UCommentsCount = 0, ULastComment = []] = await Promise.all([
@@ -64,7 +65,7 @@ async function Panel() {
     ])
     UserCommentsCount = UCommentsCount
     lastCommentCommentsCount = await commentModel.countDocuments({ ostadId: ULastComment?.ostadId._id }).lean()
-    UserLastComment = ({ ...ULastComment, ostadId: { ...ULastComment.ostadId, commentsCount: lastCommentCommentsCount}})    
+    UserLastComment = JSON.parse(JSON.stringify({ ...ULastComment, ostadId: { ...ULastComment.ostadId, commentsCount: lastCommentCommentsCount}}))
 
     const [UOstadsCount = 0, ULastOstad = []] = await Promise.all([
       ostadModel.countDocuments({ registrarId: userInfo.id }),
@@ -72,10 +73,10 @@ async function Panel() {
 
     ])
     UserOstadsCount = UOstadsCount
-    UserLastOstad = ULastOstad
+    UserLastOstad = JSON.parse(JSON.stringify(ULastOstad))
     
     lastUOstadsCommentsCount = await commentModel.countDocuments({ ostadId: ULastOstad?._id }).lean()
-    UserLastOstad = ({ ...ULastOstad, commentsCount: lastUOstadsCommentsCount })
+    UserLastOstad = JSON.parse(JSON.stringify({ ...ULastOstad, commentsCount: lastUOstadsCommentsCount }))
 
     const [UChatsCount = 0, ULastChatItem = []] = await Promise.all([
       chatModel.countDocuments({ participants: userInfo.id }),
@@ -85,7 +86,7 @@ async function Panel() {
         .lean()
     ])
     userChatsCount = UChatsCount
-    lastChatItem = ULastChatItem
+    lastChatItem = JSON.parse(JSON.stringify(ULastChatItem))
     const lastMsgText = lastChatItem?.messages[lastChatItem.messages.length - 1].text || []
     const otherParticipantName = lastChatItem?.participants.find(part => part.name !== userInfo.name).name || null
     chatInfo = {
