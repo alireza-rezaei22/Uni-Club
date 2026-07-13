@@ -121,7 +121,7 @@ async function Panel() {
         </StatusCount>
         <StatusCount title={'تعداد دیدگاه ها'} count={UserCommentsCount} describe={''} href={'panel/myComments'}>
           {
-            UserLastComment ?
+            UserCommentsCount ?
               <MyComment {...UserLastComment} />
               :
               <NullItemPanel text={'تاکنون معامله ای نداشته اید'} />

@@ -2,11 +2,15 @@
 import DeleteBtn from '@/Components/deleteBtn/DeleteBtn'
 import ItemBtn from '@/Components/itemBtn/ItemBtn'
 import Loading from '@/Components/loading/Loading'
+import { useAuthStore } from '@/store/useAuthStore'
 import { Edit2 } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
+import { useRouter } from 'next/navigation'
 
 function page() {
+    const router = useRouter()
+    const userInfo = useAuthStore(state => state.user)
     const [users, setUsers] = useState([])
     const [loading, setLoading] = useState(true)
     useEffect(() => {
@@ -19,45 +23,49 @@ function page() {
             }
             setLoading(false)
         }
-        getUsers()
+        if (userInfo?.role == 'admin') {
+            getUsers()
+        } else {
+            router.push('/panel')
+        }
     }, [])
     const deleteUser = (event, itemId) => {
-            event.preventDefault()        
-            const deleteUserFunc = async () => {
-                const res = await fetch(`/api/users/${itemId}`, {
-                    method: 'DELETE',
-                })
-                const data = await res.json()
-                switch (data.status) {
-                    case (200): {
-                        setUsers(data.newList)
-                        break
-                    }
-                    case (401): {
-                        toast.error(data.error, { position: 'bottom-center' })
-                        break
-                    }
-                    case (403): {
-                        toast.error(data.error, { position: 'bottom-center' })
-                        break
-                    }
-                    case (500): {
-                        toast.error(data.error, { position: 'bottom-center' })
-                        break
-                    }
-                    default: {
-                        console.log(data);
-                    }
+        event.preventDefault()
+        const deleteUserFunc = async () => {
+            const res = await fetch(`/api/users/${itemId}`, {
+                method: 'DELETE',
+            })
+            const data = await res.json()
+            switch (data.status) {
+                case (200): {
+                    setUsers(data.newList)
+                    break
+                }
+                case (401): {
+                    toast.error(data.error, { position: 'bottom-center' })
+                    break
+                }
+                case (403): {
+                    toast.error(data.error, { position: 'bottom-center' })
+                    break
+                }
+                case (500): {
+                    toast.error(data.error, { position: 'bottom-center' })
+                    break
+                }
+                default: {
+                    console.log(data);
                 }
             }
-            deleteUserFunc()
         }
+        deleteUserFunc()
+    }
     return (
         <div className="w-full p-4">
             <h2 className="bg-blue-100 w-fit px-4 py-2 rounded-4xl text-[#0056AA] text-2xl font-bold mb-6 self-start">لیست کاربران</h2>
             {loading ?
                 <Loading /> :
-                <div className="bg-zinc-800 shadow-md rounded-xl overflow-hidden ">
+                <div className="bg-zinc-800 shadow-md rounded-xl overflow-y-scroll hide-scrollbar">
                     <table className="w-full text-sm text-right">
                         <thead className="bg-zinc-900 text-zinc-400 uppercase text-sm font-semibold">
                             <tr>

@@ -18,7 +18,7 @@ const editUserAction = async (prevState, formData) => {
                     {
                         name: newName,
                         phone: newPhone,
-                        role: userRole
+                        role: userRole ? userRole : userData.role
                     },
                     { new: true }
                 ).select('-password')

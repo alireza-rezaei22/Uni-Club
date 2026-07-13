@@ -5,13 +5,13 @@ import SubmitBtn from '@/Components/submitBtn/SubmitBtn'
 import editUserAction from '@/app/actions/editUserAction'
 import { editUserSchema } from '@/utils/validation'
 import { useAuthStore } from '@/store/useAuthStore'
-import ChangePassword from '@/Components/changePassword/changePassword'
 import toast from 'react-hot-toast'
+import { useRouter } from 'next/navigation'
 
 function EditUser({ params }) {
-    const { userId } = params
+    const router = useRouter()
     const userInfo = useAuthStore(state => state.user)
-    // const setUser = useAuthStore(state => state.setUser)
+    const { userId } = params
     const [user, setUser] = useState(null)
     const [isEditMode, setIsEditMode] = useState(false)
     const [isFormValid, setIsFormValid] = useState(false)
@@ -61,7 +61,11 @@ function EditUser({ params }) {
                 toast.error( 'شما دسترسی انجام این کار را ندارید', { position: 'bottom-center' })
             }
         }
-        getUserInfo()
+        if (userInfo?.role == 'admin') {
+            getUserInfo()
+        } else {
+            router.push('/panel')
+        }
     }, [])
     useEffect(() => {
         setIsFormValid(editUserSchema.safeParse({ phone, name }).success)
@@ -116,7 +120,6 @@ function EditUser({ params }) {
                         value={role || user?.role}
                         onChange={e => setRole(e.target.value)}
                     >
-                        <option value="-1">انتخاب</option>
                         <option value="admin">مدیر</option>
                         <option value="user">کاربر</option>
                     </select>

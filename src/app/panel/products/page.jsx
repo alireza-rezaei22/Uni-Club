@@ -2,13 +2,17 @@
 import DeleteBtn from '@/Components/deleteBtn/DeleteBtn'
 import ItemBtn from '@/Components/itemBtn/ItemBtn'
 import Loading from '@/Components/loading/Loading'
+import { useAuthStore } from '@/store/useAuthStore'
 import { useProductsStore } from '@/store/uesProductsStore'
-import { Edit2, EyeIcon } from 'lucide-react'
+import { EyeIcon } from 'lucide-react'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
+import { useRouter } from 'next/navigation'
 
 function page() {
+    const router = useRouter()
+    const userInfo = useAuthStore(state => state.user)
     const [loading, setLoading] = useState(true)
     const products = useProductsStore(state => state.products)
     const setProducts = useProductsStore(state => state.setProducts)
@@ -23,7 +27,11 @@ function page() {
             }
             setLoading(false)
         }
-        getProducts()
+        if (userInfo?.role == 'admin') {
+            getProducts()
+        } else {
+            router.push('/panel')
+        }
     }, [])
     const deleteProduct = (event, itemId) => {
         event.preventDefault()        
@@ -61,7 +69,7 @@ function page() {
             <h2 className="bg-blue-100 w-fit px-4 py-2 rounded-4xl text-[#0056AA] text-2xl font-bold mb-6 self-start">لیست آگهی ها</h2>
             {loading ?
                 <Loading /> :
-                <div className="bg-zinc-800 shadow-md rounded-xl overflow-hidden">
+                <div className="bg-zinc-800 shadow-md rounded-xl overflow-y-scroll hide-scrollbar">
                     <table className="w-full text-sm text-right">
                         <thead className="bg-zinc-900 text-zinc-400 uppercase text-sm font-semibold">
                             <tr>

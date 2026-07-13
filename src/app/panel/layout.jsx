@@ -16,7 +16,6 @@ async function Layout({ children }) {
                     <>
                         {children}
                     </> :
-                    // <div className='m-12 p-12 border flex flex-col justify-center items-center rounded-md'>
                     <Link
                         href={'/login-register'}
                         className='m-12 p-12 border flex flex-col justify-center items-center rounded-md'
@@ -24,7 +23,6 @@ async function Layout({ children }) {
                         <LogIn className='size-14' />
                         <span>ابتدا<span className='text-blue-400'> لاگین</span> کنید</span>
                     </Link>
-                    // </div>
                 }
             </main>
         </div>
