@@ -54,12 +54,12 @@ function page() {
         }
     return (
         <div className="w-full p-4">
-            <h2 className="text-indigo-600 text-2xl font-bold mb-6">لیست کاربران</h2>
+            <h2 className="bg-blue-100 w-fit px-4 py-2 rounded-4xl text-[#0056AA] text-2xl font-bold mb-6 self-start">لیست کاربران</h2>
             {loading ?
                 <Loading /> :
-                <div className="bg-white shadow-md rounded-xl overflow-hidden border border-zinc-200">
+                <div className="bg-zinc-800 shadow-md rounded-xl overflow-hidden ">
                     <table className="w-full text-sm text-right">
-                        <thead className="bg-zinc-100 text-zinc-600 uppercase text-sm font-semibold">
+                        <thead className="bg-zinc-900 text-zinc-400 uppercase text-sm font-semibold">
                             <tr>
                                 <th className="px-6 py-4">ردیف</th>
                                 <th className="px-6 py-4">نام</th>
@@ -71,13 +71,13 @@ function page() {
 
                         <tbody className="divide-y divide-zinc-200">
                             {users.map((user, index) => (
-                                <tr key={user._id} className="hover:bg-indigo-50 transition-colors">
+                                <tr key={user._id} className="hover:bg-zinc-700 transition-colors">
                                     <td className="px-6 py-4 text-zinc-500 font-medium">{index + 1}</td>
-                                    <td className="px-6 py-4 font-bold text-zinc-800">{user.name}</td>
-                                    <td className="px-6 py-4 text-zinc-600">{user.phone}</td>
+                                    <td className="px-6 py-4 font-bold text-zinc-300">{user.name}</td>
+                                    <td className="px-6 py-4 text-zinc-500">{user.phone}</td>
                                     <td className="px-6 py-4">
                                         <span className={`px-3 py-1 text-sm font-semibold rounded-full ${user.role === 'admin'
-                                            ? 'bg-indigo-100 text-indigo-700'
+                                            ? 'bg-blue-100 text-blue-700'
                                             : 'bg-zinc-100 text-zinc-600'
                                             }`}>
                                             {user.role === 'admin' ? 'مدیر' : 'کاربر'}

@@ -6,23 +6,29 @@ import { useRouter } from 'next/navigation'
 import React from 'react'
 import toast from 'react-hot-toast'
 
-const routes = [
-    { name: 'اطلاعات من', icon: UserCog2, path: '/panel/userInfo' },
-    { name: 'معاملات من', icon: DollarSign, path: '#' },
-    { name: 'آگهی های من', icon: ShoppingBasket, path: '/panel/myProducts' },
-    { name: 'دیدگاه های من', icon: MessageSquareIcon, path: '/panel/myComments' },
-    { name: 'نشان شده ها', icon: Bookmark, path: '/panel/myMarks' },
-    { name: 'گفتوگو های من', icon: MessagesSquare, path: '/panel/chats' },
-    { name: 'اساتید ثبت شده', icon: User2, path: '/panel/myOstads' },
-    { name: 'اگهی جدید', icon: PlusCircle, path: '/panel/newProduct' },
-    { name: 'ثبت استاد', icon: UserPlus2, path: '/panel/newOstad' },
-    { name: 'خروج', icon: LogOut, path: '/' },
-]
+
 
 function Menu() {
+    const userInfo = useAuthStore(state => state.user)
     const logOut = useAuthStore(state => state.clearUser)
     const router = useRouter()
-
+    const routes = [
+        { name: 'اطلاعات من', Icon: UserCog2, path: '/panel/userInfo' },
+        ...(userInfo?.role === 'admin' ? [
+            { name: 'کاربران', Icon: DollarSign, path: '/panel/users' },
+            { name: 'استادها', Icon: DollarSign, path: '/panel/ostads' },
+            { name: 'آگهی ها', Icon: DollarSign, path: '/panel/products' },
+        ] : []),
+        { name: 'معاملات من', Icon: DollarSign, path: '#' },
+        { name: 'آگهی های من', Icon: ShoppingBasket, path: '/panel/myProducts' },
+        { name: 'دیدگاه های من', Icon: MessageSquareIcon, path: '/panel/myComments' },
+        { name: 'نشان شده ها', Icon: Bookmark, path: '/panel/myMarks' },
+        { name: 'گفتوگو های من', Icon: MessagesSquare, path: '/panel/chats' },
+        { name: 'استادهای ثبت شده', Icon: User2, path: '/panel/myOstads' },
+        { name: 'اگهی جدید', Icon: PlusCircle, path: '/panel/newProduct' },
+        { name: 'ثبت استاد', Icon: UserPlus2, path: '/panel/newOstad' },
+        { name: 'خروج', Icon: LogOut, path: '/' },
+    ]
     const logOutHandler = async () => {
         router.push('/')
         const res = await fetch('/api/logOut', { method: 'POST' })
@@ -44,14 +50,14 @@ function Menu() {
                         className='flex flex-nowrap gap-2 items-center border-b border-zinc-500 px-2 py-4 rounded-md transition-colors text-indigo-400 hover:bg-indigo-200 hover:text-gray-700'
                         onClick={logOutHandler}
                     >
-                        <route.icon />
+                        <route.Icon />
                         {route.name}
                     </button>
                     : <Link
                         key={index} href={route.path}
                         className='hover:bg-indigo-200 hover:text-gray-700 text-indigo-400 flex flex-nowrap gap-2 items-center border-b border-zinc-500 px-2 py-4 rounded-md transition-colors'
                     >
-                        <route.icon />
+                        <route.Icon />
                         {route.name}
                     </Link>
 

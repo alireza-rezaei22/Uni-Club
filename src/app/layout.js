@@ -1,4 +1,3 @@
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ClientProvider from "./ClientProvider";
 import { cookies } from "next/headers";
@@ -8,9 +7,10 @@ import { Vazirmatn } from "next/font/google";
 import BottomNav from "@/Components/bottomNav/BottomNav";
 import Navbar from "@/Components/navbar/Navbar";
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const vazirmatn = Vazirmatn({
+  subsets: ['arabic'],
+  weight: ['400', '700'],
+  display: 'swap',
 });
 
 export const metadata = {
@@ -28,10 +28,10 @@ export default async function RootLayout({ children }) {
     userData = null
   }
   return (
-    <html>
+    <html lang="fa">
       <body
         dir="rtl"
-        className={`${geistMono.variable} antialiased bg-zinc-900`}
+        className={`${vazirmatn.className} antialiased bg-zinc-900`}
       >
         <ClientProvider userData={userData}>
           <Navbar />

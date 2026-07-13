@@ -50,7 +50,7 @@ function myProducts() {
     }, [UserProductsStore])
     return (
         <>
-            <h2 className='text-indigo-400 text-2xl font-bold self-start mb-3'>آگهی های من</h2>
+            <h2 className="bg-blue-100 w-fit px-4 py-2 rounded-4xl text-[#0056AA] text-2xl font-bold mb-6 self-start">آگهی های من</h2>
             <div className='w-full flex flex-wrap'>
                 {
                     loading ?

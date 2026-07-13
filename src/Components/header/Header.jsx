@@ -25,7 +25,7 @@ function Header() {
     }, [])
 
     return (
-        <header className="relative bg-gradient-to-br from-indigo-500 to-indigo-900 flex items-start w-full h-[30vh] md:h-[45vh] md:mt-4 rounded-lg overflow-hidden">
+        <header className="relative bg-[#0056AA] flex items-start w-full h-[30vh] md:h-[45vh] md:mt-4 rounded-lg overflow-hidden">
             <div className="w-3/4 flex flex-col gap-4 p-8 text-indigo-200 z-50">
                 <h1 className="text-lg md:text-4xl font-bold">{headerInfo[banerIndex]?.title}</h1>
                 <p className="text-xs md:text-xl font-medium">{headerInfo[banerIndex]?.describtion}</p>

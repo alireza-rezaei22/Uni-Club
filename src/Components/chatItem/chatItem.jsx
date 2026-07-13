@@ -6,9 +6,9 @@ function chatItem({ chat }) {
     const { chatId, productId : product, otherParticipantName, lastMsgText } = chat
 
     return (
-        <Link href={`/panel/chat/${chatId}`} className='w-full h-44 p-5 flex justify-between  bg-gradient-to-br from-indigo-300 to-indigo-100 hover:bg-zinc-400 rounded-md cursor-pointer transition-colors'>
+        <Link href={`/panel/chat/${chatId}`} className='w-full h-44 p-5 flex justify-between  bg-zinc-900 hover:bg-zinc-800 rounded-md cursor-pointer border-2 border-[#0056AA] transition-colors'>
             <div className='flex-1 flex flex-col'>
-                <h3 className='font-bold text-lg'>{product.title}</h3>
+                <h3 className='font-bold text-zinc-400 text-lg'>{product.title}</h3>
                 <div className='m-2'>
                     <h4 className='font-semibold text-gray-700'>{otherParticipantName}</h4>
                     <p className='text-gray-500'>{lastMsgText.length > 30 ? lastMsgText?.slice(0, 30) + '...' : lastMsgText}</p>

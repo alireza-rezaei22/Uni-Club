@@ -85,7 +85,7 @@ export default async function Ostad({ params }) {
                                 <ItemDate date={updated_at || created_at} />
                             </span>
                             <h4 className='font-medium flex'>
-                                امتیاز: {rate}
+                                امتیاز: {rate.toFixed(1)}
                                 <StarIcon fill='yellow' color={'yellow'} />
                             </h4>
                         </span>

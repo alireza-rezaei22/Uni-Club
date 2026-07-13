@@ -17,12 +17,12 @@ export default function OstadsList({ ostadsArray }) {
     const setUserMarkeds = UseMarkStore(state => state.setMarks)
     useEffect(() => {
         const getOstads = async () => {
-            setOstads(ostadsArray)     
-                setLoading(false)
+            setOstads(ostadsArray)
+            setLoading(false)
         }
         getOstads()
     }, [])
-    useEffect(() => {    
+    useEffect(() => {
         if (userData) {
             const getMarked = async () => {
                 const res = await fetch(`/api/markItems`)
@@ -47,7 +47,7 @@ export default function OstadsList({ ostadsArray }) {
                                     <OstadItem key={ostad._id} ostad={ostad} commentsCount={ostad.commentsCount} />
                                 </div>
                             }) :
-                            <PopUp Icon={SearchX} msg={'هیچ محصولی یافت نشد'} />
+                            <PopUp Icon={SearchX} msg={'هیچ استادی یافت نشد'} />
                         }
                     </div>
             }

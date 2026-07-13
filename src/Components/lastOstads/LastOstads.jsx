@@ -4,7 +4,7 @@ import React from 'react'
 import OstadItem from '../ostadItem/OstadItem'
 import commentModel from '@/model/comment'
 import Link from 'next/link'
-import { CloudOffIcon } from 'lucide-react'
+import { ChevronLeft, CloudOffIcon } from 'lucide-react'
 
 export const revalidate = 30000
 async function LastOstads() {
@@ -20,11 +20,12 @@ async function LastOstads() {
         )
 
         return (
-            <div className="bg-gradient-to-br from-indigo-500 to-indigo-900 w-full mt-5 p-2 rounded-md flex flex-col gap-1">
+            <div className="bg-[#0056AA] w-full mt-5 p-2 rounded-md flex flex-col gap-1">
                 <div className='flex justify-between text-sm md:text-xl items-center'>
                     <h3 className="font-semibold text-indigo-200">آخرین اساتید</h3>
-                    <Link href='/ostads/' className="text-indigo-200 min-w-30 flex justify-center items-center cursor-pointer py-2 hover:bg-indigo-600 rounded-xl transition-colors">
+                    <Link href='/ostads/' className="text-indigo-200 min-w-30 text-sm flex justify-center items-center cursor-pointer py-2 hover:text-blue-500 rounded-xl transition-colors">
                         مشاهده همه
+                        <ChevronLeft/>
                     </Link>
                 </div>
                 <div className="flex gap-2 overflow-x-scroll hide-scrollbar px-2">

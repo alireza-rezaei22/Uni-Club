@@ -51,10 +51,10 @@ function MyProductItem({ product }) {
 
     return (
         <>
-            <div className='min-w-72 h-44 bg-gradient-to-br from-indigo-300 to-indigo-100 hover:bg-zinc-800 flex flex-col justify-between gap-2 p-3 rounded-md border border-zinc-300 transition-colors'>
+            <div className='min-w-72 h-44  bg-zinc-900 hover:bg-zinc-800 flex flex-col justify-between gap-2 p-3 rounded-md border-2 border-[#0056AA] transition-colors'>
                 <div className='flex justify-between gap-2'>
                     <span className='flex flex-col justify-between gap-2 w-2/3'>
-                        <h2 className='text-md md:text-lg font-bold'>{title}</h2>
+                        <h2 className='text-md text-zinc-400 md:text-lg font-bold'>{title}</h2>
                         <span className='flex gap-2'>
                             <DeleteBtn deleteHandler={deleteProduct} />
                             <ItemBtn id={id} title={'بازدید'} Icon={EyeIcon} type={'view'} src={'/product'} />

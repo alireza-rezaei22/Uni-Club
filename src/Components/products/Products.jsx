@@ -27,7 +27,7 @@ export default function Products({productsList}) {
         if (!productsList || productsList.status !== 200){
             getProducts()
         }else{
-            setProducts(productsList.products)
+            setProducts(productsList.products.reverse())
             setLoading(false)
         }
     }, [])

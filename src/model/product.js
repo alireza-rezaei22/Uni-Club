@@ -16,7 +16,7 @@ const schema = mongoose.Schema({
         required: false,
     },
     price: {
-        type: String,
+        type: Number,
         required: false,
     },
     condition: {

@@ -43,7 +43,7 @@ export default async function page({ params }) {
                     <p className='p-2 text-sm md:text-lg whitespace-pre-line'>{description || 'توضیحی ثبت نشده'}</p>
                     <span className='flex flex-col md:flex-row justify-between items-start my-5 gap-1 '>
                         <h4 className='font-medium'>وضعیت: {productCondition}</h4>
-                        <h4 className='font-medium'>قیمت: {price ? `${price.toLocaleString()} تومان` : 'توافقی'}</h4>
+                        <h4 className='font-medium'>قیمت: {price ? `${Number(price).toLocaleString()} تومان` : 'توافقی'}</h4>
                         <span className='w-full md:w-fit flex justify-between items-center gap-2'>
                             <ItemDate date={created_at} />
                             <MarkIcon itemId={productId} type={'product'} />

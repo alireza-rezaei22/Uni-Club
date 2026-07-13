@@ -10,13 +10,12 @@ function SideBar() {
     const userInfo = useAuthStore(state => state.user)
     const logOut = useAuthStore(state => state.clearUser)
     const router = useRouter()
-    console.log('should remove token from cookies here(sidebar)');
     const pathname = usePathname()
     const routes = [
         { name: 'اطلاعات من', Icon: UserCog2, path: '/panel/userInfo' },
         ...(userInfo?.role === 'admin' ? [
             { name: 'کاربران', Icon: DollarSign, path: '/panel/users' },
-            { name: 'اسایتید', Icon: DollarSign, path: '/panel/ostads' },
+            { name: 'استادها', Icon: DollarSign, path: '/panel/ostads' },
             { name: 'آگهی ها', Icon: DollarSign, path: '/panel/products' },
         ] : []),
         { name: 'معاملات من', Icon: DollarSign, path: '#' },
@@ -24,7 +23,7 @@ function SideBar() {
         { name: 'دیدگاه های من', Icon: MessageSquareIcon, path: '/panel/myComments' },
         { name: 'نشان شده ها', Icon: Bookmark, path: '/panel/myMarks' },
         { name: 'گفتوگو های من', Icon: MessagesSquare, path: '/panel/chats' },
-        { name: 'اساتید ثبت شده', Icon: User2, path: '/panel/myOstads' },
+        { name: 'استادهای ثبت شده', Icon: User2, path: '/panel/myOstads' },
         { name: 'اگهی جدید', Icon: PlusCircle, path: '/panel/newProduct' },
         { name: 'ثبت استاد', Icon: UserPlus2, path: '/panel/newOstad' },
         { name: 'خروج', Icon: LogOut, path: '/' },

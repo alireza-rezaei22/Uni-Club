@@ -26,7 +26,7 @@ function Filter() {
         <>
             <div className=' md:hidden flex justify-start p-2 gap-2'>
                 <button
-                    className='flex justify-between hover:bg-zinc-700 items-center border-2 border-indigo-400 text-indigo-400 font-medium px-2 py-1 rounded-md transition-colors '
+                    className='flex justify-between hover:bg-zinc-700 items-center border-2 border-[#0056AA] text-indigo-400 font-medium px-2 py-1 rounded-md transition-colors '
                     onClick={() => setDrawerStatus(prev => !prev)}
                 >
                     <h2>فیلتر</h2>
@@ -35,7 +35,7 @@ function Filter() {
                 {
                     hasFilter &&
                     <button
-                        className='flex justify-between hover:bg-zinc-700 items-center border-2 border-indigo-400 text-indigo-400 font-medium px-2 py-1 rounded-md transition-colors'
+                        className='flex justify-between hover:bg-zinc-700 items-center border-2 border-[#0056AA] text-indigo-400 font-medium px-2 py-1 rounded-md transition-colors'
                         onClick={clearFiltersHadler}
                     >
                         <FunnelX size={16} />
@@ -45,7 +45,7 @@ function Filter() {
             </div>
 
             <div
-                className='w-full flex-wrap justify-start hidden bg-gradient-to-br from-indigo-500 to-indigo-600 text-zinc-100 font-medium
+                className='w-full flex-wrap justify-start hidden bg-[#0056AA] text-zinc-100 font-medium
                     md:flex md:h-fit md:flex-col md:items-start md:p-2 md:space-y-2 md:rounded-md
                 '>
                 <span className='flex items-center gap-1'>

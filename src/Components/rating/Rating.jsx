@@ -40,7 +40,7 @@ function Rating({ initalRate = 5, userId, ostadId }) {
         if (rating >= starValue - 0.5) {
             return <StarHalf fill='yellow' color={'yellow'} className='cursor-pointer' />
         }
-        return <Star fill='white' color={'yellow'} className='cursor-pointer' />
+        return <Star fill='white' color={'gray'} className='cursor-pointer' />
     }
     return (
         <div className='flex flex-row-reverse'>

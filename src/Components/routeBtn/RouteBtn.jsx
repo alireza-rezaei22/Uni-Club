@@ -8,7 +8,7 @@ function RouteBtn(props) {
 
     const {Icon, path } = props
     return (
-        <Link href={path} className={`${pathName == path ? 'bg-indigo-500 text-zinc-950' : 'bg-zinc-950 text-indigo-500'} flex-1 h-16 flex justify-center items-center`}>
+        <Link href={path} className={`${pathName == path ? 'bg-[#0056AA] text-zinc-950' : 'bg-zinc-950 text-[#0056AA]'} flex-1 h-16 flex justify-center items-center`}>
             <Icon/>
         </Link>
     )

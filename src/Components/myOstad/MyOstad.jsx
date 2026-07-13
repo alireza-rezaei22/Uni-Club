@@ -10,7 +10,7 @@ import DeleteBtn from '../deleteBtn/DeleteBtn';
 function MyOstad(props) {
 
     const { _id, image, name, degree, category, rate, commentsCount } = props
-    
+
     const degreesList = { diploma: 'دیپلم', associate: 'کاردانی', bachelor: 'کارشناسی', master: 'کارشناسی ارشد', PhD: 'دکترا' }
     const categoryList = { specialized: 'تخصصی', general: 'عمومی' }
     const ostadDegree = degreesList[degree]
@@ -30,14 +30,14 @@ function MyOstad(props) {
     }
 
     return (
-        <div className='min-w-72 h-44 bg-gradient-to-br from-indigo-300 to-indigo-100 hover:bg-zinc-800 flex flex-col justify-between gap-2 p-3 rounded-md border border-zinc-300 transition-colors'>
+        <div className='min-w-72 h-44  bg-zinc-900 hover:bg-zinc-800 flex flex-col justify-between gap-2 p-3 rounded-md border-2 border-[#0056AA] transition-colors'>
             <div className='flex justify-between gap-2'>
                 <span className='flex flex-col justify-between gap-2 w-2/3'>
-                    <h2 className='text-md md:text-lg font-bold'>استاد {name}</h2>
+                    <h2 className='text-md text-zinc-400 md:text-lg font-bold'>استاد {name}</h2>
                     <span className='flex gap-2'>
-                        <DeleteBtn deleteHandler={deleteHandler}/>
-                        <ItemBtn id={_id} title={'ویرایش'} Icon={PenIcon} type={'edit'} src={'/panel/editOstad'}/>
-                        <ItemBtn id={_id} title={'بازدید'} Icon={EyeIcon} type={'view'} src={'/ostad'}/>
+                        <DeleteBtn deleteHandler={deleteHandler} />
+                        <ItemBtn id={_id} title={'ویرایش'} Icon={PenIcon} type={'edit'} src={'/panel/editOstad'} />
+                        <ItemBtn id={_id} title={'بازدید'} Icon={EyeIcon} type={'view'} src={'/ostad'} />
                     </span>
                 </span>
                 <div className='w-1/3 relative flex justify-end'>
@@ -55,22 +55,22 @@ function MyOstad(props) {
                 </div>
             </div>
             <div>
-                <span className='text-zinc-600 text-xs flex justify-between'>
-                    <span className='flex gap-4'>
-                        <span className='font-medium flex items-center'>
+                <span className='text-zinc-500 text-xs flex justify-between'>
+                    <span className='flex gap-4 items-center justify-center'>
+                        <span className='font-medium flex gap-1'>
                             <GraduationCapIcon size={14} />{ostadcategory}
                         </span>
-                        <span className='font-medium flex items-center'>
+                        <span className='font-medium flex gap-1'>
                             <GraduationCapIcon size={14} />{ostadDegree}
                         </span>
                     </span>
-                    <span className='flex gap-4'>
-                        <span className='flex gap-1 font-medium'>
-                            {commentsCount}
+                    <span className='flex items-center gap-4'>
+                        <span className='flex gap-1 items-center'>
+                            <p>{commentsCount}</p>
                             <MessageSquare size={20} />
                         </span>
-                        <span className='flex gap-1 font-medium'>
-                            {rate}
+                        <span className='flex gap-1 items-center'>
+                            <p>{rate.toFixed(1)}</p>
                             <StarIcon size={20} fill='yellow' color={'yellow'} />
                         </span>
                     </span>
