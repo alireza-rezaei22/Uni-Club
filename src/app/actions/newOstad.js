@@ -14,9 +14,9 @@ const NewOstadAction = async (prevState, formData) => {
     const studyField = formData.get('studyField')
     const category = formData.get('category')
     const rawCourses = formData.get('courses')
-    
+
     let courses = []
-    let coursesArr = rawCourses && rawCourses.split(',').map( item => item.trim().replace(/'/g, ""))
+    let coursesArr = rawCourses && rawCourses.split(',').map(item => item.trim().replace(/'/g, ""))
     for (let i = 0; i < coursesArr.length; i += 5) {
         courses.push({
             name: coursesArr[i],
@@ -26,33 +26,49 @@ const NewOstadAction = async (prevState, formData) => {
             classLocation: coursesArr[i + 4],
         })
     }
-    console.log('courses: ', courses);
-    
     const startYear = formData.get('startYear')
     const userData = await authorizUser()
     const image = formData.get('image')
-    
+
 
     if (userData) {
         const validationResult = newOstadSchema.safeParse({
             name, biography, degree, category
         })
         if (validationResult.success) {
-            let imgName = null
-            if (image.size) {
-                try {
-                    const BufferImg = Buffer.from(await image.arrayBuffer())
-                    imgName = Date.now() + image.name
-                    const direction = path.join(process.cwd(), 'public/uploads/ostads/')
-                    const filePath = path.join(direction, imgName)
-                    await mkdir(direction, { recursive: true })
-                    await writeFile(filePath, BufferImg)
-                } catch (error) {
-                    console.error("Failed to save image:", error);
-                }
-            }
             try {
                 await connectToDB()
+                let imgName = null
+                if (image.size) {
+                    const maxSize = 10 * 1024 * 1024
+                    if (image.size > maxSize) {
+                        return {
+                            message: "لطفا عکسی با حجم کمتر از 10 مگ آپلود کنید :(",
+                            error: 'max size limit',
+                            inputs: {
+                                image,
+                                name,
+                                biography,
+                                degree,
+                                studyField,
+                                category,
+                                courses: [],
+                                startYear
+                            }
+                        }
+                    } else {
+                        try {
+                            const BufferImg = Buffer.from(await image.arrayBuffer())
+                            imgName = Date.now() + image.name
+                            const direction = path.join(process.cwd(), 'public/uploads/ostads/')
+                            const filePath = path.join(direction, imgName)
+                            await mkdir(direction, { recursive: true })
+                            await writeFile(filePath, BufferImg)
+                        } catch (error) {
+                            console.error("Failed to save image:", error);
+                        }
+                    }
+                }
                 await ostadModel.create({
                     image: imgName ? `/uploads/ostads/${imgName}` : '',
                     name,

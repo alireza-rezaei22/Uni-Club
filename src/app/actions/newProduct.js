@@ -17,25 +17,44 @@ const NewProductAction = async (prevState, formData) => {
     // const location = formData.get('location')?.split(',')
     const userData = await authorizUser()
     const image = formData.get('image')
-    let imgName = null
-    if (image.size) {
-        try {
-            const BufferImg = Buffer.from(await image.arrayBuffer())
-            imgName = Date.now() + image.name
-            const direction = path.join(process.cwd(), 'public/uploads/products/')
-            const filePath = path.join(direction, imgName)
-            await mkdir(direction, { recursive: true })
-            await writeFile(filePath, BufferImg)
-        } catch (error) {
-            console.error("Failed to save image:", error);
-        }
-    }
+
 
     if (userData) {
         const validationResult = newProductSchema.safeParse({ title, condition, category })
         if (validationResult.success) {
             try {
                 await connectToDB()
+                let imgName = null
+                if (image.size) {
+                    const maxSize = 10 * 1024 * 1024
+                    if (image.size > maxSize) {
+                        return {
+                            message: "لطفا عکسی با حجم کمتر از 10 مگ آپلود کنید :(",
+                            error: 'max size limit',
+                            inputs: {
+                                image,
+                                name,
+                                biography,
+                                degree,
+                                studyField,
+                                category,
+                                courses: [],
+                                startYear
+                            }
+                        }
+                    } else {
+                        try {
+                            const BufferImg = Buffer.from(await image.arrayBuffer())
+                            imgName = Date.now() + image.name
+                            const direction = path.join(process.cwd(), 'public/uploads/products/')
+                            const filePath = path.join(direction, imgName)
+                            await mkdir(direction, { recursive: true })
+                            await writeFile(filePath, BufferImg)
+                        } catch (error) {
+                            console.error("Failed to save image:", error);
+                        }
+                    }
+                }
                 await productModel.create({
                     image: imgName ? `/uploads/products/${imgName}` : '',
                     title,
@@ -44,7 +63,7 @@ const NewProductAction = async (prevState, formData) => {
                     category,
                     price,
                     ownerId: userData.id
-                })                
+                })
                 return {
                     message: "آگهی با موفقیت ثبت شد :)",
                     error: undefined,

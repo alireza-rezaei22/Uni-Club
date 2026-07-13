@@ -43,25 +43,29 @@ function EditOstad({ params }) {
     const [image, setImage] = useState(null)
     useEffect(() => {
         const getOstadInfo = async () => {
-            if (userInfo?.id) {
-                try {
-                    const res = await fetch(`/api/ostads/my/${ostadId}`)
-                    const data = await res.json()
-                    if (data.status == 200) {
-                        setOstad(data?.ostad)
-                        setCourses(data?.ostad?.courses)
-                    }
-                    else {
-                        toast.error(data.error, { position: 'bottom-center' })
-                    }
-
-                } catch {
-                    console.log('خطا در برقراری ارتباط با سرور');
-                    toast.error('خطا در برقراری ارتباط با سرور', { position: 'bottom-center' })
+            try {
+                const res = await fetch(`/api/ostads/my/${ostadId}`)
+                const data = await res.json()
+                if (data.status == 200) {
+                    setOstad(data?.ostad)
+                    setCourses(data?.ostad?.courses)
                 }
+                else {
+                    toast.error(data.error, { position: 'bottom-center' })
+                }
+            } catch {
+                console.log('خطا در برقراری ارتباط با سرور');
+                toast.error('خطا در برقراری ارتباط با سرور', { position: 'bottom-center' })
             }
         }
-        getOstadInfo()
+
+        if (userInfo?.id) {
+            console.log(userInfo);
+            
+            getOstadInfo()
+        } else {
+            router.push('/login-register')
+        }
     }, [])
 
     useEffect(() => {
@@ -121,7 +125,16 @@ function EditOstad({ params }) {
         let tt = courses
         setCourses(tt.filter((date, index) => index != itemIndex))
     }
+    const imageHandler = (event) => {
+        if (event.target.files[0]) {
+            if ((event.target.files[0].size) > (10 * 1024 * 1024)) {
+                toast.error('حجم فایل باید کمتر از 10 MB باشه', { position: 'bottom-center' })
+            } else {
+                setImage(event.target.files[0])
+            }
 
+        }
+    }
     return (
         <div className='flex flex-col justify-center items-center gap-5'>
             <h2 className="bg-blue-100 w-fit px-4 py-2 rounded-4xl text-[#0056AA] text-2xl font-bold mb-6 self-start">ویرایش استاد</h2>
@@ -137,7 +150,7 @@ function EditOstad({ params }) {
                             accept="image/*"
                             id='userImgInput'
                             className='hidden'
-                            onChange={e => setImage(e.target.files[0])}
+                            onChange={e => imageHandler(e)}
                         />
 
                         {preview ? (

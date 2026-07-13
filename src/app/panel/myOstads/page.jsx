@@ -13,8 +13,6 @@ function MyOstads() {
     const [error, setError] = useState({ err: '', icon: null })
 
     useEffect(() => {
-        console.log(ostads);
-
         const getMyOstads = async () => {
             try {
                 const res = await fetch(`/api/ostads/my`)

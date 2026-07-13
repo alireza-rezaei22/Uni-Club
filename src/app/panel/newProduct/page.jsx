@@ -57,6 +57,17 @@ function NewProduct() {
     }
   }, [formState])
 
+  const imageHandler = (event) => {
+    if (event.target.files[0]) {
+      if ((event.target.files[0].size) > (10 * 1024 * 1024)) {
+        toast.error('حجم فایل باید کمتر از 10 MB باشه', { position: 'bottom-center' })
+      } else {
+        setImage(event.target.files[0])
+      }
+
+    }
+  }
+
   return (
     <div className='flex flex-col justify-center items-center gap-5'>
       <h2 className="bg-blue-100 w-fit px-4 py-2 rounded-4xl text-[#0056AA] text-2xl font-bold mb-6 self-start">اگهی جدید</h2>
@@ -72,7 +83,7 @@ function NewProduct() {
               accept="image/*"
               id='userImgInput'
               className='hidden'
-              onChange={e => setImage(e.target.files[0])}
+              onChange={e => imageHandler(e)}
             />
 
             {preview ? (

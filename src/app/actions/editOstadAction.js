@@ -32,20 +32,38 @@ const EditOstadAction = async (prevState, formData) => {
                 const ostadRegisterer = await ostadModel.findById(id).select('registrarId')
 
                 if (userData.role == 'admin' || ostadRegisterer.registrarId == userData.id) {
+                    await connectToDB()
                     let imgName = null
                     if (image.size) {
-                        try {
-                            const BufferImg = Buffer.from(await image.arrayBuffer())
-                            imgName = Date.now() + image.name
-                            const direction = path.join(process.cwd(), 'public/uploads/')
-                            const filePath = path.join(direction, imgName)
-                            await mkdir(direction, { recursive: true })
-                            await writeFile(filePath, BufferImg)
-                        } catch (error) {
-                            console.error("Failed to save image:", error);
+                        const maxSize = 10 * 1024 * 1024
+                        if (image.size > maxSize) {
+                            return {
+                                message: "لطفا عکسی با حجم کمتر از 10 مگ آپلود کنید :(",
+                                error: 'max size limit',
+                                inputs: {
+                                    image,
+                                    name,
+                                    biography,
+                                    degree,
+                                    studyField,
+                                    category,
+                                    courses: [],
+                                    startYear
+                                }
+                            }
+                        } else {
+                            try {
+                                const BufferImg = Buffer.from(await image.arrayBuffer())
+                                imgName = Date.now() + image.name
+                                const direction = path.join(process.cwd(), 'public/uploads/')
+                                const filePath = path.join(direction, imgName)
+                                await mkdir(direction, { recursive: true })
+                                await writeFile(filePath, BufferImg)
+                            } catch (error) {
+                                console.error("Failed to save image:", error);
+                            }
                         }
                     }
-                    await connectToDB()
                     await ostadModel.findByIdAndUpdate(id, {
                         image: imgName ? `/uploads/${imgName}` : '',
                         name,

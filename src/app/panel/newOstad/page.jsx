@@ -85,6 +85,16 @@ function NewOstad() {
         let tt = courses
         setCourses(tt.filter((date, index) => index != itemIndex))
     }
+    const imageHandler = (event) => {
+        if(event.target.files[0]){
+            if((event.target.files[0].size) > (10 * 1024 * 1024)){
+                toast.error('حجم فایل باید کمتر از 10 MB باشه', {position: 'bottom-center'})
+            }else{
+                setImage(event.target.files[0])
+            }
+            
+        }
+    }
 
     return (
         <div className='flex flex-col justify-center items-center gap-5'>
@@ -101,7 +111,7 @@ function NewOstad() {
                             accept="image/*"
                             id='userImgInput'
                             className='hidden'
-                            onChange={e => setImage(e.target.files[0])}
+                            onChange={e => imageHandler(e)}
                         />
 
                         {preview ? (
