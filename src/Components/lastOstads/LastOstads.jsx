@@ -10,7 +10,7 @@ export const revalidate = 30000
 async function LastOstads() {
     try {
         await connectToDB()
-        const lastItems = await ostadModel.find({}).sort({ created_at: -1 }).limit(4).lean()
+        const lastItems = await ostadModel.find({}).sort({ created_at: -1 }).limit(5).lean()
         const plainItems = JSON.parse(JSON.stringify(lastItems))
         const getItems = await Promise.all(
             plainItems.map(async (item) => {

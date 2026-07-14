@@ -9,7 +9,7 @@ export const revalidate = 30000
 async function LastProducts() {
     try {
         await connectToDB()
-        const lastItems = await productModel.find({}).sort({ created_at: -1 }).limit(4).lean()
+        const lastItems = await productModel.find({}).sort({ created_at: -1 }).limit(5).lean()
         const plainItems = JSON.parse(JSON.stringify(lastItems))
 
         return (

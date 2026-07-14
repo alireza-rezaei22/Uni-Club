@@ -5,11 +5,11 @@ import React from 'react'
 function DeleteBtn({ deleteHandler }) {
     return (
         <button
-            className='bg-red-500 text-white flex gap-2 p-2 rounded-md cursor-pointer hover:bg-red-600 transition-colors'
+            className='bg-red-500 text-white flex items-center gap-2 p-1 rounded-md cursor-pointer hover:bg-red-600 transition-colors'
             onClick={deleteHandler}
         >
             حذف
-            <Trash2Icon />
+            <Trash2Icon size={18} />
         </button>
     )
 }

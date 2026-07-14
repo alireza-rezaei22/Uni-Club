@@ -75,15 +75,15 @@ function MyProductItem({ product }) {
                     </div>
                 </div>
                 <div>
-                    <span className='text-zinc-600 text-xs flex justify-between'>
+                    <span className='text-zinc-500 text-sm flex justify-between font-medium'>
                         <span className='flex gap-4'>
-                            <h4 className='text-xs font-medium'>{price ? `${price.toLocaleString()} تومان` : 'توافقی'}</h4>
+                            <h4 className=''>{price ? `${price.toLocaleString()} تومان` : 'توافقی'}</h4>
                         </span>
                         <span className='flex gap-4'>
-                            <span className='flex gap-1 font-medium'>
+                            <span className='flex gap-1'>
                                 {productCondition}
                             </span>
-                            <span className='flex gap-1 font-medium'>
+                            <span className='flex gap-1'>
                                 <ItemDate date={created_at} />
                             </span>
                         </span>
@@ -96,40 +96,3 @@ function MyProductItem({ product }) {
 }
 
 export default MyProductItem
-
-// <Link key={id} href={`/product/${id}`} className='flex-1'>
-// < div className = 'relative bg-zinc-300 hover:bg-zinc-400 h-40 flex justify-between gap-5 p-2 rounded-md' >
-//                 <div className='flex-1 flex flex-col justify-between'>
-//                     <h2 className='text-lg font-semibold cursor-pointer'>{title}</h2>
-//                     <p className=' text-zinc-600 cursor-pointer'>{description.length > 40 ? description?.slice(0, 40) + '...' : description}</p>
-//                     <span className='text-zinc-600 flex justify-between'>
-//                         <h4 className='text-xs font-medium'>{productCondition}</h4>
-//                         <h4 className='text-xs font-medium'>{price ? `${price.toLocaleString()} تومان` : 'توافقی'}</h4>
-//                     </span>
-//                     <span className='text-zinc-600 flex justify-between'>
-//                         {created_at && <ItemDate date={created_at} />}
-//                         <h4 className='text-xs font-medium'>{city}</h4>
-//                     </span>
-//                 </div>
-//                 <div className='w-30 h-30 relative'>
-//                     {/* {imageBase64 ? */}
-//                     <Image
-//                         className='rounded-xl cursor-pointer w-full h-[70%] object-cover'
-//                         src={image || "/images/default.png"}
-//                         alt='product image'
-//                         width={500}
-//                         height={300}
-//                     />
-
-//                     <span className='absolute -left-1 -top-1 '>
-//                         <MarkIcon productId={id} />
-//                     </span>
-//                 </div>
-//                 <button
-//                     className='absolute left-2 bottom-2 bg-zinc-300 text-zinc-700 rounded-full p-1 w-10 h-10 self-end cursor-pointer flex justify-center items-center hover:bg-red-500 hover:text-white transition-all hover:animate-pulse'
-//                     onClick={deleteProduct}
-//                 >
-//                     <Trash2 />
-//                 </button>
-//             </div >
-//         </Link >

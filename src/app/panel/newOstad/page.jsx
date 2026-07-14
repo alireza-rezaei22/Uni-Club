@@ -86,13 +86,13 @@ function NewOstad() {
         setCourses(tt.filter((date, index) => index != itemIndex))
     }
     const imageHandler = (event) => {
-        if(event.target.files[0]){
-            if((event.target.files[0].size) > (10 * 1024 * 1024)){
-                toast.error('حجم فایل باید کمتر از 10 MB باشه', {position: 'bottom-center'})
-            }else{
+        if (event.target.files[0]) {
+            if ((event.target.files[0].size) > (10 * 1024 * 1024)) {
+                toast.error('حجم فایل باید کمتر از 10 MB باشه', { position: 'bottom-center' })
+            } else {
                 setImage(event.target.files[0])
             }
-            
+
         }
     }
 
@@ -210,14 +210,24 @@ function NewOstad() {
                         })}
                     </div>
                     <input type="hidden" name='courses' value={courses} />
-                    <input type="text"
-                        name='className'
-                        className='flex-1 bg-zinc-100 border  border-zinc-200 rounded-md px-2 py-2 outline-0'
-                        placeholder='نام درسی که استاد استاد  تدریس می کند ...'
-                        onChange={e => setCourseName(e.target.value)}
-                        value={courseName}
-                    />
-                    <div className='flex gap-5'>
+                    <div className='flex gap-2'>
+                        <input type="text"
+                            name='className'
+                            className='flex-1 bg-zinc-100 border  border-zinc-200 rounded-md px-2 py-2 outline-0'
+                            placeholder='نام درسی که استاد تدریس می کند ...'
+                            onChange={e => setCourseName(e.target.value)}
+                            value={courseName}
+                        />
+                        <input type="text"
+                            name='classLocation'
+                            className='w-full bg-zinc-100 border  border-zinc-200 rounded-md px-2 py-2 outline-0'
+                            placeholder='محل تشکیل...'
+                            onChange={e => setClassLocation(e.target.value)}
+                            value={classLocation}
+                        />
+                    </div>
+
+                    <div className='flex gap-2'>
                         <div className="bg-zinc-100 w-full flex rounded-md p-2 cursor-pointer relative">
                             <select
                                 className='appearance-none outline-0 pl-10'
@@ -287,13 +297,6 @@ function NewOstad() {
                                 <ChevronDown />
                             </div>
                         </div>
-                        <input type="text"
-                            name='classLocation'
-                            className='w-full bg-zinc-100 border  border-zinc-200 rounded-md px-2 py-2 outline-0'
-                            placeholder='محل تشکیل...'
-                            onChange={e => setClassLocation(e.target.value)}
-                            value={classLocation}
-                        />
                     </div>
                     <button
                         className={`${(courseName.length > 1 && classDay !== '-1' && classStartTime !== '-1' && classEndTime !== '-1' && classLocation.length > 1) ? 'bg-indigo-600 hover:bg-indigo-400' : 'bg-indigo-300'} text-white rounded-md p-2 cursor-pointer transition-colors`}
