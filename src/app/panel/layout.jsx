@@ -11,7 +11,7 @@ async function Layout({ children }) {
     return (
         <div className='flex flex-row mt-2'>
             <SideBar />
-            <main className='hide-scrollbar flex flex-col w-full h-[90vh] bg-gray-600 rounded-xl md:mx-5 p-5 md:p-10 overflow-y-scroll'>
+            <main className='hide-scrollbar flex flex-col w-full h-[90vh] bg-gray-800 rounded-xl md:mx-5 p-5 md:p-10 overflow-y-scroll'>
                 {usertoken ?
                     <>
                         {children}

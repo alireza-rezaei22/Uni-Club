@@ -41,7 +41,7 @@ function Login({ setFormStatus }) {
     }, [loginState])
 
     return (
-        <div className='bg-gradient-to-br from-indigo-500 to-indigo-600 text-zinc-900 relative w-full max-w-96 border rounded-md py-8'>
+        <div className='bg-[#0056AA] text-zinc-900 relative w-full max-w-96 border rounded-md py-8'>
             {isForgetPassMode ?
                 <ForgetPass setFormStatus={setFormStatus} />
                 :
@@ -54,7 +54,7 @@ function Login({ setFormStatus }) {
                         value={phone}
                         onChange={e => setPhone(e.target.value)}
                         name='phone'
-                        className='bg-zinc-100 border w-full border-indigo-700 rounded-md px-2 py-3 outline-0'
+                        className='bg-zinc-100 border-0 w-full rounded-md px-2 py-3 outline-0'
                         placeholder='شماره تلفن ...'
                     />
                     <Password
@@ -67,7 +67,7 @@ function Login({ setFormStatus }) {
                     <SubmitBtn isFormValid={isFormValid}>ورود</SubmitBtn>
                 </form>
             }
-            <div className='absolute -bottom-12 w-full flex flex-row justify-between text-indigo-400'>
+            <div className='absolute -bottom-12 w-full flex flex-row justify-between text-[#0056AA]'>
                 <h4
                     className='cursor-pointer px-4 py-2 rounded-full hover:bg-indigo-200 hover:text-zinc-900 transition-colors'
                     onClick={() => setFormStatus('signin')}

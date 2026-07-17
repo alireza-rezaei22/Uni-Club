@@ -39,7 +39,7 @@ function Register({ setFormStatus }) {
     }, [registerState])
     return (
         <form
-            className='bg-gradient-to-br from-indigo-500 to-indigo-600 text-zinc-900 relative w-full max-w-96 flex flex-col justify-center items-center gap-3 border rounded-md py-8 px-5'
+            className='bg-[#0056AA] text-zinc-900 relative w-full max-w-96 flex flex-col justify-center items-center gap-3 border rounded-md py-8 px-5'
             action={registerFormAction}
         >
             {/* <LogIn className='w-28 h-28 text-white' /> */}
@@ -75,7 +75,7 @@ function Register({ setFormStatus }) {
             <SubmitBtn isFormValid={isFormValid}>ثبت نام</SubmitBtn>
 
             <h4
-                className=' px-4 py-2 rounded-full hover:bg-indigo-200 hover:text-zinc-900 transition-colors  absolute -bottom-12 self-start text-indigo-400 cursor-pointer'
+                className=' px-4 py-2 rounded-full hover:bg-indigo-200 hover:text-zinc-900 transition-colors  absolute -bottom-12 self-start text-[#0056AA] cursor-pointer'
                 onClick={() => setFormStatus('login')}
             >
                 ورود

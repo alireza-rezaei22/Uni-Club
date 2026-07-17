@@ -1,7 +1,7 @@
 "use client"
 import Link from 'next/link'
 import React from 'react'
-import { UserCog2, ShoppingBasket, User2, MessageSquareIcon, Bookmark, MessagesSquare, LogOut, PlusCircle, DollarSign, UserPlus2 } from 'lucide-react'
+import { UserCog2, ShoppingBasket, User2, MessageSquareIcon, Bookmark, MessagesSquare, LogOut, PlusCircle, DollarSign, UserPlus2, Megaphone, Receipt, UsersRound } from 'lucide-react'
 import { useAuthStore } from '@/store/useAuthStore'
 import { usePathname, useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
@@ -14,16 +14,16 @@ function SideBar() {
     const routes = [
         { name: 'اطلاعات من', Icon: UserCog2, path: '/panel/userInfo' },
         ...(userInfo?.role === 'admin' ? [
-            { name: 'کاربران', Icon: DollarSign, path: '/panel/users' },
-            { name: 'استادها', Icon: DollarSign, path: '/panel/ostads' },
-            { name: 'آگهی ها', Icon: DollarSign, path: '/panel/products' },
+            { name: 'کاربران', Icon: UsersRound, path: '/panel/users' },
+            { name: 'استادها', Icon: UsersRound, path: '/panel/ostads' },
+            { name: 'آگهی ها', Icon: Megaphone, path: '/panel/products' },
         ] : []),
-        { name: 'معاملات من', Icon: DollarSign, path: '#' },
-        { name: 'آگهی های من', Icon: ShoppingBasket, path: '/panel/myProducts' },
+        { name: 'معاملات من', Icon: Receipt, path: '#' },
+        { name: 'آگهی های من', Icon: Megaphone, path: '/panel/myProducts' },
         { name: 'دیدگاه های من', Icon: MessageSquareIcon, path: '/panel/myComments' },
         { name: 'نشان شده ها', Icon: Bookmark, path: '/panel/myMarks' },
         { name: 'گفتوگو های من', Icon: MessagesSquare, path: '/panel/chats' },
-        { name: 'استادهای ثبت شده', Icon: User2, path: '/panel/myOstads' },
+        { name: 'استادهای ثبت شده', Icon: UsersRound, path: '/panel/myOstads' },
         { name: 'اگهی جدید', Icon: PlusCircle, path: '/panel/newProduct' },
         { name: 'ثبت استاد', Icon: UserPlus2, path: '/panel/newOstad' },
         { name: 'خروج', Icon: LogOut, path: '/' },
@@ -43,7 +43,7 @@ function SideBar() {
         }
     }
     return (
-        <aside className='bg-gray-700 text-indigo-500 w-full hidden md:w-1/6 overflow-y-scroll hide-scrollbar md:flex h-[90vh] rounded-l-xl text-sm font-medium'>
+        <aside className='bg-gray-800 text-[#0056AA] font-medium w-full hidden md:w-1/6 overflow-y-scroll hide-scrollbar md:flex h-[90vh] rounded-l-xl text-sm'>
             <ul className='w-full flex flex-col gap-2 p-2'>
                 {routes.map((route, index) => {
                     return route.name === 'خروج' ?
@@ -57,7 +57,7 @@ function SideBar() {
                         </button>
                         : <Link
                             key={index} href={route.path}
-                            className={`${pathname === route.path ? 'bg-indigo-400 text-gray-700 hover:bg-indigo-500' : 'hover:bg-indigo-200 hover:text-gray-700 '} flex flex-nowrap gap-2 items-center border-b border-zinc-500 px-2 py-4 rounded-md transition-colors`}
+                            className={`${pathname === route.path && 'bg-[#0056AA] text-gray-900'} hover:bg-indigo-200 hover:text-gray-700 flex flex-nowrap gap-2 items-center border-b border-zinc-500 px-2 py-4 rounded-md transition-colors`}
                         >
                             <route.Icon />
                             {route.name}

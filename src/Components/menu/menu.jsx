@@ -1,6 +1,6 @@
 "use client"
 import { useAuthStore } from '@/store/useAuthStore'
-import { Bookmark, DollarSign, LogOut, MessageSquareIcon, MessagesSquare, PlusCircle, ShoppingBasket, User2, UserCog2, UserPlus2, UserRound } from 'lucide-react'
+import { Bookmark, DollarSign, LogOut, Megaphone, MessageSquareIcon, MessagesSquare, PlusCircle, Receipt, ShoppingBasket, User2, UserCog2, UserPlus2, UserRound, UsersRound } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React from 'react'
@@ -15,16 +15,16 @@ function Menu() {
     const routes = [
         { name: 'اطلاعات من', Icon: UserCog2, path: '/panel/userInfo' },
         ...(userInfo?.role === 'admin' ? [
-            { name: 'کاربران', Icon: DollarSign, path: '/panel/users' },
-            { name: 'استادها', Icon: DollarSign, path: '/panel/ostads' },
-            { name: 'آگهی ها', Icon: DollarSign, path: '/panel/products' },
+            { name: 'کاربران', Icon: UsersRound, path: '/panel/users' },
+            { name: 'استادها', Icon: UsersRound, path: '/panel/ostads' },
+            { name: 'آگهی ها', Icon: Megaphone, path: '/panel/products' },
         ] : []),
-        { name: 'معاملات من', Icon: DollarSign, path: '#' },
-        { name: 'آگهی های من', Icon: ShoppingBasket, path: '/panel/myProducts' },
+        { name: 'معاملات من', Icon: Receipt, path: '#' },
+        { name: 'آگهی های من', Icon: Megaphone, path: '/panel/myProducts' },
         { name: 'دیدگاه های من', Icon: MessageSquareIcon, path: '/panel/myComments' },
         { name: 'نشان شده ها', Icon: Bookmark, path: '/panel/myMarks' },
         { name: 'گفتوگو های من', Icon: MessagesSquare, path: '/panel/chats' },
-        { name: 'استادهای ثبت شده', Icon: User2, path: '/panel/myOstads' },
+        { name: 'استادهای ثبت شده', Icon: UsersRound, path: '/panel/myOstads' },
         { name: 'اگهی جدید', Icon: PlusCircle, path: '/panel/newProduct' },
         { name: 'ثبت استاد', Icon: UserPlus2, path: '/panel/newOstad' },
         { name: 'خروج', Icon: LogOut, path: '/' },
@@ -47,7 +47,7 @@ function Menu() {
                 return route.name === 'خروج' ?
                     <button
                         key={index}
-                        className='flex flex-nowrap gap-2 items-center border-b border-zinc-500 px-2 py-4 rounded-md transition-colors text-indigo-400 hover:bg-indigo-200 hover:text-gray-700'
+                        className='flex flex-nowrap gap-2 items-center border-b border-zinc-500 px-2 py-4 rounded-md transition-colors text-[#0056AA] hover:bg-indigo-200 hover:text-gray-700'
                         onClick={logOutHandler}
                     >
                         <route.Icon />
@@ -55,7 +55,7 @@ function Menu() {
                     </button>
                     : <Link
                         key={index} href={route.path}
-                        className='hover:bg-indigo-200 hover:text-gray-700 text-indigo-400 flex flex-nowrap gap-2 items-center border-b border-zinc-500 px-2 py-4 rounded-md transition-colors'
+                        className='hover:bg-indigo-200 hover:text-gray-900 text-[#0056AA] flex flex-nowrap gap-2 items-center border-b border-zinc-500 px-2 py-4 rounded-md transition-colors'
                     >
                         <route.Icon />
                         {route.name}
