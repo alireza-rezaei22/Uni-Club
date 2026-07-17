@@ -29,7 +29,17 @@ function EditOstad({ params }) {
             startYear: -1,
         }
     })
-    const [ostad, setOstad] = useState([])
+    const [ostad, setOstad] = useState({
+        id: '',
+        image: '',
+        name: '',
+        biography: '',
+        degree: '-1',
+        studyField: '',
+        courses: [],
+        category: '-1',
+        startYear: -1,
+    })
     const [preview, setPreview] = useState()
     const [courses, setCourses] = useState([])
 
@@ -41,6 +51,7 @@ function EditOstad({ params }) {
     const [confirmation, setConfirmation] = useState(false)
 
     const [image, setImage] = useState(null)
+    const [imageChanged, setImageChanged] = useState(false)
     useEffect(() => {
         const getOstadInfo = async () => {
             try {
@@ -131,6 +142,7 @@ function EditOstad({ params }) {
                 toast.error('حجم فایل باید کمتر از 10 MB باشه', { position: 'bottom-center' })
             } else {
                 setImage(event.target.files[0])
+                setImageChanged(true)
             }
 
         }
@@ -142,6 +154,7 @@ function EditOstad({ params }) {
                 className='w-full max-w-126 flex flex-col items-center gap-5 mb-16'
                 action={formAction}
             >
+                <input type="hidden" name='imageChanged' value={imageChanged} />
                 <div className='flex items-center'>
                     <div className='relative'>
                         <input
@@ -170,6 +183,7 @@ function EditOstad({ params }) {
                                 onClick={() => {
                                     setPreview(null);
                                     setImage(null);
+                                    setImageChanged(true)
                                     document.getElementById('userImgInput').value = '';
                                 }}
                             >
