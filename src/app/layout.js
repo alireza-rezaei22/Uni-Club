@@ -5,6 +5,7 @@ import { verify } from "jsonwebtoken";
 import { Toaster } from "react-hot-toast";
 import { Vazirmatn } from "next/font/google";
 import BottomNav from "@/Components/bottomNav/BottomNav";
+import Footer from "@/Components/footer/Footer";
 import Navbar from "@/Components/navbar/Navbar";
 
 const vazirmatn = Vazirmatn({
@@ -39,6 +40,7 @@ export default async function RootLayout({ children }) {
           <BottomNav />
           <Toaster />
         </ClientProvider>
+        <Footer/>
       </body>
     </html>
   );

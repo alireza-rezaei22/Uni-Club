@@ -42,27 +42,36 @@ function Menu() {
         }
     }
     return (
-        <ul className='md:hidden flex flex-col gap-2 p-2 mb-14'>
-            {routes.map((route, index) => {
-                return route.name === 'خروج' ?
-                    <button
-                        key={index}
-                        className='flex flex-nowrap gap-2 items-center border-b border-zinc-500 px-2 py-4 rounded-md transition-colors text-[#0056AA] hover:bg-indigo-200 hover:text-gray-700'
-                        onClick={logOutHandler}
-                    >
-                        <route.Icon />
-                        {route.name}
-                    </button>
-                    : <Link
-                        key={index} href={route.path}
-                        className='hover:bg-indigo-200 hover:text-gray-900 text-[#0056AA] flex flex-nowrap gap-2 items-center border-b border-zinc-500 px-2 py-4 rounded-md transition-colors'
-                    >
-                        <route.Icon />
-                        {route.name}
-                    </Link>
+        <>
+            <div className='md:hidden flex flex-col justify-center items-center gap-3'>
+                <div className='bg-zinc-300 size-28 rounded-full flex justify-center items-center'>
+                    <UserRound className='size-20 text-zinc-800' />
+                </div>
+                <h2 className='text-zinc-200'>{userInfo.name}</h2>
+                <h4 className='text-zinc-500 text-sm font-light'>{userInfo.phone}</h4>
+            </div>
+            <ul className='md:hidden flex flex-col gap-2 p-2 mb-14'>
+                {routes.map((route, index) => {
+                    return route.name === 'خروج' ?
+                        <button
+                            key={index}
+                            className='flex flex-nowrap gap-2 items-center border-b border-zinc-500 px-2 py-4 rounded-md transition-colors text-[#0056AA] hover:bg-indigo-200 hover:text-gray-700'
+                            onClick={logOutHandler}
+                        >
+                            <route.Icon />
+                            {route.name}
+                        </button>
+                        : <Link
+                            key={index} href={route.path}
+                            className='hover:bg-indigo-200 hover:text-gray-900 text-[#0056AA] flex flex-nowrap gap-2 items-center border-b border-zinc-500 px-2 py-4 rounded-md transition-colors'
+                        >
+                            <route.Icon />
+                            {route.name}
+                        </Link>
 
-            })}
-        </ul>
+                })}
+            </ul>
+        </>
     )
 }
 
