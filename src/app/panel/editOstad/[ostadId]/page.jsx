@@ -8,6 +8,7 @@ import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import EditOstadAction from '@/app/actions/editOstadAction'
 import { useAuthStore } from '@/store/useAuthStore'
+import Link from 'next/link'
 
 function EditOstad({ params }) {
     const { ostadId } = params
@@ -389,7 +390,7 @@ function EditOstad({ params }) {
                 </div>
                 <div className='self-start flex gap-2 text-zinc-100'>
                     <input type="checkbox" name='confirmation' onClick={() => setConfirmation(prev => !prev)} />
-                    <p>با ثبت این اطلاعات موافقت خود را با <em className='text-blue-400 cursor-pointer'>قوانین سایت</em> تایید می کنم</p>
+                    <p>با ثبت این اطلاعات موافقت خود را با <Link href={'/terms'} className='text-blue-400 cursor-pointer'>قوانین سایت</Link> تایید می کنم</p>
                 </div>
                 <SubmitBtn isFormValid={isFormValid}>ثبت</SubmitBtn>
             </form >

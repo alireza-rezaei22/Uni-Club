@@ -6,7 +6,8 @@ export default async function ostads() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/ostads`, { next: { revalidate: 300 } })
 
   const ostadsList = await res.json()
-
+  console.log('ostads: >>>>>>', ostadsList);
+  
   return (
     <>
       <main className="flex flex-col items-start md:flex-row md:mx-[5%] p-5">

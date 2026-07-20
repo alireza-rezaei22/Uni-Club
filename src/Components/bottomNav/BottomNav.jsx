@@ -16,7 +16,7 @@ function BottomNav() {
   ]
   
   return (
-    <nav className='fixed bottom-0 w-full flex justify-between divide-x divide-x-reverse md:hidden'>
+    <nav className='fixed bottom-0 w-full flex justify-between divide-x md:hidden'>
       {routes.map((route, index) => {
         return <RouteBtn key={index} {...route} />
       })}

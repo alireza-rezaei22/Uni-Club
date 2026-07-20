@@ -1,34 +1,32 @@
 'use client'
 import { Star, StarHalf } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useState, useTransition } from 'react'
 import toast from 'react-hot-toast'
 
 function Rating({ initalRate = 5, userId, ostadId }) {
+    const [isPending, startTransition] = useTransition()
+
     const [rating, setRating] = useState(initalRate)
-    const handleClick = async starValue => {
-        if (userId) {
+    const handleClick = starValue => {
+        if (!userId) {
+            toast.error('برای ثبت رای وارد حساب کاربری شوید', { position: 'bottom-center' })
+            return
+        }
+        setRating(starValue)
+        startTransition(async () => {
             const res = await fetch('/api/rate', {
                 method: 'POST',
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    userId,
-                    ostadId,
-                    rate: starValue
-                })
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ userId, ostadId, rate: starValue })
             })
             const data = await res.json()
             if (data.msg) {
-
                 toast.success(data.msg, { position: 'bottom-center' })
-                setRating(starValue)
             } else {
                 toast.error(data.error, { position: 'bottom-center' })
+                setRating(initalRate)
             }
-        } else {
-            toast.error('برای ثبت رای وارد حساب کاربری شوید', { position: 'bottom-center' })
-        }
+        })
     }
 
     const renderStar = (position) => {
@@ -43,12 +41,14 @@ function Rating({ initalRate = 5, userId, ostadId }) {
         return <Star fill='white' color={'gray'} className='cursor-pointer' />
     }
     return (
-        <div className='flex flex-row-reverse'>
-            {[...Array(5)].map((_, index) => (
-                <div key={index} onClick={() => { handleClick(index + 1) }}>
-                    {renderStar(index)}
-                </div>
-            ))}</div>
+        <div className={`flex flex-row-reverserow-reverse ${isPending ? ' opacity-50 pointer-events-none' : ''}`}>
+            {
+                [...Array(5)].map((_, index) => (
+                    <div key={index} onClick={() => { handleClick(index + 1) }}>
+                        {renderStar(index)}
+                    </div>
+                ))
+            }</ div>
     )
 }
 

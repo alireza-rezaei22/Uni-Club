@@ -1,10 +1,18 @@
 import Category from "@/Components/category/Category";
 import Products from "@/Components/products/Products";
 import Filter from "@/Components/filter/Filter";
+import { SearchX } from "lucide-react";
+import PopUp from "@/Components/popUp/PopUp";
 
 export default async function ProductsPage() {
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/products`, { next: { revalidate: 300 } })
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/pیroducts`, { next: { revalidate: 300 } })
+
+  if (!res.ok) {
+    return (
+      <PopUp Icon={SearchX} msg={'اتصال برقرار نشد'} />
+    );
+  }
 
   const productsList = await res.json()
   return (

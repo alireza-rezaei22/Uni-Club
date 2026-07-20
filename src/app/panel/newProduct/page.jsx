@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { ChevronDown, PlusSquare, Trash2 } from 'lucide-react'
-import Cities from '@/Components/cities/Cities'
+// import Cities from '@/Components/cities/Cities'
 import SubmitBtn from '@/Components/submitBtn/SubmitBtn'
 import { useActionState } from 'react'
 import NewProductAction from '../../actions/newProduct'
@@ -9,6 +9,7 @@ import { newProductSchema } from '@/utils/validation'
 // import SelectMap from '@/Components/map/selectMap'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 function NewProduct() {
   const router = useRouter()
@@ -27,15 +28,17 @@ function NewProduct() {
   const [preview, setPreview] = useState()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  const [city, setCity] = useState('-1')
+  // const [city, setCity] = useState('-1')
   const [condition, setCondition] = useState('-1')
   const [category, setCategory] = useState('-1')
   const [price, setPrice] = useState('')
-  const [location, setLocation] = useState('')
+  // const [location, setLocation] = useState('')
+  const [confirmation, setConfirmation] = useState(false)
+
 
   useEffect(() => {
-    setIsFormValid(newProductSchema.safeParse({ image, title, description, condition, category, price }).success)
-  }, [title, condition, category, price])
+    setIsFormValid(newProductSchema.safeParse({ image, title, description, condition, category, price }).success && confirmation)
+  }, [title, condition, category, price, confirmation])
   useEffect(() => {
     if (image?.name) {
       const imageURL = URL.createObjectURL(image)
@@ -132,7 +135,7 @@ function NewProduct() {
         <Cities className='w-full' setCity={setCity} isInNav={false} /> */}
 
         <h3 className='self-start text-xl font-bold'>وضعیت کالا*</h3>
-        <div className="bg-zinc-100 w-full flex rounded-full p-2 cursor-pointer relative">
+        <div className="bg-zinc-100 w-full flex rounded-md p-2 cursor-pointer relative">
           <select
             className='appearance-none outline-0 pl-10'
             name="condition"
@@ -147,7 +150,8 @@ function NewProduct() {
           </div>
         </div>
         <h3 className='self-start text-xl font-bold'>دسته بندی*</h3>
-        <div className="bg-zinc-100 w-full flex rounded-full p-2 cursor-pointer relative">
+        <div className="bg-zinc-100 w-full flex rounded-md
+         p-2 cursor-pointer relative">
           <select
             className='appearance-none outline-0 pl-10'
             name="category"
@@ -178,6 +182,10 @@ function NewProduct() {
           <SelectMap setLocationProp={setLocation} />
           <input type='hidden' name='location' value={location} />
         </div> */}
+        <div className='self-start flex gap-2 text-zinc-100'>
+          <input type="checkbox" name='confirmation' onClick={() => setConfirmation(prev => !prev)} />
+          <p>با ثبت این اطلاعات موافقت خود را با <Link href={'/terms'} className='text-blue-400 cursor-pointer'>قوانین سایت</Link> تایید می کنم</p>
+        </div>
         <SubmitBtn isFormValid={isFormValid}>ثبت</SubmitBtn>
       </form>
     </div>

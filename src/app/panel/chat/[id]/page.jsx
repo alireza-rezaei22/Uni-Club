@@ -24,7 +24,7 @@ function Chat() {
   useEffect(() => {
     if (!id) return;
     if (!socketRef.current) {
-      socketRef.current = io(process.env.NEXT_PUBLIC_SITE_URL, {
+      socketRef.current = io(process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3000', {
         query: { id }
       });
     }

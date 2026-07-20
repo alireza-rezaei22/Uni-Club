@@ -11,10 +11,9 @@ import cookie from 'cookie'
 await connectToDB()
 
 const dev = process.env.NODE_ENV !== 'production';
-const hostname = 'localhost';
 const port = process.env.PORT || 3000;
 
-const app = next({ dev, hostname, port });
+const app = next({ dev });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
@@ -25,8 +24,9 @@ app.prepare().then(() => {
 
   const io = new Server(server, {
     cors: {
-      origin: '*',
-      methods: ['GET', 'POST'],
+      origin: [process.env.NEXT_PUBLIC_SITE_URL, "http://localhost:3000"],
+      methods: ["GET", "POST"],
+      credentials: true
     },
   });
 

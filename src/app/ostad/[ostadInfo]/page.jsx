@@ -123,9 +123,9 @@ export default async function Ostad({ params }) {
                     </div>
                     <Comments initComments={comments} ostadId={ostadId} />
                 </div>
-                <Link href={`/panel/${isUserPOwner ? 'myProducts' : `chat/${ostadId}`}`} className='col-start-4 col-end-6'>
+                {/* <Link href={`/panel/${isUserPOwner ? 'myProducts' : `chat/${ostadId}`}`} className='col-start-4 col-end-6'>
                     <button className='w-full bg-green-600 text-white my-2 p-2 rounded-md cursor-pointer'>ارتباط با استاد</button>
-                </Link>
+                </Link> */}
             </div>
         </>
     )
