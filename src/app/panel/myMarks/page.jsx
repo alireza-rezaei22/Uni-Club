@@ -12,7 +12,7 @@ function MarkedItems() {
   const userMarked = UseMarkStore(state => state.marks)
   const setUserMarked = UseMarkStore(state => state.setMarks)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState({ err: '', icon: BookmarkX })
+  const [error, setError] = useState({ err: 'تاکنون چیزی را نشان نکرده اید', icon: BookmarkX })
 
   useEffect(() => {
 

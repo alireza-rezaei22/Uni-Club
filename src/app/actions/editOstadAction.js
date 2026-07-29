@@ -2,8 +2,8 @@
 import connectToDB from "@/configs/DB";
 import { newOstadSchema } from "@/utils/validation";
 import ostadModel from "@/model/ostad";
-import { writeFile, mkdir } from "fs/promises"
-import path from "path";
+// import { writeFile, mkdir } from "fs/promises"
+// import path from "path";
 import authorizUser from "@/utils/authorizUser";
 
 const EditOstadAction = async (prevState, formData) => {
@@ -21,6 +21,8 @@ const EditOstadAction = async (prevState, formData) => {
     const userData = await authorizUser()
     const image = formData.get('image')
     const imageChanged = formData.get('imageChanged') === 'true'
+    const imageUrl = formData.get('imageUrl');
+    console.log(imageUrl);
 
 
     if (userData) {
@@ -35,7 +37,7 @@ const EditOstadAction = async (prevState, formData) => {
                 if (userData.role == 'admin' || ostadRegisterer.registrarId == userData.id) {
                     await connectToDB()
                     if (imageChanged) {
-                        let imgName = null
+                        // let imgName = null
                         const maxSize = 10 * 1024 * 1024
                         if (image.size > maxSize) {
                             return {
@@ -53,18 +55,18 @@ const EditOstadAction = async (prevState, formData) => {
                                 }
                             }
                         } else {
-                            try {
-                                const BufferImg = Buffer.from(await image.arrayBuffer())
-                                imgName = Date.now() + image.name
-                                const direction = path.join(process.cwd(), 'public/uploads/ostads')
-                                const filePath = path.join(direction, imgName)
-                                await mkdir(direction, { recursive: true })
-                                await writeFile(filePath, BufferImg)
-                            } catch (error) {
-                                console.error("Failed to save image:", error);
-                            }
+                            // try {
+                            //     const BufferImg = Buffer.from(await image.arrayBuffer())
+                            //     imgName = Date.now() + image.name
+                            //     const direction = path.join(process.cwd(), 'public/uploads/ostads')
+                            //     const filePath = path.join(direction, imgName)
+                            //     await mkdir(direction, { recursive: true })
+                            //     await writeFile(filePath, BufferImg)
+                            // } catch (error) {
+                            //     console.error("Failed to save image:", error);
+                            // }
                             await ostadModel.findByIdAndUpdate(id, {
-                                image: imgName ? `/uploads/ostads/${imgName}` : '',
+                                image: imageUrl ? imageUrl : undefined,
                                 name,
                                 biography,
                                 degree,

@@ -1,6 +1,5 @@
 import productModel from '@/model/product'
 import ItemDate from '@/Components/itemDate/ItemDate'
-import ShowMap from '@/Components/map/showMap'
 import Link from 'next/link'
 import MarkIcon from '@/Components/markIcon/MarkIcon'
 import { cookies } from 'next/headers'
@@ -8,7 +7,7 @@ import { verify } from 'jsonwebtoken'
 import Image from 'next/image'
 
 export default async function page({ params }) {
-    const { productDetail: productId } = params
+    const { productDetail: productId } = await params
 
     const product = await productModel.findById(productId)
     const { image, title, description, created_at, condition, price } = product
@@ -37,10 +36,12 @@ export default async function page({ params }) {
                     width={500}
                     height={300}
                 />
-                <div className='h-fit row-start-1 row-end-4 col-start-1 col-end-4 p-2'>
-                    <h2 className='text-lg md:text-2xl font-bold md:mb-5'>{title}</h2>
-                    <h2 className='text-lg md:text-xl md:font-semibold md:mb-1'>توضیحات:</h2>
-                    <p className='p-2 text-sm md:text-lg whitespace-pre-line'>{description || 'توضیحی ثبت نشده'}</p>
+                <div className='h-full row-start-1 row-end-4 col-start-1 col-end-4 flex flex-col justify-between p-2'>
+                    <div>
+                        <h2 className='text-lg md:text-2xl font-bold md:mb-5'>{title}</h2>
+                        <h2 className='text-lg md:text-xl md:font-semibold md:mb-1'>توضیحات:</h2>
+                        <p className='p-2 text-sm md:text-lg whitespace-pre-line'>{description || 'توضیحی ثبت نشده'}</p>
+                    </div>
                     <span className='flex flex-col md:flex-row justify-between items-start my-5 gap-1 '>
                         <h4 className='font-medium'>وضعیت: {productCondition}</h4>
                         <h4 className='font-medium'>قیمت: {price ? `${Number(price).toLocaleString()} تومان` : 'توافقی'}</h4>
@@ -51,14 +52,14 @@ export default async function page({ params }) {
                     </span>
                 </div>
 
-                {product.location?.length == 2 &&
+                {/* {product.location?.length == 2 &&
                     <span className='col-start-4 col-end-6 bg-amber-900 w-full h-64 block'>
                         <ShowMap
                             location={product.location}
                             className='rounded=md'
                         />
                     </span>
-                }
+                } */}
                 <Link href={`/panel/${isUserPOwner ? 'myProducts' : `chat/${productId}`}`} className='col-start-4 col-end-6'>
                     <button className='w-full bg-green-600 text-white my-2 p-2 rounded-md cursor-pointer'>{isUserPOwner ? 'دیدن آگهی های من' : 'گفتوگو'}</button>
                 </Link>

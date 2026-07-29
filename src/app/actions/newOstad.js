@@ -2,8 +2,8 @@
 import connectToDB from "@/configs/DB";
 import { newOstadSchema } from "@/utils/validation";
 import ostadModel from "@/model/ostad";
-import { writeFile, mkdir } from "fs/promises"
-import path from "path";
+// import { writeFile, mkdir } from "fs/promises"
+// import path from "path";
 import authorizUser from "@/utils/authorizUser";
 
 const NewOstadAction = async (prevState, formData) => {
@@ -29,7 +29,9 @@ const NewOstadAction = async (prevState, formData) => {
     const startYear = formData.get('startYear')
     const userData = await authorizUser()
     const image = formData.get('image')
-
+    const imageUrl = formData.get('imageUrl');
+    console.log(imageUrl);
+    
 
     if (userData) {
         const validationResult = newOstadSchema.safeParse({
@@ -56,21 +58,22 @@ const NewOstadAction = async (prevState, formData) => {
                                 startYear
                             }
                         }
-                    } else {
-                        try {
-                            const BufferImg = Buffer.from(await image.arrayBuffer())
-                            imgName = Date.now() + image.name
-                            const direction = path.join(process.cwd(), 'public/uploads/ostads/')
-                            const filePath = path.join(direction, imgName)
-                            await mkdir(direction, { recursive: true })
-                            await writeFile(filePath, BufferImg)
-                        } catch (error) {
-                            console.error("Failed to save image:", error);
-                        }
-                    }
+                    } 
+                    // else {
+                    //     try {
+                    //         const BufferImg = Buffer.from(await image.arrayBuffer())
+                    //         imgName = Date.now() + image.name
+                    //         const direction = path.join(process.cwd(), 'public/uploads/ostads/')
+                    //         const filePath = path.join(direction, imgName)
+                    //         await mkdir(direction, { recursive: true })
+                    //         await writeFile(filePath, BufferImg)
+                    //     } catch (error) {
+                    //         console.error("Failed to save image:", error);
+                    //     }
+                    // }
                 }
                 await ostadModel.create({
-                    image: imgName ? `/uploads/ostads/${imgName}` : '',
+                    image: imageUrl ? imageUrl : undefined,
                     name,
                     biography,
                     degree,

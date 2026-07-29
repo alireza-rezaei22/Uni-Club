@@ -10,7 +10,7 @@ function page() {
     const userCommentsStore = useUserCommentsStore(state => state.comments)
     const setuserCommentsStore = useUserCommentsStore(state => state.setComments)
     const [loading, setLoading] = useState(true)
-    const [error, setError] = useState({ err: '', icon: null })
+    const [error, setError] = useState({ err: 'تاکنون دیدگاهی ثبت نکرده اید', icon: MessageSquareOffIcon })
 
     useEffect(() => {
 

@@ -4,14 +4,14 @@ import MyProductItem from '@/Components/myProductItem/myProductItem'
 import PopUp from '@/Components/popUp/PopUp'
 import { useAuthStore } from '@/store/useAuthStore'
 import { UseUProductsStore } from '@/store/useUProductsStore'
-import { ArrowUpToLine } from 'lucide-react'
+import { ArrowUpToLine, MegaphoneOff } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 
 function myProducts() {
     const UserProductsStore = UseUProductsStore(state => state.UProducts)
     const setUserProductsStore = UseUProductsStore(state => state.setUProducts)
     const [loading, setLoading] = useState(true)
-    const [error, setError] = useState({ err: '', icon: null })
+    const [error, setError] = useState({ err: 'تاکنون آگهی منتشر نکرده اید', Icon: MegaphoneOff})
 
     useEffect(() => {
 
@@ -25,15 +25,15 @@ function myProducts() {
                         break
                     }
                     case 403: {
-                        setError({ err: data.error, icon: ArrowUpToLine })
+                        setError({ err: data.error, Icon: MegaphoneOff })
                         break
                     }
                     case 500: {
-                        setError({ err: data.error, icon: ArrowUpToLine })
+                        setError({ err: data.error, Icon: MegaphoneOff })
                         break
                     }
                     default: {
-                        setError({ err: 'خطای ناشناخته از سمت سرور', icon: ArrowUpToLine })
+                        setError({ err: 'خطای ناشناخته از سمت سرور', Icon: MegaphoneOff })
                     }
                 }
             } catch {
@@ -62,7 +62,7 @@ function myProducts() {
                                     <MyProductItem product={prod} />
                                 </div>
                             }) :
-                            <PopUp Icon={error.icon} msg={error.err} />
+                            <PopUp Icon={error.Icon} msg={error.err} />
                 }
             </div>
         </>

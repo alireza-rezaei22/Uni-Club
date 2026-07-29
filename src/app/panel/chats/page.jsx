@@ -1,7 +1,7 @@
 "use client"
 import Loading from '@/Components/loading/Loading'
 import PopUp from '@/Components/popUp/PopUp'
-import { MessageSquareX } from 'lucide-react'
+import { MessageSquareOffIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
@@ -9,6 +9,8 @@ import React, { useEffect, useState } from 'react'
 function chats() {
   const [userChats, setuserChats] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState({ err: 'تاکنون هیچ گفتوگویی نداشته اید', icon: MessageSquareOffIcon })
+
   useEffect(() => {
     const getUserChats = async () => {
       const res = await fetch(`/api/chat`)
@@ -47,7 +49,7 @@ function chats() {
                   />
                 </Link>
               }) :
-              <PopUp Icon={MessageSquareX} msg={'هیچ گفتوگویی نداشته اید'} />
+              <PopUp Icon={error.icon} msg={error.err} />
         }
       </div>
     </>

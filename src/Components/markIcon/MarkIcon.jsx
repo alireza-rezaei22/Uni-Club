@@ -11,6 +11,7 @@ function MarkIcon({ itemId, type }) {
   const setUserMarkeds = UseMarkStore(state => state.setMarks)
 
   const addToMarked = useCallback(async (event) => {
+    event.preventDefault()
     setIsMarked(!isMarked)
     startTransition(async () => {
       if (isMarked) {

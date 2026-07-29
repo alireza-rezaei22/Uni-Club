@@ -10,6 +10,28 @@ import EditOstadAction from '@/app/actions/editOstadAction'
 import { useAuthStore } from '@/store/useAuthStore'
 import Link from 'next/link'
 
+const uploadToImgBB = async (file) => {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_IMG_HOST_URL}?key=${process.env.NEXT_PUBLIC_IMG_API_KEY}`, {
+            method: 'POST',
+            body: formData,
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            return data.data.url;
+        } else {
+            throw new Error(data.error.message || "خطا در آپلود");
+        }
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
 function EditOstad({ params }) {
     const { ostadId } = params
     const router = useRouter()
@@ -84,8 +106,6 @@ function EditOstad({ params }) {
         setIsFormValid(newOstadSchema.safeParse(ostad).success && confirmation)
     }, [ostad, confirmation])
     useEffect(() => {
-        console.log(ostad);
-
         if (ostad?.image?.name) {
             const imageURL = URL.createObjectURL(image)
             setPreview(imageURL)
@@ -137,15 +157,30 @@ function EditOstad({ params }) {
         let tt = courses
         setCourses(tt.filter((date, index) => index != itemIndex))
     }
-    const imageHandler = (event) => {
+    const imageHandler = async (event) => {
         if (event.target.files[0]) {
-            if ((event.target.files[0].size) > (10 * 1024 * 1024)) {
-                toast.error('حجم فایل باید کمتر از 10 MB باشه', { position: 'bottom-center' })
-            } else {
-                setImage(event.target.files[0])
-                setImageChanged(true)
-            }
+            const file = event.target.files[0];
 
+            if (file.size > 10 * 1024 * 1024) {
+                toast.error('حجم فایل باید کمتر از 10 MB باشه', { position: 'bottom-center' });
+                return;
+            }
+            const imageURL = URL.createObjectURL(file);
+            setPreview(imageURL);
+            setImage(file);
+            setImageChanged(true)
+            toast.loading("در حال آپلود عکس...", { position: 'bottom-center', id: 'upload-toast' });
+
+            try {
+                const uploadedUrl = await uploadToImgBB(file);
+
+                setImage({ ...file, url: uploadedUrl });
+                toast.success("عکس با موفقیت آپلود شد", { position: 'bottom-center', id: 'upload-toast' });
+            } catch (err) {
+                toast.error("خطا در آپلود عکس", { position: 'bottom-center', id: 'upload-toast' });
+                setPreview(null);
+                setImage(null);
+            }
         }
     }
     return (
@@ -158,6 +193,7 @@ function EditOstad({ params }) {
                 <input type="hidden" name='imageChanged' value={imageChanged} />
                 <div className='flex items-center'>
                     <div className='relative'>
+                        <input type="hidden" name="imageUrl" value={image?.url || ''} />
                         <input
                             type="file"
                             name='image'

@@ -1,7 +1,7 @@
 'use client'
 import { Mic, SendHorizontal, Smile, MessageSquare, Check } from "lucide-react"
 import React, { useEffect, useRef, useState } from 'react'
-import io from 'socket.io-client'
+// import io from 'socket.io-client'
 import { useAuthStore } from "@/store/useAuthStore"
 import { useParams } from "next/navigation"
 import PopUp from "@/Components/popUp/PopUp"
@@ -9,57 +9,102 @@ import Image from "next/image"
 
 function Chat() {
   const params = useParams();
-  const socketRef = useRef(null);
+  // const socketRef = useRef(null);
   const id = params.id;
   const messagesEndRef = useRef(null);
 
   const [product, setProduct] = useState('')
   const [messages, setMessages] = useState([]);
-  const [participants, setParticipants] = useState([]);
+  // const [participants, setParticipants] = useState([]);
 
-  const [chatId, setchatId] = useState(null);
+  const [chatId, setChatId] = useState(null);
   const [newMessage, setNewMessage] = useState('');
   const user = useAuthStore(state => state.user)
-
-  useEffect(() => {
-    if (!id) return;
-    if (!socketRef.current) {
-      socketRef.current = io(process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3000', {
-        query: { id }
-      });
-    }
-    const socket = socketRef.current
-    socket.on('init-data', (data) => {
-      setchatId(data.chatId)
-      console.log('data.messages: ', data.messages);
-      
-      setMessages(data.messages);
-      setProduct(data.product);
-      setParticipants(data.participants || []);
-    });
-    socket.on('new-message', (newMessage) => {
-
-      setMessages(prev => [...prev, newMessage]);
-    });
-    return () => {
-      socket?.off('init-data');
-      socket?.off('new-message');
-    };
-  }, [id])
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-  const handleSend = (e) => {
-    e.preventDefault();
-    if (newMessage.trim() && socketRef.current) {
-      const newMsg = {
+  // useEffect()
+  const handleSend = async (event) => {
+    event.preventDefault()
+    console.log('send :D');
+    const res = await fetch(`/api/chat/${id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
         chatId,
         newMessage
-      }
-      socketRef.current.emit('send-message', newMsg);
-      setNewMessage('');
+      })
+    })
+    const data = await res.json()
+    if(data.status == 201){
+      setMessages(data.chatMsgs);
+      setNewMessage('')
     }
-  };
+  }
+  useEffect(() => {
+    const fetchMessages = async () => {
+
+      const res = await fetch(`/api/chat/${id}`);
+      const data = await res.json();
+      if (data.status == 200) {
+        setMessages(data.chatMsgs);
+        setProduct(data.product)
+        setChatId(data.chatId)
+        console.log(data.chatMsgs);
+        
+      } else {
+        setChatId(data.chatId)
+        setProduct(data.product)
+        console.log(data.chatMsgs);
+        
+      }
+    };
+
+    fetchMessages()
+    const interval = setInterval(fetchMessages, 15000)
+
+    return () => clearInterval(interval)
+  }, [chatId]);
+
+  // socket logic
+  // useEffect(() => {
+  //   if (!id) return;
+  //   if (!socketRef.current) {
+  //     socketRef.current = io(process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3000', {
+  //       query: { id }
+  //     });
+  //   }
+  //   const socket = socketRef.current
+  //   socket.on('init-data', (data) => {
+  //     setchatId(data.chatId)
+  //     console.log('data.messages: ', data.messages);
+
+  //     setMessages(data.messages);
+  //     setProduct(data.product);
+  //     setParticipants(data.participants || []);
+  //   });
+  //   socket.on('new-message', (newMessage) => {
+
+  //     setMessages(prev => [...prev, newMessage]);
+  //   });
+  //   return () => {
+  //     socket?.off('init-data');
+  //     socket?.off('new-message');
+  //   };
+  // }, [id])
+  // useEffect(() => {
+  //   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  // }, [messages]);
+  // const handleSend = (e) => {
+  //   e.preventDefault();
+  //   if (newMessage.trim() && socketRef.current) {
+  //     const newMsg = {
+  //       chatId,
+  //       newMessage
+  //     }
+  //     socketRef.current.emit('send-message', newMsg);
+  //     setNewMessage('');
+  //   }
+  // };
   return (
     <>
       <div className=" bg-white w-full p-5 rounded-xl flex justify-between">

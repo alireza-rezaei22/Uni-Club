@@ -39,7 +39,7 @@ export default function Comments({ initComments, ostadId }) {
         }
     }
     return (
-        <div className="bg-gradient-to-bl from-indigo-600 to-indigo-900 text-zinc-200 flex flex-col items-center rounded-xl px-5 py-8 mt-5 ">
+        <div className="bg-[#0056AA] text-zinc-200 flex flex-col items-center rounded-xl px-5 py-8 mt-5 ">
             <h2 className='text-xl'>دیدگاه دانشجوایان درباره استاد</h2>
             <div className="self-start mt-8 mb-10 divide-y-[1px] w-full">
                 {(comments.length > 0) ? comments.map(comment => {
@@ -48,16 +48,16 @@ export default function Comments({ initComments, ostadId }) {
                     <Comment />
                 }
             </div>
-            <div className="bg-indigo-400 w-full flex flex-col justify-center gap-y-2 items-center text-zinc-900 rounded-xl px-10 py-4">
+            <div className="bg-blue-400 w-full flex flex-col justify-center gap-y-2 items-center text-zinc-900 rounded-xl px-10 py-4">
                 <h2>ثبت دیدگاه</h2>
                 <textarea
-                    className="bg-indigo-300 w-[100%] h-32 px-4 rounded-xl outline-none resize-none overflow-y-auto"
+                    className="bg-blue-300 w-[100%] h-32 px-4 rounded-xl outline-none resize-none overflow-y-auto"
                     value={userComment}
                     onChange={e => setUserComment(e.target.value)}
                 >
 
                 </textarea>
-                <button className=" bg-indigo-700 text-white rounded-md px-3 py-1 cursor-pointer hover:bg-indigo-800 transition-colors" onClick={submitComment}>ثبت</button>
+                <button className=" bg-[#0056AA] text-white rounded-md px-3 py-1 cursor-pointer hover:bg-blue-800 transition-colors" onClick={submitComment}>ثبت</button>
             </div>
         </div>
     )

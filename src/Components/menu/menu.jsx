@@ -47,8 +47,8 @@ function Menu() {
                 <div className='bg-zinc-300 size-28 rounded-full flex justify-center items-center'>
                     <UserRound className='size-20 text-zinc-800' />
                 </div>
-                <h2 className='text-zinc-200'>{userInfo.name}</h2>
-                <h4 className='text-zinc-500 text-sm font-light'>{userInfo.phone}</h4>
+                <h2 className='text-zinc-200'>{userInfo?.name}</h2>
+                <h4 className='text-zinc-500 text-sm font-light'>{userInfo?.phone}</h4>
             </div>
             <ul className='md:hidden flex flex-col gap-2 p-2 mb-14'>
                 {routes.map((route, index) => {

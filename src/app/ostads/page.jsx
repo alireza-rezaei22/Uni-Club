@@ -6,7 +6,6 @@ export default async function ostads() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/ostads`, { next: { revalidate: 300 } })
 
   const ostadsList = await res.json()
-  console.log('ostads: >>>>>>', ostadsList);
   
   return (
     <>

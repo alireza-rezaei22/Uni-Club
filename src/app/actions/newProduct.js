@@ -2,8 +2,8 @@
 import connectToDB from "@/configs/DB";
 import { newProductSchema } from "@/utils/validation";
 import productModel from "@/model/product";
-import { writeFile, mkdir } from "fs/promises"
-import path from "path";
+// import { writeFile, mkdir } from "fs/promises"
+// import path from "path";
 import authorizUser from "@/utils/authorizUser";
 
 const NewProductAction = async (prevState, formData) => {
@@ -17,7 +17,8 @@ const NewProductAction = async (prevState, formData) => {
     // const location = formData.get('location')?.split(',')
     const userData = await authorizUser()
     const image = formData.get('image')
-
+    const imageUrl = formData.get('imageUrl');
+    console.log(imageUrl);
 
     if (userData) {
         const validationResult = newProductSchema.safeParse({ title, condition, category })
@@ -42,21 +43,22 @@ const NewProductAction = async (prevState, formData) => {
                                 startYear
                             }
                         }
-                    } else {
-                        try {
-                            const BufferImg = Buffer.from(await image.arrayBuffer())
-                            imgName = Date.now() + image.name
-                            const direction = path.join(process.cwd(), 'public/uploads/products/')
-                            const filePath = path.join(direction, imgName)
-                            await mkdir(direction, { recursive: true })
-                            await writeFile(filePath, BufferImg)
-                        } catch (error) {
-                            console.error("Failed to save image:", error);
-                        }
                     }
+                    // else {
+                    //     try {
+                    //         const BufferImg = Buffer.from(await image.arrayBuffer())
+                    //         imgName = Date.now() + image.name
+                    //         const direction = path.join(process.cwd(), 'public/uploads/products/')
+                    //         const filePath = path.join(direction, imgName)
+                    //         await mkdir(direction, { recursive: true })
+                    //         await writeFile(filePath, BufferImg)
+                    //     } catch (error) {
+                    //         console.error("Failed to save image:", error);
+                    //     }
+                    // }
                 }
                 await productModel.create({
-                    image: imgName ? `/uploads/products/${imgName}` : '',
+                    image: imageUrl ? imageUrl : undefined,
                     title,
                     description,
                     condition,

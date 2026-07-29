@@ -30,7 +30,7 @@ async function LastProducts() {
         )
     } catch {
         return (
-            <div className="bg-gradient-to-br from-indigo-500 to-indigo-900 w-full mt-5 p-2 rounded-md flex flex-col gap-1">
+            <div className="bg-[#0056AA] w-full mt-5 p-2 rounded-md flex flex-col gap-1">
                 <div className='flex justify-between text-sm md:text-xl items-center'>
                     <h3 className="font-semibold text-indigo-200">آخرین آگهی ها</h3>
                     <Link href='/products/' className="text-indigo-200 min-w-30 flex justify-center items-center cursor-pointer py-2 hover:bg-indigo-600 rounded-xl transition-colors">

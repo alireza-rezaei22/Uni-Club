@@ -16,7 +16,8 @@ function MyOstad(props) {
     const ostadDegree = degreesList[degree]
     const ostadcategory = categoryList[category]
     const setOstads = useUOstadsStore(state => state.setOstads)
-
+    console.log(image);
+    
     const deleteHandler = async () => {
 
         const res = await fetch(`/api/ostads/my/${_id}`, {
