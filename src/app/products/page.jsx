@@ -4,9 +4,10 @@ import Filter from "@/Components/filter/Filter";
 import { SearchX } from "lucide-react";
 import PopUp from "@/Components/popUp/PopUp";
 
+export const dynamic = 'force-dynamic';
 export default async function ProductsPage() {
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/pیroducts`, { next: { revalidate: 300 } })
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/products`, { next: { revalidate: 300 } })
 
   if (!res.ok) {
     return (
