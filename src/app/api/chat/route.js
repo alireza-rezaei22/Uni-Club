@@ -7,7 +7,7 @@ export async function GET(request) {
 
     try {
         connectToDB()
-        const userChatsAllMsg = await chatModel.find({ participants: userData.id }).populate({ path: 'productId', select: 'title image' }).populate({ path: 'participants', select: 'name' })
+        const userChatsAllMsg = await chatModel.find({ participants: userData.id }).populate({ path: 'productId', select: 'title image' }).populate({ path: 'participants', select: 'name' }).sort({ updatedAt: -1 })
         const userChats = userChatsAllMsg.map(chat => {
             const lastMsgText = chat.messages[chat.messages.length - 1].text
             const otherParticipantName = chat.participants.find(part => part.name !== userData.name).name;
@@ -23,14 +23,14 @@ export async function GET(request) {
         })
         return Response.json({
             message: 'داده های چت دریافت شد',
-            statusCode: 200,
+            status: 200,
             error: null,
             userChats
         })
     } catch {
         return Response.json({
             message: 'اشکالی در اتصال به سرور وجود دارد',
-            statusCode: 500,
+            status: 500,
             error: 'cant connect to server',
             userChats: null
         })

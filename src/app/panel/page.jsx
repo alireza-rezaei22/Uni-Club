@@ -17,12 +17,11 @@ import ostadModel from '@/model/ostad';
 import MyComment from '@/Components/myComment/MyComment';
 import MyOstad from '@/Components/myOstad/MyOstad';
 import MyProductItem from '@/Components/myProductItem/myProductItem';
+import authorizUser from '@/utils/authorizUser';
 
 export const dynamic = 'force-dynamic'
 
 async function Panel() {
-  const userToken = (await cookies()).get('token')
-  const token = userToken?.value
 
   let userProductsCount = 0
   let lastProduct = []
@@ -41,7 +40,7 @@ async function Panel() {
   let UserLastOstad = []
 
   try {
-    const userInfo = verify(token, process.env.ACCESSTOKEN_SECRETKEY)
+    const userInfo = await authorizUser()    
     await connectToDB()
     const [userPsCount = 0, lastP = []] = await Promise.all([
       productModel.countDocuments({ ownerId: userInfo.id }),
@@ -82,7 +81,7 @@ async function Panel() {
       chatModel.countDocuments({ participants: userInfo.id }),
       chatModel
         .findOne({ participants: userInfo.id })
-        .sort({ 'messages.createdAt': -1 }).populate({ path: 'productId', select: 'title image' }).populate({ path: 'participants', select: 'name' })
+        .sort({ updatedAt: -1 }).populate({ path: 'productId', select: 'title image' }).populate({ path: 'participants', select: 'name' })
         .lean()
     ])
     userChatsCount = UChatsCount

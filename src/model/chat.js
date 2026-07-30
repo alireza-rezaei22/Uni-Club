@@ -5,7 +5,7 @@ const chatSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  productId:{
+  productId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'product',
     required: true
@@ -28,7 +28,12 @@ const chatSchema = new mongoose.Schema({
       type: Date,
       default: Date.now
     },
-  }]
+  }],
+  updatedAt: {
+    type: Date,
+  }
+}, {
+  timestamps: true
 });
 
 const chatModel = mongoose.models.chat || mongoose.model('chat', chatSchema)

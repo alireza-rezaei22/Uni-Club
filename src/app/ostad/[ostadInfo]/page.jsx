@@ -13,7 +13,7 @@ import connectToDB from '@/configs/DB'
 import ItemDate from '@/Components/itemDate/ItemDate'
 
 export default async function Ostad({ params }) {
-    const { ostadInfo: ostadId } = params
+    const { ostadInfo: ostadId } = await params
     await connectToDB()
     const ostad = await ostadModel.findById(ostadId)
     const rawComments = await commentModel.find({ ostadId }).populate({ path: 'userId', select: 'name -_id' }).select('userId comment')
