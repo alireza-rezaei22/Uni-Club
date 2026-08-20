@@ -1,4 +1,5 @@
 import connectToDB from "@/configs/DB"
+import chatModel from "@/model/chat"
 import markModel from "@/model/mark"
 import productModel from "@/model/product"
 import authorizUser from "@/utils/authorizUser"
@@ -8,8 +9,12 @@ export async function GET(req, { params }) {
     await connectToDB()
     const { id } = await params
     const userInfo = await authorizUser()
-    const userProducts = await productModel.find({ ownerId: id })
-    return Response.json(userProducts)
+    if(userInfo?.id == id){
+        const userProducts = await productModel.find({ ownerId: id })
+        return Response.json(userProducts)
+    }else{
+        return Response.json({ error: 'شما به این داده دسترسی ندارید', status: 403 })
+    }
 }
 export async function DELETE(request, { params }) {
     try {
@@ -30,6 +35,7 @@ export async function DELETE(request, { params }) {
             return Response.json({ error: 'آگهی یافت نشد یا دسترسی حذف ندارید', status: 403 })
         }
         await markModel.deleteMany({ itemId: id })
+        await chatModel.deleteMany({ productId: id, chatId: { $regex: userInfo.id }})
         const newList = await productModel.find({ ownerId: userInfo.id })
         return Response.json({ newList, msg: 'آگهی با موفقیت حذف شد', status: 200 })
 

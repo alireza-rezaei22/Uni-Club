@@ -1,4 +1,5 @@
 import connectToDB from "@/configs/DB"
+import chatModel from "@/model/chat"
 import markModel from "@/model/mark"
 import productModel from "@/model/product"
 import userModel from "@/model/user"
@@ -15,6 +16,7 @@ export async function DELETE(request, { params }) {
                 await productModel.findOneAndDelete({_id: id})
                 const newList = await productModel.find({}, '-__v')
                 await markModel.deleteMany({ itemId: id })
+                await chatModel.deleteMany({ productId: id, chatId: { $regex: userInfo.id }})
                 return Response.json({ newList, status: 200 })
             } catch (error) {
                 console.log(error);
