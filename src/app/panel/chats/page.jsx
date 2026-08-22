@@ -16,13 +16,11 @@ function chats() {
       const res = await fetch(`/api/chat`)
       if (res.ok) {
         const data = await res.json()
-        console.log(data);
-        console.log(data.userChats);
         if(data.status == 200){
           setUserChats(data.userChats)
-          setLoading(false)
         }
       }
+      setLoading(false)
     }
     getUserChats()
   }, [])

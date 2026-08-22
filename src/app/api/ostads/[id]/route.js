@@ -1,4 +1,5 @@
 import connectToDB from "@/configs/DB"
+import commentModel from "@/model/comment"
 import markModel from "@/model/mark"
 import ostadModel from "@/model/ostad"
 import rateModel from "@/model/rate"
@@ -17,6 +18,7 @@ export async function DELETE(request, { params }) {
                 const newList = await ostadModel.find({}, '-__v')
                 await rateModel.deleteMany({ ostadId: id })
                 await markModel.deleteMany({ itemId: id })
+                await commentModel.deleteMany({ ostadId: id })
                 return Response.json({ newList, status: 200 })
             } catch (error) {
                 console.log(error);

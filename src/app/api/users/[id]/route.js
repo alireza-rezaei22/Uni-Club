@@ -1,4 +1,5 @@
 import connectToDB from "@/configs/DB"
+import commentModel from "@/model/comment"
 import markModel from "@/model/mark"
 import productModel from "@/model/product"
 import rateModel from "@/model/rate"

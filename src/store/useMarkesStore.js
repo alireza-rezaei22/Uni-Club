@@ -5,4 +5,5 @@ export const UseMarkStore = create((set)=>({
     setMarks: (newItem) => set((state)=>({
         marks: newItem
     })),
+    clearMarks: () => set({ Marks: [] })
 }))

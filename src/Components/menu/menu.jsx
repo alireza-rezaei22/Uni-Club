@@ -1,5 +1,9 @@
 "use client"
 import { useAuthStore } from '@/store/useAuthStore'
+import { UseMarkStore } from '@/store/useMarkesStore'
+import { useUOstadsStore } from '@/store/useUOstadsStore'
+import { UseUProductsStore } from '@/store/useUProductsStore'
+import { useUserCommentsStore } from '@/store/useUserCommentsStore'
 import { Bookmark, DollarSign, LogOut, Megaphone, MessageSquareIcon, MessagesSquare, PlusCircle, Receipt, ShoppingBasket, User2, UserCog2, UserPlus2, UserRound, UsersRound } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -11,6 +15,10 @@ import toast from 'react-hot-toast'
 function Menu() {
     const userInfo = useAuthStore(state => state.user)
     const logOut = useAuthStore(state => state.clearUser)
+    const clearComments = useUserCommentsStore(state => state.clearComments)
+    const clearUProducts = UseUProductsStore(state => state.clearUProducts)
+    const clearOstads = useUOstadsStore(state => state.clearOstads)
+    const clearMarks = UseMarkStore(state => state.clearMarks)
     const router = useRouter()
     const routes = [
         { name: 'اطلاعات من', Icon: UserCog2, path: '/panel/userInfo' },
@@ -30,10 +38,14 @@ function Menu() {
         { name: 'خروج', Icon: LogOut, path: '/' },
     ]
     const logOutHandler = async () => {
-        router.push('/')
         const res = await fetch('/api/logOut', { method: 'POST' })
         if (res.ok) {
             logOut()
+            clearComments()
+            clearUProducts()
+            clearOstads()
+            clearMarks()
+            router.push('/')
             const data = await res.json()
             toast.success(data.msg, { position: 'bottom-center' })
         } else {

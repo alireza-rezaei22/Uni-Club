@@ -5,4 +5,5 @@ export const UseUProductsStore = create((set)=>({
     setUProducts: (newItem) => set((state)=>({
         UProducts: newItem
     })),
+    clearUProducts: () => set({ UProducts: [] })
 }))

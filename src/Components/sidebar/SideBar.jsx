@@ -5,10 +5,18 @@ import { UserCog2, ShoppingBasket, User2, MessageSquareIcon, Bookmark, MessagesS
 import { useAuthStore } from '@/store/useAuthStore'
 import { usePathname, useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
+import { useUserCommentsStore } from '@/store/useUserCommentsStore'
+import { UseUProductsStore } from '@/store/useUProductsStore'
+import { useUOstadsStore } from '@/store/useUOstadsStore'
+import { UseMarkStore } from '@/store/useMarkesStore'
 
 function SideBar() {
     const userInfo = useAuthStore(state => state.user)
     const logOut = useAuthStore(state => state.clearUser)
+    const clearComments = useUserCommentsStore(state => state.clearComments)
+    const clearUProducts = UseUProductsStore(state => state.clearUProducts)
+    const clearOstads = useUOstadsStore(state => state.clearOstads)
+    const clearMarks = UseMarkStore(state => state.clearMarks)
     const router = useRouter()
     const pathname = usePathname()
     const routes = [
@@ -31,10 +39,14 @@ function SideBar() {
 
     const logOutHandler = async () => {
 
-        router.push('/')
         const res = await fetch('/api/logOut', { method: 'POST' })
         if (res.ok) {
             logOut()
+            clearComments()
+            clearUProducts()
+            clearOstads()
+            clearMarks()
+            router.push('/')
             const data = await res.json()
             toast.success(data.msg, { position: 'bottom-center' })
         } else {
