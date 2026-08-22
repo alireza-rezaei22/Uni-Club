@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { ChevronDown, PlusIcon, PlusSquare, Trash2, XCircle } from 'lucide-react'
 import SubmitBtn from '@/Components/submitBtn/SubmitBtn'
-import { useActionState } from 'react'
+import { useActionState, use } from 'react'
 import { newOstadSchema } from '@/utils/validation'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
@@ -33,7 +33,7 @@ const uploadToImgBB = async (file) => {
 };
 
 function EditOstad({ params }) {
-    const { ostadId } = params
+    const { ostadId } = use(params)
     const router = useRouter()
     const userInfo = useAuthStore(state => state.user)
     const [isFormValid, setIsFormValid] = useState(false)

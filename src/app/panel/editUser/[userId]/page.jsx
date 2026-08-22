@@ -1,6 +1,6 @@
 "use client"
 import { ChevronDown, UserRound } from 'lucide-react'
-import React, { useState, useActionState, useEffect } from 'react'
+import React, { useState, useActionState, useEffect, use } from 'react'
 import SubmitBtn from '@/Components/submitBtn/SubmitBtn'
 import editUserAction from '@/app/actions/editUserAction'
 import { editUserSchema } from '@/utils/validation'
@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation'
 function EditUser({ params }) {
     const router = useRouter()
     const userInfo = useAuthStore(state => state.user)
-    const { userId } = params
+    const { userId } = use(params)
     const [user, setUser] = useState(null)
     const [isEditMode, setIsEditMode] = useState(false)
     const [isFormValid, setIsFormValid] = useState(false)
