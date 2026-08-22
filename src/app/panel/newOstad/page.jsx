@@ -8,6 +8,7 @@ import { newOstadSchema } from '@/utils/validation'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { Alert } from '@mui/material'
 const uploadToImgBB = async (file) => {
     const formData = new FormData();
     formData.append('image', file);
@@ -134,6 +135,7 @@ function NewOstad() {
                 className='w-full max-w-126 flex flex-col items-center gap-5 mb-16'
                 action={formAction}
             >
+                <Alert className='w-full' variant="standard" severity='warning'>لطفا برای آپلود عکس از فیلترشکن استفاده کنید</Alert>
                 <div className='flex items-center'>
                     <div className='relative'>
                         <input type="hidden" name="imageUrl" value={image?.url || ''} />
